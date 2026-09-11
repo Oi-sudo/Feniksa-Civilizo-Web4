@@ -1,80 +1,38 @@
- 凤凰文明 Web4
-# Feniksa Civilizo Web4
+# 凤凰文明 Web4 静态网站
 
-**以世界语为桥 · 以觉醒为本 · 以共建为行**  
-**Kun Esperanto kiel ponto · Kun vekiĝo kiel fundamento · Kun kunkonstruado kiel praktiko**
+这是根据公开页面风格重建的可维护静态网站，不依赖任何建站平台，不需要构建工具，可部署到 GitHub Pages、Netlify、Cloudflare Pages 等静态托管平台。
 
----
+网站定位为面向国际世界语者的中—世界语双语门户，中文在上，世界语在下。
 
-## 项目简介 · Projekta Enkonduko
+## 文件结构
 
-凤凰文明 Web4（Feniksa Civilizo Web4）是一个以世界语作为国际公共语言桥梁，探索人、AI、知识、教育、文化与公益协作的新型开放文明项目。
+- `index.html`：首页
+- `pages/`：各双语内容页面
+- `styles.css`：全站黑金视觉样式与手机适配
+- `site.js`：统一导航与首页入口卡片
+- `assets/phoenix-hero.png`：凤凰主题视觉资产
 
-Feniksa Civilizo Web4 estas malferma civiliza projekto, kiu uzas Esperanton kiel internacian publikan lingvan ponton kaj esploras kunlaboron inter homoj, AI, scio, edukado, kulturo kaj publika bono.
+## 修改内容
 
-本项目强调语言平等、知识共享、主体觉醒、责任行动与跨文化合作。
+页面文字主要在 `pages/*.html` 和 `index.html` 中。导航项目在 `site.js` 的 `navItems` 中统一维护。
 
-La projekto emfazas lingvan egalecon, kundividon de scio, subjektan vekiĝon, respondecan agadon kaj transkulturan kunlaboron.
+当前页面：
 
----
+- 首页 / Portalo
+- 关于发起人 / Pri la Iniciatinto
+- 愿力不老 / La Voto Ne Maljuniĝas
+- 凤凰文明书 / Libro de Feniksa Civilizacio
+- 宣言 / Manifesto
+- 联系方式 / Kontakto
 
-## 主要方向 · Ĉefaj Direktoj
+统一联系邮箱：
 
-- 世界语与国际共同语实践  
-  Esperanto kaj praktiko de internacia komuna lingvo
+`zhaopian1304@gmail.com`
 
-- 佛典汉—世界语受控翻译与术语建设  
-  Kontrolita ĉina–Esperanta tradukado de budhismaj tekstoj kaj terminologia konstruado
+## 部署
 
-- 受控世界语明典 REAI  
-  Kontrolita Esperanta normaro REAI
+直接把整个文件夹上传到任意静态网站托管服务即可。GitHub Pages 推荐选择仓库根目录作为发布目录。
 
-- 国际世界语数字教育  
-  Internacia cifereca edukado per Esperanto
+## 功能边界
 
-- AI时代的人机协作与公共知识共建  
-  Hom–AI-kunlaboro kaj komuna konstruado de publika scio en la epoko de AI
-
-- 凤凰文明 Web4 公益实验  
-  Publikbonaj eksperimentoj de Feniksa Civilizo Web4
-
----
-
-## 基本原则 · Bazaj Principoj
-
-**平等 · 清明 · 无我 · 愿行 · 共建 · 实行**
-
-**Egaleco · Klareco · Senmemo · Vola agado · Kunkonstruado · Praktika realigo**
-
-技术服务于人，语言连接众生，知识成为公共财富，AI成为协作工具，而不是新的权力中心。
-
-Teknologio servu al homoj; lingvo kunligu homojn; scio fariĝu komuna havaĵo; kaj AI estu ilo por kunlaboro, ne nova centro de potenco.
-
----
-
-## 开放共建 · Malferma Kunkonstruado
-
-本仓库将逐步用于保存凤凰文明 Web4 的公开文档、受控语言资料、教育资源、网站代码及相关开放项目。
-
-Ĉi tiu deponejo iom post iom konservos publikajn dokumentojn, materialojn pri kontrolita lingvo, edukajn rimedojn, retejan kodon kaj aliajn malfermajn projektojn de Feniksa Civilizo Web4.
-
-欢迎世界语者、教育者、翻译者、研究者、开发者以及关注AI与公共文明的人共同参与。
-
-Esperantistoj, edukistoj, tradukistoj, esploristoj, programistoj kaj ĉiuj interesatoj pri AI kaj publika civilizo estas bonvenaj kunlabori.
-
----
-
-## 公益声明 · Publikbona Deklaro
-
-本项目现阶段以文化、教育、语言、研究与公益共建为核心。
-
-涉及 EST、WFB、BUD 或其他数字资产的概念性讨论，不构成投资建议、收益承诺、募资邀请或金融保证。
-
-La projekto en sia nuna fazo koncentriĝas pri kulturo, edukado, lingvo, esplorado kaj publikbona kunkonstruado.
-
-Konceptaj diskutoj pri EST, WFB, BUD aŭ aliaj ciferecaj aktivoj ne konsistigas investan konsilon, promeson de profito, inviton al financado aŭ financan garantion.
-
----
-
-**Feniksa Civilizo Web4**  
-**Esperanto · AI · Edukado · Kulturo · Publika Bono**
+本站仅用于文明理念、文献展示、公共教育、博物馆式陈列与共愿协作说明。不提供发币、投资、钱包、交易、收益承诺或任何金融功能。
