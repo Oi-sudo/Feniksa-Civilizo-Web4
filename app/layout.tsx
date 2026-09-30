@@ -19,6 +19,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <Link href="/dad">DAD</Link>
             <Link href="/passport">护照 / Pasporto</Link>
             <Link href="/dual-wing">双翼 / Du Flugiloj</Link>
+            <Link href="/status">状态 / Stato</Link>
             <a href="/api/locale?locale=zh&next=/">中</a>
             <a href="/api/locale?locale=eo&next=/">EO</a>
             <a href="/api/locale?locale=en&next=/">EN</a>

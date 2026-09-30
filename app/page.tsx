@@ -14,7 +14,7 @@ export default async function HomePage() {
   const tracks = [
     { label: 'EST', title: `EST 世界语币 · ${m.est_title}`, desc: m.est_desc, href: '/est', note: m.est_note },
     { label: 'BUD', title: `BUD 佛光币 · ${m.bud_title}`, desc: m.bud_desc, href: '/bud', note: m.bud_note },
-    { label: 'WFB', title: `WFB 五佛币 · ${m.wfb_title}`, desc: m.wfb_desc, href: '/museum', note: m.wfb_note }
+    { label: 'WFB', title: `WFB 五佛币 · ${m.wfb_title}`, desc: m.wfb_desc, href: '/wfb', note: m.wfb_note }
   ];
   return (
     <main className="home-shell">
@@ -68,7 +68,7 @@ export default async function HomePage() {
         </div>
       </section>
       <section className="home-notice" role="note"><strong>{m.notice_title}</strong><p>{m.home_notice}</p></section>
-      <footer className="home-footer"><div><strong>Feniksa Civilizo Web4</strong><span>0.1 Alpha</span></div><p>{m.footer_line}</p></footer>
+      <footer className="home-footer"><div><strong>Feniksa Civilizo Web4</strong><span>0.1 Alpha</span></div><p>{m.footer_line}</p><Link href="/status">系统状态 / Stato</Link></footer>
     </main>
   );
 }
