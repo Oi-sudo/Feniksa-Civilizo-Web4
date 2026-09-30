@@ -1,36 +1,16 @@
 import Link from 'next/link';
 import { getMessages } from '@/lib/i18n';
-
-const halls=[
-  ['西北','西方科技文明大学','Okcidenta Scienca Civilizo'],
-  ['正北','凤凰网络 Web4 文明大学','Feniksa Web4'],
-  ['东北','佛法修学馆','Budhisma Studhalo'],
-  ['正西','礼物与藏品馆','Donacoj kaj Kolektaĵoj'],
-  ['中宫','中央佛堂','Centra Budha Halo'],
-  ['正东','东方智慧文明大学','Orienta Saĝeco'],
-  ['西南','博物馆文明大学','Muzea Civilizo'],
-  ['正南','凤凰文明馆','Feniksa Civilizo'],
-  ['东南','世界语文明大学','Esperanta Civilizo']
-];
+import { listMuseumHalls,listPublishedAssets } from '@/lib/museum/data';
 
 export default async function MuseumPage(){
-  const m=await getMessages();
-  return <main>
-    <span className="badge">{m.museum_badge}</span>
-    <h1>{m.museum_title}</h1>
-    <p className="lead">{m.museum_intro}</p>
-    <section className="card">
-      <h2>{m.museum_nine_halls}</h2>
-      <p>{m.museum_main_hall_rule}</p>
-      <p>{m.museum_integrity_note}</p>
-    </section>
-    <div className="card-grid">
-      {halls.map(([pos,zh,eo])=><div className="card" key={zh}><span className="eyebrow">{pos}</span><h2>{zh}</h2><p>{eo}</p></div>)}
-    </div>
-    <section className="card">
-      <h2>馆藏原则 · Muzea principo</h2>
-      <p>一物一档；证据先于解释；登记名称不等于鉴定结论；数字展示不改变实物产权。</p>
-    </section>
-    <div className="hero-actions"><Link className="button button-primary" href="/wfb">WFB 五佛币登记说明</Link><a className="button button-secondary" href="https://feniksa-civilizacio-web4.netlify.app/" target="_blank" rel="noreferrer">旧站双语馆藏内容</a></div>
-  </main>;
+ const m=await getMessages(); const [halls,assets]=await Promise.all([listMuseumHalls(),listPublishedAssets()]);
+ return <main>
+  <span className="badge">{m.museum_badge}</span><h1>{m.museum_title}</h1><p className="lead">{m.museum_intro}</p>
+  <section className="card"><h2>{m.museum_nine_halls}</h2><p>{m.museum_main_hall_rule}</p><p>{m.museum_integrity_note}</p></section>
+  <div className="card-grid">{halls.map((h,i)=><div className="card" key={h.id}><span className="eyebrow">{String(i+1).padStart(2,'0')}</span><h2>{h.title_zh}</h2><p>{h.title_eo}</p></div>)}</div>
+  <section className="home-section"><h2>公开馆藏 · Publikaj kolektaĵoj</h2>
+    {assets.length?<div className="card-grid">{assets.map(a=><Link className="card" href={`/museum/${a.permanent_code}`} key={a.id}><span className="eyebrow">{a.permanent_code} · {a.hall_zh||''}</span><h3>{a.title_zh}</h3><p>{a.title_eo}</p><small>鉴定 {a.authentication_level} · {a.ownership_status}</small><span className="card-link">查看一物一档 →</span></Link>)}</div>:<div className="card"><p>暂无公开馆藏。</p></div>}
+  </section>
+  <div className="hero-actions"><Link className="button button-primary" href="/wfb">WFB 五佛币登记说明</Link><Link className="button button-secondary" href="/wfb/intake">登记新藏品</Link><a className="button button-secondary" href="https://feniksa-civilizacio-web4.netlify.app/" target="_blank" rel="noreferrer">旧站双语馆藏内容</a></div>
+ </main>;
 }
