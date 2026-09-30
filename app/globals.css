@@ -24,3 +24,8 @@
 .record-list{display:grid;gap:16px;margin:20px 0}
 .record-top{display:flex;justify-content:space-between;gap:16px;align-items:center}
 .record-top span{font-size:.82rem;opacity:.72;text-transform:uppercase}
+
+.lesson-content{display:grid;gap:18px;margin:24px 0}
+.lesson-content section{padding:22px;border:1px solid #42474f;border-radius:16px;background:rgba(255,255,255,.025)}
+.lesson-content p{white-space:pre-wrap;line-height:1.8}
+.learning-action{margin:24px 0}

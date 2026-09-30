@@ -21,10 +21,33 @@ export async function getPassportOverview(userId: string): Promise<PassportOverv
       `SELECT public_visibility FROM learning_passports WHERE user_id = $1`, [userId]
     ),
     query<{ total: string; completed: string; active: string }>(
-      `SELECT COUNT(DISTINCT course_id)::text AS total,
-              COUNT(DISTINCT course_id) FILTER (WHERE status = 'completed')::text AS completed,
-              COUNT(DISTINCT course_id) FILTER (WHERE status = 'in_progress')::text AS active
-         FROM learning_progress WHERE user_id = $1`, [userId]
+      `WITH per_course AS (
+          SELECT c.id,
+                 c.content_status,
+                 COUNT(l.id) FILTER (WHERE l.status='published') AS published_lessons,
+                 COUNT(l.id) FILTER (
+                   WHERE l.status='published' AND EXISTS (
+                     SELECT 1 FROM learning_progress lp
+                      WHERE lp.user_id=$1 AND lp.course_id=c.id AND lp.lesson_id=l.id AND lp.status='completed'
+                   )
+                 ) AS completed_lessons,
+                 EXISTS (
+                   SELECT 1 FROM learning_progress lp
+                    WHERE lp.user_id=$1 AND lp.course_id=c.id AND lp.status IN ('in_progress','completed')
+                 ) AS touched
+            FROM courses c
+            LEFT JOIN lessons l ON l.course_id=c.id
+           WHERE c.publication_status='published'
+           GROUP BY c.id,c.content_status
+        )
+        SELECT COUNT(*) FILTER (WHERE touched)::text AS total,
+               COUNT(*) FILTER (
+                 WHERE content_status='complete' AND published_lessons>0 AND completed_lessons=published_lessons
+               )::text AS completed,
+               COUNT(*) FILTER (
+                 WHERE touched AND NOT (content_status='complete' AND published_lessons>0 AND completed_lessons=published_lessons)
+               )::text AS active
+          FROM per_course`, [userId]
     ),
     query<{ approved: string; value: string }>(
       `SELECT COUNT(*)::text AS approved, COALESCE(SUM(est_value),0)::text AS value
