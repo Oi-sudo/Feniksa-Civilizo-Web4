@@ -29,3 +29,6 @@
 .lesson-content section{padding:22px;border:1px solid #42474f;border-radius:16px;background:rgba(255,255,255,.025)}
 .lesson-content p{white-space:pre-wrap;line-height:1.8}
 .learning-action{margin:24px 0}
+
+.auth-form textarea{width:100%;padding:12px 14px;border:1px solid #4b5055;border-radius:10px;background:#10131a;color:#f5f1e8;font:inherit;resize:vertical}
+.inline-action{display:inline-grid;gap:6px;margin-right:10px}

@@ -13,5 +13,6 @@ export default async function AdminPage(){
       <div className="stat-card"><strong>{d.pendingMuseum}</strong><span>馆藏待审</span></div>
       <div className="stat-card"><strong>{d.redRisks}</strong><span>红色风险</span></div>
     </section>
+    <div className="hero-actions"><a className="button button-primary" href="/admin/bud">审核 BUD</a><a className="button button-secondary" href="/admin/audit">查看审计日志</a></div>
   </main>;
 }

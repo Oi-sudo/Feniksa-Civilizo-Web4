@@ -11,10 +11,8 @@ export default function BudPage(){
       <div className="card"><h2>公共善行 · Publika bono</h2><p>面向公共利益的服务可以记录时间、说明和证据。</p></div>
       <div className="card"><h2>愿行档案 · Vola agado</h2><p>记录行动，不把数字解释为人格价值或佛法修证等级。</p></div>
     </div>
-    <section className="card">
-      <h2>0.1 边界</h2>
-      <p>BUD 不可买卖、不能提现、不等于功德定量，不认证宗教果位，也不自动产生治理权。</p>
-    </section>
-    <div className="hero-actions"><Link className="button button-primary" href="/projects">查看项目执行</Link><Link className="button button-secondary" href="/login">登录后查看个人记录</Link></div>
+    <section className="card"><h2>0.1 审核链</h2><p>服务发生 → 提交事实与证据 → 项目确认（如适用）→ 管理审核 → 服务器按规则计算 BUD → 写入学习护照。</p><p>用户不能自行填写 BUD 数值；项目负责人不能确认自己的服务记录。</p></section>
+    <section className="card"><h2>0.1 边界</h2><p>BUD 不可买卖、不能提现、不等于功德定量，不认证宗教果位，也不自动产生治理权。</p></section>
+    <div className="hero-actions"><Link className="button button-primary" href="/bud/submit">提交服务记录</Link><Link className="button button-secondary" href="/passport/bud">查看我的 BUD</Link><Link className="button button-secondary" href="/projects">查看项目执行</Link></div>
   </main>;
 }
