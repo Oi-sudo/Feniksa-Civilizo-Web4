@@ -19,7 +19,7 @@ export default async function AssetPage({params}:{params:Promise<{code:string}>}
   const d=await getAssetDossier(a.id);
 
   return <main>
-    <span className="badge">{a.permanent_code}</span>
+    <span className="badge">{a.catalog_code||a.permanent_code}</span>
     <h1>{a.title_zh}</h1>
     <p className="lead">{a.title_eo}</p>
     {a.title_en&&<p className="muted">{a.title_en}</p>}
@@ -28,6 +28,8 @@ export default async function AssetPage({params}:{params:Promise<{code:string}>}
       <h2>一物一档 · Unu objekto, unu dosiero</h2>
       <div className="dossier-grid">
         <p><strong>主馆籍</strong><span>{a.hall_zh} · {a.hall_eo}</span></p>
+        <p><strong>分册编号</strong><span>{a.catalog_code||'未编入冻结分册'}</span></p>
+        <p><strong>登记册</strong><span>{a.catalog_volume||'独立登记'}</span></p>
         <p><strong>批次/册次</strong><span>{a.batch_code||'待登记'}</span></p>
         <p><strong>类别</strong><span>{a.category||'待登记'}</span></p>
         <p><strong>材质</strong><span>{a.material||'待登记'}</span></p>
@@ -35,6 +37,7 @@ export default async function AssetPage({params}:{params:Promise<{code:string}>}
         <p><strong>尺寸 / 重量</strong><span>{a.dimensions||'待登记'} · {a.weight||'待登记'}</span></p>
       </div>
       <p><strong>来源记录：</strong>{a.provenance||'待补充'}</p>
+      {a.catalog_source_note&&<p className="muted"><strong>书册来源说明：</strong>{a.catalog_source_note}</p>}
       {a.current_location_note&&<p><strong>当前保管信息：</strong>{a.current_location_note}</p>}
     </section>
 
