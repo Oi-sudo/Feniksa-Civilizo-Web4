@@ -78,3 +78,39 @@ export async function getAssetDossier(assetId:string){
   ]);
   return {media:media.rows,labels:labels.rows,research:research.rows,versions:versions.rows};
 }
+
+
+export type HallWithCount=Hall & { asset_count:string };
+export async function listMuseumHallsWithCounts(){
+  const r=await query<HallWithCount>(`SELECT h.id,h.code,h.title_zh,h.title_eo,h.title_en,
+      COUNT(a.id) FILTER(WHERE a.public_status='published' AND a.workflow_status='published' AND a.deleted_at IS NULL)::text AS asset_count
+    FROM museum_halls h
+    LEFT JOIN cultural_assets a ON a.primary_hall_id=h.id
+    GROUP BY h.id,h.code,h.title_zh,h.title_eo,h.title_en
+    ORDER BY CASE h.code
+      WHEN 'NW_TECH' THEN 1 WHEN 'N_WEB4' THEN 2 WHEN 'NE_BUD' THEN 3 WHEN 'W_GIFTS' THEN 4 WHEN 'C_DHARMA' THEN 5
+      WHEN 'E_WISDOM' THEN 6 WHEN 'SW_MUSEUM' THEN 7 WHEN 'S_PHOENIX' THEN 8 WHEN 'SE_ESPERANTO' THEN 9 ELSE 99 END`);
+  return r.rows;
+}
+
+export async function getHallByCode(code:string){
+  const r=await query<HallWithCount>(`SELECT h.id,h.code,h.title_zh,h.title_eo,h.title_en,
+      COUNT(a.id) FILTER(WHERE a.public_status='published' AND a.workflow_status='published' AND a.deleted_at IS NULL)::text AS asset_count
+    FROM museum_halls h
+    LEFT JOIN cultural_assets a ON a.primary_hall_id=h.id
+    WHERE h.code=$1
+    GROUP BY h.id,h.code,h.title_zh,h.title_eo,h.title_en
+    LIMIT 1`,[code]);
+  return r.rows[0]||null;
+}
+
+export async function listPublishedAssetsByHall(hallId:string,limit=100){
+  const r=await query<AssetCard>(`SELECT a.id,a.permanent_code,a.batch_code,a.title_zh,a.title_eo,a.title_en,a.category,a.material,
+      a.authentication_level::text,a.ownership_status,a.valuation_status,a.digital_rights_status,
+      h.title_zh AS hall_zh,h.title_eo AS hall_eo
+    FROM cultural_assets a
+    LEFT JOIN museum_halls h ON h.id=a.primary_hall_id
+    WHERE a.primary_hall_id=$1 AND a.public_status='published' AND a.workflow_status='published' AND a.deleted_at IS NULL
+    ORDER BY a.created_at DESC LIMIT $2`,[hallId,limit]);
+  return r.rows;
+}

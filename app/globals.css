@@ -47,3 +47,9 @@
 .timeline-item:before{content:"";position:absolute;width:9px;height:9px;border-radius:50%;background:#d7b46a;left:-5px;top:6px}
 .timeline-item p{margin:0 0 6px}
 @media(max-width:760px){.dossier-grid,.status-grid{grid-template-columns:1fr}.timeline-item{grid-template-columns:70px 1fr}}
+
+.hall-card strong{color:#d7b46a}
+.hall-summary{display:grid;grid-template-columns:180px 1fr;gap:24px;align-items:center}
+.hall-summary>div{display:grid;gap:6px}.hall-summary>div strong{font-size:3rem;color:#d7b46a}.hall-summary>div span{opacity:.75}
+.hall-summary p{line-height:1.75}
+@media(max-width:650px){.hall-summary{grid-template-columns:1fr}}
