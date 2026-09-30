@@ -34,3 +34,16 @@
 .inline-action{display:inline-grid;gap:6px;margin-right:10px}
 
 .museum-meta{display:flex;flex-wrap:wrap;gap:8px 16px;opacity:.8}
+
+.dossier-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 24px}
+.dossier-grid p{display:grid;gap:5px;margin:0;padding:12px 0;border-bottom:1px solid #2f3439}
+.dossier-grid span{color:#c8c2b8}
+.status-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:16px 0}
+.status-grid div{display:grid;gap:8px;padding:16px;border:1px solid #42474f;border-radius:14px;background:rgba(255,255,255,.025)}
+.status-grid span{font-size:.84rem;opacity:.72}.status-grid strong{color:#d7b46a;overflow-wrap:anywhere}
+.exhibition-text p{white-space:pre-wrap;line-height:1.8}
+.timeline{display:grid;gap:0;border-left:1px solid #554d3e;margin:20px 0 20px 12px}
+.timeline-item{display:grid;grid-template-columns:90px 1fr;gap:16px;padding:0 0 22px 20px;position:relative}
+.timeline-item:before{content:"";position:absolute;width:9px;height:9px;border-radius:50%;background:#d7b46a;left:-5px;top:6px}
+.timeline-item p{margin:0 0 6px}
+@media(max-width:760px){.dossier-grid,.status-grid{grid-template-columns:1fr}.timeline-item{grid-template-columns:70px 1fr}}
