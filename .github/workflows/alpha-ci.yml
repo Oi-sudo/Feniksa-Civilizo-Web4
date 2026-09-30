@@ -1,0 +1,64 @@
+name: Web4 0.1 Alpha CI
+
+on:
+  push:
+    branches:
+      - web4-0.1-alpha-runtime
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      NODE_ENV: test
+      DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:5432/feniksa_ci
+      APP_URL: http://localhost:3000
+      SESSION_SECRET: ci-only-not-for-production
+      EMAIL_FROM: noreply@example.invalid
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: feniksa_ci
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U postgres -d feniksa_ci"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Apply database migrations
+        run: npm run db:migrate
+
+      - name: Seed base data
+        run: npm run db:seed
+
+      - name: Smoke check
+        run: npm run test:smoke
+
+      - name: Type check
+        run: npm run typecheck
+
+      - name: Production build
+        run: npm run build
