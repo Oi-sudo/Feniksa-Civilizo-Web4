@@ -5,9 +5,14 @@ import en from '@/locales/en.json';
 
 export const supportedLocales = ['zh', 'eo', 'en'] as const;
 export type Locale = (typeof supportedLocales)[number];
-export type Messages = typeof zh;
+export type Messages = Record<string, string>;
 
-const dictionaries: Record<Locale, Messages> = { zh, eo, en };
+const raw: Record<Locale, Messages> = { zh, eo, en };
+const dictionaries: Record<Locale, Messages> = {
+  zh,
+  eo: { ...zh, ...eo },
+  en: { ...zh, ...en }
+};
 
 export function isLocale(value: string | undefined | null): value is Locale {
   return !!value && supportedLocales.includes(value as Locale);
@@ -21,7 +26,7 @@ export async function getLocale(): Promise<Locale> {
 
 export async function getMessages(): Promise<Messages> {
   const locale = await getLocale();
-  return dictionaries[locale];
+  return dictionaries[locale] ?? raw.zh;
 }
 
 export function formatMessage(template: string, values: Record<string, string | number>) {
