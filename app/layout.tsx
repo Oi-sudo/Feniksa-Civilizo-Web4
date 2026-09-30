@@ -14,10 +14,14 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <header className="site-header">
           <Link className="brand" href="/">凤凰文明 · Feniksa Civilizo</Link>
           <nav>
-            <Link href="/courses">课程</Link>
-            <Link href="/museum">博物馆</Link>
+            <Link href="/courses">课程 / Kursoj</Link>
+            <Link href="/museum">博物馆 / Muzeo</Link>
             <Link href="/dad">DAD</Link>
-            <Link href="/passport">护照</Link>
+            <Link href="/passport">护照 / Pasporto</Link>
+            <Link href="/dual-wing">双翼 / Du Flugiloj</Link>
+            <a href="/api/locale?locale=zh&next=/">中</a>
+            <a href="/api/locale?locale=eo&next=/">EO</a>
+            <a href="/api/locale?locale=en&next=/">EN</a>
           </nav>
         </header>
         {children}
