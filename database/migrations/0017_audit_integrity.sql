@@ -1,0 +1,11 @@
+-- Task 19: append-only, tamper-evident audit log
+ALTER TABLE audit_logs ADD COLUMN IF NOT EXISTS audit_seq BIGSERIAL, ADD COLUMN IF NOT EXISTS severity TEXT NOT NULL DEFAULT 'info', ADD COLUMN IF NOT EXISTS reason TEXT, ADD COLUMN IF NOT EXISTS request_id TEXT, ADD COLUMN IF NOT EXISTS metadata JSONB, ADD COLUMN IF NOT EXISTS prev_hash TEXT, ADD COLUMN IF NOT EXISTS event_hash TEXT;
+CREATE UNIQUE INDEX IF NOT EXISTS idx_audit_logs_seq ON audit_logs(audit_seq);
+CREATE INDEX IF NOT EXISTS idx_audit_logs_created_at_desc ON audit_logs(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_audit_logs_entity ON audit_logs(entity_type,entity_id);
+CREATE INDEX IF NOT EXISTS idx_audit_logs_severity ON audit_logs(severity,created_at DESC);
+CREATE OR REPLACE FUNCTION feniksa_prepare_audit_log() RETURNS TRIGGER AS $$ DECLARE p TEXT; payload TEXT; BEGIN PERFORM pg_advisory_xact_lock(90419001); SELECT event_hash INTO p FROM audit_logs WHERE audit_seq < NEW.audit_seq AND event_hash IS NOT NULL ORDER BY audit_seq DESC LIMIT 1; NEW.prev_hash:=p; payload:=concat_ws('|',COALESCE(NEW.audit_seq::text,''),COALESCE(NEW.user_id::text,''),COALESCE(NEW.action,''),COALESCE(NEW.entity_type,''),COALESCE(NEW.entity_id::text,''),COALESCE(NEW.old_value::text,''),COALESCE(NEW.new_value::text,''),COALESCE(NEW.ip_hash,''),COALESCE(NEW.severity,''),COALESCE(NEW.reason,''),COALESCE(NEW.request_id,''),COALESCE(NEW.metadata::text,''),COALESCE(NEW.created_at::text,''),COALESCE(p,'GENESIS')); NEW.event_hash:=encode(digest(payload,'sha256'),'hex'); RETURN NEW; END; $$ LANGUAGE plpgsql;
+DROP TRIGGER IF EXISTS trg_audit_hash_chain ON audit_logs; CREATE TRIGGER trg_audit_hash_chain BEFORE INSERT ON audit_logs FOR EACH ROW EXECUTE FUNCTION feniksa_prepare_audit_log();
+CREATE OR REPLACE FUNCTION feniksa_block_audit_mutation() RETURNS TRIGGER AS $$ BEGIN RAISE EXCEPTION 'audit_logs is append-only; update/delete is prohibited'; END; $$ LANGUAGE plpgsql;
+DROP TRIGGER IF EXISTS trg_audit_no_update ON audit_logs; CREATE TRIGGER trg_audit_no_update BEFORE UPDATE ON audit_logs FOR EACH ROW EXECUTE FUNCTION feniksa_block_audit_mutation();
+DROP TRIGGER IF EXISTS trg_audit_no_delete ON audit_logs; CREATE TRIGGER trg_audit_no_delete BEFORE DELETE ON audit_logs FOR EACH ROW EXECUTE FUNCTION feniksa_block_audit_mutation();
