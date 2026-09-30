@@ -3,3 +3,11 @@
 .dual-wing{border:1px solid #554d3e;border-radius:22px;padding:28px;background:linear-gradient(135deg,rgba(215,180,106,.08),rgba(17,20,24,.75))}
 .site-header nav a{padding:4px 2px}
 @media(max-width:980px){.site-header nav{font-size:.9rem}}
+
+.auth-form{display:grid;gap:16px}
+.auth-form label{display:grid;gap:8px;color:#c8c2b8}
+.auth-form input,.auth-form select{width:100%;padding:12px 14px;border:1px solid #4b5055;border-radius:10px;background:#10131a;color:#f5f1e8;font:inherit}
+.auth-button{justify-self:start}
+.form-message{padding:12px 14px;border:1px solid #4b5055;border-radius:10px}
+.dev-note{color:#c8c2b8;font-size:14px;overflow-wrap:anywhere}
+.dev-note a{color:#d7b46a;text-decoration:underline}
