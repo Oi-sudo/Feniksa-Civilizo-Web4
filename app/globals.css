@@ -11,3 +11,11 @@
 .form-message{padding:12px 14px;border:1px solid #4b5055;border-radius:10px}
 .dev-note{color:#c8c2b8;font-size:14px;overflow-wrap:anywhere}
 .dev-note a{color:#d7b46a;text-decoration:underline}
+
+.nav-user{opacity:.75;padding:4px 2px}
+.site-header .auth-button{padding:6px 10px;font-size:.85rem}
+.stat-card small{display:block;margin-top:8px;opacity:.72}
+.yao-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:16px}
+.yao-card{display:grid;gap:6px;padding:16px;border:1px solid #42474f;border-radius:14px;background:rgba(255,255,255,.025)}
+.yao-card span,.yao-card small{opacity:.72}
+@media(max-width:760px){.yao-grid{grid-template-columns:1fr}}
