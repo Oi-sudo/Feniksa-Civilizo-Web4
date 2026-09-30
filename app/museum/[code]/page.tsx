@@ -38,6 +38,7 @@ export default async function AssetPage({params}:{params:Promise<{code:string}>}
       </div>
       <p><strong>来源记录：</strong>{a.provenance||'待补充'}</p>
       {a.catalog_source_note&&<p className="muted"><strong>书册来源说明：</strong>{a.catalog_source_note}</p>}
+      {a.related_display_note&&<p className="muted"><strong>关联展示：</strong>{a.related_display_note}</p>}
       {a.current_location_note&&<p><strong>当前保管信息：</strong>{a.current_location_note}</p>}
     </section>
 

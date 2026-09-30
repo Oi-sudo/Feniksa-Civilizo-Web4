@@ -8,7 +8,7 @@ export type AssetCard={
 };
 export type AssetDetail=AssetCard & {
   period_description:string|null;dimensions:string|null;weight:string|null;provenance:string|null;catalog_source_note:string|null;
-  current_location_note:string|null;workflow_status:string;public_status:string;
+  current_location_note:string|null;workflow_status:string;public_status:string;related_display_note:string|null;
 };
 
 export async function listMuseumHalls(){
@@ -31,7 +31,7 @@ export async function listPublishedAssets(limit=100){
 export async function getPublishedAsset(code:string){
   const r=await query<AssetDetail>(`SELECT a.id,a.permanent_code,a.catalog_code,a.catalog_volume,a.batch_code,a.title_zh,a.title_eo,a.title_en,a.category,a.material,
       a.authentication_level::text,a.ownership_status,a.valuation_status,a.digital_rights_status,
-      a.period_description,a.dimensions,a.weight,a.provenance,a.catalog_source_note,a.current_location_note,a.workflow_status,a.public_status,
+      a.period_description,a.dimensions,a.weight,a.provenance,a.catalog_source_note,a.current_location_note,a.workflow_status,a.public_status,a.related_display_note,
       h.title_zh AS hall_zh,h.title_eo AS hall_eo
     FROM cultural_assets a LEFT JOIN museum_halls h ON h.id=a.primary_hall_id
     WHERE a.permanent_code=$1 AND a.public_status='published' AND a.workflow_status='published' AND a.deleted_at IS NULL LIMIT 1`,[code]);
