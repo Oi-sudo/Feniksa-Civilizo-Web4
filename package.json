@@ -1,0 +1,37 @@
+{
+  "name": "feniksa-civilizo-web4",
+  "version": "0.1.0-alpha-runtime-evidence6",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "db:migrate": "node scripts/migrate.mjs",
+    "db:seed": "node scripts/seed.mjs",
+    "test:smoke": "node scripts/smoke-check.mjs",
+    "check": "npm run test:smoke && npm run typecheck && npm run build",
+    "integration:preflight": "node scripts/integration-preflight.mjs",
+    "static:integrity": "node scripts/static-integrity-check.mjs",
+    "runtime:preflight": "npm run test:smoke && npm run integration:preflight && npm run static:integrity",
+    "verify:db": "node scripts/verify-runtime-db.mjs",
+    "ci:verify": "npm run runtime:preflight && npm run db:migrate && npm run db:seed && npm run verify:db && npm run typecheck && npm run build",
+    "env:check": "node scripts/verify-environment.mjs",
+    "runtime:verify:local": "bash scripts/runtime-verify-local.sh",
+    "runtime:verify:compose": "bash scripts/runtime-compose-verify.sh"
+  },
+  "dependencies": {
+    "next": "^15.0.0",
+    "pg": "^8.13.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/pg": "^8.11.10",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "^5.6.0"
+  }
+}
