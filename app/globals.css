@@ -19,3 +19,8 @@
 .yao-card{display:grid;gap:6px;padding:16px;border:1px solid #42474f;border-radius:14px;background:rgba(255,255,255,.025)}
 .yao-card span,.yao-card small{opacity:.72}
 @media(max-width:760px){.yao-grid{grid-template-columns:1fr}}
+
+.stat-grid a.stat-card{text-decoration:none;color:inherit}
+.record-list{display:grid;gap:16px;margin:20px 0}
+.record-top{display:flex;justify-content:space-between;gap:16px;align-items:center}
+.record-top span{font-size:.82rem;opacity:.72;text-transform:uppercase}

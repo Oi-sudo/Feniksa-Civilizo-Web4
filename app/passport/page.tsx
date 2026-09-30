@@ -36,8 +36,8 @@ export default async function PassportPage(){
 
     <section className="stat-grid">
       <div className="stat-card"><strong>{d.courses.completed}</strong><span>完成课程 · Kursoj</span><small>学习中 {d.courses.active} · 有记录 {d.courses.total}</small></div>
-      <div className="stat-card"><strong>{d.est.value}</strong><span>EST 世界语币</span><small>已审核记录 {d.est.approved}</small></div>
-      <div className="stat-card"><strong>{d.bud.value}</strong><span>BUD 佛光币</span><small>已审核 {d.bud.approved} · 服务 {d.bud.hours} 小时</small></div>
+      <Link className="stat-card" href="/passport/est"><strong>{d.est.value}</strong><span>EST 世界语币</span><small>已审核记录 {d.est.approved} · 查看明细 →</small></Link>
+      <Link className="stat-card" href="/passport/bud"><strong>{d.bud.value}</strong><span>BUD 佛光币</span><small>已审核 {d.bud.approved} · 服务 {d.bud.hours} 小时 · 查看明细 →</small></Link>
     </section>
 
     <section className="card">
