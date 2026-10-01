@@ -10,10 +10,13 @@ export async function POST(req:NextRequest){
   const b=await req.json(); const visibility=String(b.visibility||'');
   if(!['reviewer','public'].includes(visibility))return NextResponse.json({error:'公开状态无效。'},{status:400});
   await withTransaction(async client=>{
-   const r=await client.query<{asset_id:string;visibility:string;copyright_status:string}>(`
-     SELECT asset_id,visibility,copyright_status FROM asset_media WHERE id=$1 FOR UPDATE`,[b.mediaId]);
+   const r=await client.query<{asset_id:string;visibility:string;copyright_status:string;submitted_for_review_by:string|null}>(`
+     SELECT m.asset_id,m.visibility,m.copyright_status,a.submitted_for_review_by::text
+       FROM asset_media m JOIN cultural_assets a ON a.id=m.asset_id
+      WHERE m.id=$1 FOR UPDATE OF m`,[b.mediaId]);
    if(!r.rowCount)throw new Error('NOT_FOUND');
    if(visibility==='public'&&!['owned','authorized','public_domain'].includes(r.rows[0].copyright_status))throw new Error('RIGHTS');
+   if(visibility==='public'&&r.rows[0].submitted_for_review_by===user.id)throw new Error('SELF_PUBLISH');
    await client.query(`UPDATE asset_media SET visibility=$2,published_at=CASE WHEN $2='public' THEN NOW() ELSE NULL END,
       published_by=CASE WHEN $2='public' THEN $3::uuid ELSE NULL END WHERE id=$1`,[b.mediaId,visibility,user.id]);
    const eventType=visibility==='public'?'evidence_published':'evidence_hidden';
@@ -26,6 +29,7 @@ export async function POST(req:NextRequest){
  }catch(e){
   if(e instanceof Error&&e.message==='NOT_FOUND')return NextResponse.json({error:'找不到馆藏资料。'},{status:404});
   if(e instanceof Error&&e.message==='RIGHTS')return NextResponse.json({error:'版权/展示状态尚未明确，暂不能公开。'},{status:409});
+  if(e instanceof Error&&e.message==='SELF_PUBLISH')return NextResponse.json({error:'这是您提交的馆藏资料，请由另一位管理员或馆藏审核员确认公开。'},{status:409});
   console.error(e);return NextResponse.json({error:'暂时无法更新公开状态。'},{status:500});
  }
 }
