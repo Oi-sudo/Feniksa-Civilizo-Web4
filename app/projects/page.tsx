@@ -3,15 +3,17 @@ import { getLocale } from '@/lib/i18n';
 import TaohuayuanZoneNav from '@/components/taohuayuan/ZoneNav';
 import { listVisibleProjects } from '@/lib/projects/data';
 
-export default async function ProjectsPage({searchParams}:{searchParams:Promise<{status?:string;risk?:string}>}){
+export default async function ProjectsPage({searchParams}:{searchParams:Promise<{status?:string;risk?:string;sort?:string}>}){
   const [locale,params]=await Promise.all([getLocale(),searchParams]); const eo=locale==='eo'; const en=locale==='en';
   const projects=await listVisibleProjects();
   const allowedStatuses=['all','approved','active','paused','completed','terminated','archived'];
   const allowedRisks=['all','green','yellow','orange','red'];
   const statusFilter=allowedStatuses.includes(params.status||'')?(params.status||'all'):'all';
   const riskFilter=allowedRisks.includes(params.risk||'')?(params.risk||'all'):'all';
-  const visibleProjects=projects.filter(p=>(statusFilter==='all'||p.status===statusFilter)&&(riskFilter==='all'||p.risk_level===riskFilter));
-  const projectHref=(status:string,risk:string)=>{const q=new URLSearchParams();if(status!=='all')q.set('status',status);if(risk!=='all')q.set('risk',risk);const s=q.toString();return s?`/projects?${s}`:'/projects';};
+  const sortMode=params.sort==='recent'?'recent':'priority';
+  const filteredProjects=projects.filter(p=>(statusFilter==='all'||p.status===statusFilter)&&(riskFilter==='all'||p.risk_level===riskFilter));
+  const visibleProjects=[...filteredProjects].sort((a,b)=>sortMode==='recent'?new Date(b.updated_at).getTime()-new Date(a.updated_at).getTime():0);
+  const projectHref=(status:string,risk:string,sort=sortMode)=>{const q=new URLSearchParams();if(status!=='all')q.set('status',status);if(risk!=='all')q.set('risk',risk);if(sort==='recent')q.set('sort','recent');const s=q.toString();return s?`/projects?${s}`:'/projects';};
   const statusZh:Record<string,string>={approved:'已批准',active:'进行中',paused:'已暂停',completed:'已完成',terminated:'已终止',archived:'已归档'};
   const statusEo:Record<string,string>={approved:'Aprobita',active:'Aktiva',paused:'Paŭzita',completed:'Kompletigita',terminated:'Ĉesigita',archived:'Arkivita'};
   const statusEn:Record<string,string>={approved:'Approved',active:'Active',paused:'Paused',completed:'Completed',terminated:'Terminated',archived:'Archived'};
@@ -48,6 +50,10 @@ export default async function ProjectsPage({searchParams}:{searchParams:Promise<
           ['red',(eo?riskEo:en?riskEn:riskZh).red]
         ].map(([key,label])=><Link key={key} href={projectHref(statusFilter,key)} className={riskFilter===key?'active':''}>{label}</Link>)}
       </div>
+      <div className="timeline-filters" aria-label={eo?'Ordigi projektojn':en?'Sort projects':'项目排序'}>
+        <Link href={projectHref(statusFilter,riskFilter,'priority')} className={sortMode==='priority'?'active':''}>{eo?'Aktivaj unue':en?'Active first':'进行中优先'}</Link>
+        <Link href={projectHref(statusFilter,riskFilter,'recent')} className={sortMode==='recent'?'active':''}>{eo?'Plej lastatempe ĝisdatigitaj':en?'Recently updated':'最近更新'}</Link>
+      </div>
       <div className="timeline-summary">
         <div><span>{eo?'Ĉiuj projektoj':en?'All projects':'全部项目'}</span><strong>{projects.length}</strong></div>
         <div><span>{eo?'Nun montrataj':en?'Currently shown':'当前显示'}</span><strong>{visibleProjects.length}</strong></div>
@@ -59,6 +65,7 @@ export default async function ProjectsPage({searchParams}:{searchParams:Promise<
           <h3>{p.title}</h3>
           {p.description&&<p>{p.description}</p>}
           <p><strong>{eo?'Buĝeto':en?'Budget':'预算'}：</strong>{p.approved_budget} {p.currency} · <strong>{eo?'Elspezita':en?'Spent':'已支出'}：</strong>{p.spent} {p.currency}</p>
+          <p className="project-dates"><small>{eo?'Komenco':en?'Start':'开始'}：{p.start_date||'—'} · {eo?'Cela fino':en?'Target end':'目标结束'}：{p.target_end_date||'—'} · {eo?'Ĝisdatigita':en?'Updated':'最近更新'}：{new Date(p.updated_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN')}</small></p>
           {p.manager_name&&<small>{eo?'Respondeculo':en?'Manager':'负责人'}：{p.manager_name}</small>}
           <span className="card-link">{eo?'Vidi projektan dosieron →':en?'View project dossier →':'查看项目档案 →'}</span>
         </Link>)}
