@@ -50,7 +50,7 @@ export async function listMuseumReviewQueue(){
 
 
 export type AssetMedia={
-  id:string; media_type:string; file_url:string; caption:string|null; is_primary:boolean; copyright_status:string; evidence_role:string; verification_status:string; source_note:string|null; source_confirmed_at:string|null; source_confirmed_by_name:string|null; reviewed_at:string|null; reviewed_by_name:string|null; created_at:string;
+  id:string; media_type:string; file_url:string; caption:string|null; is_primary:boolean; copyright_status:string; evidence_role:string; verification_status:string; source_note:string|null; source_confirmed_at:string|null; source_confirmed_by_name:string|null; reviewed_at:string|null; reviewed_by_name:string|null; visibility:string; published_at:string|null; published_by_name:string|null; created_at:string;
 };
 export type ExhibitionText={
   id:string; locale:'zh'|'eo'|'en'; short_label:string|null; exhibition_text:string; version:string; reviewed_at:string|null;
@@ -65,11 +65,16 @@ export type AssetVersion={
 export async function getAssetDossier(assetId:string){
   const [media,labels,research,versions]=await Promise.all([
     query<AssetMedia>(`SELECT m.id,m.media_type::text,m.file_url,m.caption,m.is_primary,m.copyright_status,m.evidence_role,m.verification_status,m.source_note,
-        m.source_confirmed_at::text,uc.display_name AS source_confirmed_by_name,m.reviewed_at::text,ur.display_name AS reviewed_by_name,m.created_at::text
+        m.source_confirmed_at::text,uc.display_name AS source_confirmed_by_name,m.reviewed_at::text,ur.display_name AS reviewed_by_name,
+        m.visibility,m.published_at::text,up.display_name AS published_by_name,m.created_at::text
       FROM asset_media m
       LEFT JOIN users uc ON uc.id=m.source_confirmed_by
       LEFT JOIN users ur ON ur.id=m.reviewed_by
-      WHERE m.asset_id=$1 ORDER BY is_primary DESC,created_at ASC`,[assetId]),
+      LEFT JOIN users up ON up.id=m.published_by
+      WHERE m.asset_id=$1
+        AND m.visibility='public'
+        AND m.copyright_status IN ('owned','authorized','public_domain')
+      ORDER BY is_primary DESC,created_at ASC`,[assetId]),
     query<ExhibitionText>(`SELECT id,locale,short_label,exhibition_text,version,reviewed_at::text
       FROM asset_exhibition_texts WHERE asset_id=$1 AND status='published'
       ORDER BY CASE locale WHEN 'zh' THEN 1 WHEN 'eo' THEN 2 ELSE 3 END,version DESC`,[assetId]),
@@ -242,4 +247,28 @@ export async function listAdminCatalogVolumes(){
      GROUP BY catalog_volume
      ORDER BY MIN(created_at)`);
   return r.rows;
+}
+
+
+export async function getAssetDossierAdmin(assetId:string){
+  const [media,labels,research,versions]=await Promise.all([
+    query<AssetMedia>(`SELECT m.id,m.media_type::text,m.file_url,m.caption,m.is_primary,m.copyright_status,m.evidence_role,m.verification_status,m.source_note,
+        m.source_confirmed_at::text,uc.display_name AS source_confirmed_by_name,m.reviewed_at::text,ur.display_name AS reviewed_by_name,
+        m.visibility,m.published_at::text,up.display_name AS published_by_name,m.created_at::text
+      FROM asset_media m
+      LEFT JOIN users uc ON uc.id=m.source_confirmed_by
+      LEFT JOIN users ur ON ur.id=m.reviewed_by
+      LEFT JOIN users up ON up.id=m.published_by
+      WHERE m.asset_id=$1 ORDER BY m.is_primary DESC,m.created_at ASC`,[assetId]),
+    query<ExhibitionText>(`SELECT id,locale,short_label,exhibition_text,version,reviewed_at::text
+      FROM asset_exhibition_texts WHERE asset_id=$1 AND status='published'
+      ORDER BY CASE locale WHEN 'zh' THEN 1 WHEN 'eo' THEN 2 ELSE 3 END,version DESC`,[assetId]),
+    query<ResearchNote>(`SELECT n.id,n.note_type,n.content,n.source_reference,n.created_at::text,u.display_name AS author_name
+      FROM asset_research_notes n LEFT JOIN users u ON u.id=n.author_id
+      WHERE n.asset_id=$1 AND n.status='published' ORDER BY n.created_at DESC`,[assetId]),
+    query<AssetVersion>(`SELECT v.id,v.version_number,v.change_summary,v.created_at::text,u.display_name AS changed_by_name
+      FROM asset_versions v LEFT JOIN users u ON u.id=v.changed_by
+      WHERE v.asset_id=$1 ORDER BY v.created_at DESC`,[assetId])
+  ]);
+  return {media:media.rows,labels:labels.rows,research:research.rows,versions:versions.rows};
 }
