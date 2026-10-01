@@ -32,6 +32,7 @@ export default async function PersonalProjectPassportPage({params,searchParams}:
  const membershipEventCount=d.events.filter(e=>e.kind==='membership'||e.kind==='membership_end').length;
  const estEventCount=d.events.filter(e=>e.kind==='est').length;
  const budEventCount=d.events.filter(e=>e.kind==='bud').length;
+ const latestEvent=d.events.length?[...d.events].sort((a,b)=>new Date(b.occurred_at).getTime()-new Date(a.occurred_at).getTime())[0]:null;
  const projectStatus=(eo?projectStatusEo:en?projectStatusEn:projectStatusZh)[d.context.project_status]||d.context.project_status;
  const memberStatus=status[d.context.member_status]||d.context.member_status;
  const participationState=d.context.left_at?(eo?'Partopreno finiĝis':en?'Participation ended':'参与已结束'):(d.context.member_status==='active'?(eo?'Nun partoprenanta':en?'Currently participating':'当前参与中'):(eo?'Partopreno registrita':en?'Participation recorded':'已有参与记录'));
@@ -60,6 +61,16 @@ export default async function PersonalProjectPassportPage({params,searchParams}:
     <div className="lifecycle-state"><span>{eo?'Nuna vivcikla stato':en?'Current lifecycle state':'当前生命周期状态'}</span><strong>{participationState}</strong></div>
    </div>
    <p className="muted">{eo?'La resumo uzas nur la registritajn projektan staton, membran staton kaj aliĝ-/forirdatojn.':en?'This summary uses only recorded project status, membership status, and join/leave dates.':'本摘要只使用已登记的项目状态、成员状态以及加入/退出日期。'}</p>
+  </section>
+
+  <section className="card">
+   <h2>{eo?'Plej lasta registrita agado':en?'Latest recorded activity':'最近一条已登记活动'}</h2>
+   {latestEvent?<div className="latest-project-event">
+    <div><span>{eo?'Tipo':en?'Type':'类型'}</span><strong>{label[latestEvent.kind]||latestEvent.kind}</strong></div>
+    <div><span>{eo?'Dato':en?'Date':'日期'}</span><strong>{new Date(latestEvent.occurred_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN')}</strong></div>
+    <div className="latest-project-event-title"><span>{eo?'Registro':en?'Record':'记录'}</span><strong>{latestEvent.title}</strong></div>
+   </div>:<p>{eo?'Ankoraŭ neniu registrita agado en ĉi tiu projekto.':en?'No recorded activity in this project yet.':'本项目中尚无已登记活动。'}</p>}
+   <p className="muted">{eo?'Ĉi tio montras nur la plej lastan datitan registron; ĝi ne estas mezuro de aktiveco aŭ rendimento.':en?'This shows only the most recent dated record; it is not a measure of activity or performance.':'这里只显示时间上最近的一条已登记记录，不代表活跃度或绩效评分。'}</p>
   </section>
 
   <section className="card">
