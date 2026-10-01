@@ -45,9 +45,9 @@ export default async function BudPassportPage({searchParams}:{searchParams:Promi
     {projectId&&<section className="passport-project-context"><p><span>{eo?'Nuna projekto':en?'Current project':'当前项目'}：</span><strong>{projectContext?.project.title||projectId.slice(0,8)}</strong></p>{projectContext&&<Link href={'/projects/'+projectId}>{eo?'Reveni al la projekta dosiero →':en?'Back to project dossier →':'返回项目档案 →'}</Link>}</section>}
     <p className="lead">{eo?'Ĉi tie aperas kontroleblaj registroj pri vola agado, volontula servo kaj publika servo. BUD registras agojn; ĝi ne taksas personecon nek atestas religian atingon.':en?'This page shows verifiable records of vow-in-action, volunteer service and public service. BUD records actions; it does not assess personality or certify religious attainment.':'这里显示愿行、志愿服务和公共服务的可核查记录。BUD 记录行动，不评定人格，也不认证宗教修证境界。'}</p>
     <section className="stat-grid">
-      <div className="stat-card"><strong>{total}</strong><span>{eo?'Konfirmita BUD':en?'Confirmed BUD':'已确认 BUD'}</span></div>
-      <div className="stat-card"><strong>{hours}</strong><span>{eo?'Konfirmitaj servhoroj':en?'Confirmed service hours':'已确认服务小时'}</span></div>
-      <div className="stat-card"><strong>{approved.length}</strong><span>{eo?'Aprobitaj registroj':en?'Approved records':'已审核记录'}</span></div>
+      <div className="stat-card"><strong>{total}</strong><span>{projectId?(eo?'BUD en ĉi tiu projekto':en?'BUD in this project':'本项目 BUD 总值'):(eo?'Konfirmita BUD':en?'Confirmed BUD':'已确认 BUD')}</span></div>
+      <div className="stat-card"><strong>{hours}</strong><span>{projectId?(eo?'Servhoroj en la projekto':en?'Project service hours':'本项目服务小时'):(eo?'Konfirmitaj servhoroj':en?'Confirmed service hours':'已确认服务小时')}</span></div>
+      <div className="stat-card"><strong>{approved.length}</strong><span>{projectId?(eo?'Aprobitaj registroj en la projekto':en?'Approved project records':'本项目已批准记录'):(eo?'Aprobitaj registroj':en?'Approved records':'已审核记录')}</span></div>
     </section>
     {rows.length?<div className="record-list">{rows.map(r=><article className="card" id={`bud-record-${r.id}`} key={r.id}>
       <div className="record-top"><strong>{(eo?serviceEo:en?serviceEn:serviceZh)[r.service_type]||r.service_type}</strong><span>{(eo?statusEo:en?statusEn:statusZh)[r.review_status]||r.review_status}</span></div>
