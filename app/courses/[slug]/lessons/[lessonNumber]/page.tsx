@@ -21,7 +21,7 @@ export default async function LessonPage({params}:{params:Promise<{slug:string;l
       {locale!=='en'&&<section><h2>Esperanto</h2><p>{lesson.content_eo||'La plena teksto ankoraŭ ne estas importita.'}</p></section>}
       {locale==='en'?<section><h2>English</h2><p>{lesson.content_en||lesson.content_eo||'The full text has not yet been imported.'}</p></section>:lesson.content_en&&<section><h2>English</h2><p>{lesson.content_en}</p></section>}
     </article>
-    {user?<CompleteLessonButton lessonId={lesson.id} eo={eo} />:<section className="card"><p>{eo?'Post ensaluto vi povas konservi vian lernoprogreson. Fini publikan enkondukon ne estos prezentata kiel fino de la tuta kurso.':en?'After login, you can save learning progress. Completing a public introduction is not presented as completing the full course.':'登录后可以保存学习进度。完成公开导言本身不会被冒充为完整课程完成。'}</p><Link href="/login">{eo?'Ensaluti →':en?'Log in →':'登录 →'}</Link></section>}
+    {user?<CompleteLessonButton lessonId={lesson.id} eo={eo} en={en} />:<section className="card"><p>{eo?'Post ensaluto vi povas konservi vian lernoprogreson. Fini publikan enkondukon ne estos prezentata kiel fino de la tuta kurso.':en?'After login, you can save learning progress. Completing a public introduction is not presented as completing the full course.':'登录后可以保存学习进度。完成公开导言本身不会被冒充为完整课程完成。'}</p><Link href="/login">{eo?'Ensaluti →':en?'Log in →':'登录 →'}</Link></section>}
     <div className="hero-actions"><Link className="button button-secondary" href={`/courses/${slug}`}>{eo?'Reveni al la kurso':en?'Back to course':'返回课程'}</Link><Link className="button button-secondary" href="/passport">{eo?'Lernopasporto':en?'Learning passport':'学习护照'}</Link></div>
   </main>;
 }
