@@ -61,8 +61,19 @@ export default async function PassportPage({searchParams}:{searchParams:Promise<
   const currentYaoLabel=currentYaoIndex>=0
     ? (locale==='eo'?yaoNames[currentYaoIndex][1]:locale==='en'?['First line · Awakening','Second line · Non-self','Third line · Insight','Fourth line · Vow in action','Fifth line · Bodhisattva action','Sixth line · Shared world action'][currentYaoIndex]:yaoNames[currentYaoIndex][0])
     : (eo?'Ne komencita':en?'Not started':'尚未开始');
+  const archiveDate=new Date().toLocaleDateString(eo?'eo':en?'en-US':'zh-CN');
 
   return <main>
+    <header className="passport-print-header">
+      <div>
+        <strong>{eo?'Feniksa Lernopasporto':en?'Phoenix Passport':'凤凰文明学习护照'}</strong>
+        <span>Phoenix Passport · Feniksa Lernopasporto</span>
+      </div>
+      <div>
+        <span>{eo?'Arkiva dato':en?'Archive date':'归档日期'}：{archiveDate}</span>
+        <span>{eo?'Lingvo':en?'Language':'语言'}：{locale.toUpperCase()}</span>
+      </div>
+    </header>
     <span className="badge">{m.passport_badge}</span>
     <h1>{m.passport_title}</h1>
     <p className="lead">{(m.passport_welcome||'欢迎回来，{name}。').replace('{name}',user.display_name)}</p>
