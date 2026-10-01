@@ -16,9 +16,9 @@ export default async function CoursesPage(){
   const [locale,m]=await Promise.all([getLocale(),getMessages()]); const eo=locale==='eo'; const en=locale==='en';
   const courses=await listPublishedCourses();
   return <main>
-    <span className="badge">{m.course_badge || (eo?'Esperanta Civiliza Universitato':'世界语文明大学')}</span>
-    <h1>{m.course_title || (eo?'Kursaro':'课程目录')} · Kursaro</h1>
-    <p className="lead">{m.course_intro || (eo?'La kursoj estas enkondukataj paŝo post paŝo.':'课程逐步导入中。')}</p>
+    <span className="badge">{m.course_badge || (eo?'Esperanta Civiliza Universitato':en?'Esperanto Civilization University':'世界语文明大学')}</span>
+    <h1>{m.course_title || (eo?'Kursaro':en?'Course catalog':'课程目录')} · Kursaro</h1>
+    <p className="lead">{m.course_intro || (eo?'La kursoj estas enkondukataj paŝo post paŝo.':en?'Courses are being introduced step by step.':'课程逐步导入中。')}</p>
     <div className="card-grid">
       {courses.map(c=><Link className="card" href={`/courses/${c.slug}`} key={c.id}>
         <span className="eyebrow">{(eo?categoryEo:en?categoryEn:categoryZh)[c.category]||c.category}</span>
