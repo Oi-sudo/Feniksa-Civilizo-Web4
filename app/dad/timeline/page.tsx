@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { getLocale } from '@/lib/i18n';
 import { getPublicGovernanceTimeline } from '@/lib/dad/data';
+import CopyCitationButton from '@/components/archive/CopyCitationButton';
 
 const proposalStatusZh:Record<string,string>={approved:'已批准',rejected:'已否决',executing:'执行中',completed:'已完成',terminated:'已终止',archived:'已归档',draft:'草稿',discussion:'讨论中',assessment:'评估中',voting:'表决中',revision:'修订中'};
 const proposalStatusEo:Record<string,string>={approved:'Aprobita',rejected:'Malaprobita',executing:'Plenumata',completed:'Kompletigita',terminated:'Ĉesigita',archived:'Arkivita',draft:'Malneto',discussion:'Diskutata',assessment:'Taksata',voting:'Voĉdonata',revision:'Reviziata'};
@@ -44,12 +45,17 @@ export default async function TimelinePage(){
       {events.length?<div className="project-audit-list">
         {events.map(e=>{
           const proposalShort=e.proposal_short_code||e.proposal_id.replace(/-/g,'').slice(0,8);
-          return <article className="project-audit-item" key={e.event_key}>
+          const eventShort=e.event_key.replace(/[^a-zA-Z0-9]/g,'').slice(-8).toLowerCase();
+          const eventRef='GOV-EVENT · '+eventShort;
+          const eventAnchor='gov-event-'+eventShort;
+          const eventCitation='Phoenix DAD Governance Timeline · GOV-EVENT · '+eventShort+' · '+new Date(e.occurred_at).toISOString().slice(0,10);
+          return <article id={eventAnchor} className="project-audit-item" key={e.event_key}>
             <div className="timeline-date">{new Date(e.occurred_at).toLocaleDateString(dateLocale)}</div>
             <div>
               <span className="eyebrow">{typeLabel(e.event_type)}</span>
               <h3>{e.proposal_title}</h3>
               <p>{detail(e)}</p>
+              <p className="subrecord-ref"><code>{eventRef}</code> · <a href={'#'+eventAnchor}>{eo?'Konstanta loko':en?'Permanent locator':'永久定位'}</a><span className="citation-format">{eo?'Citformo':en?'Citation format':'引用格式'}：{eventCitation}<CopyCitationButton text={eventCitation} label={eo?'Kopii citon':en?'Copy citation':'复制引用'} copiedLabel={eo?'Kopiita':en?'Copied':'已复制'} /></span></p>
               <p className="subrecord-ref"><code>PROPOSAL · {proposalShort}</code>{e.project_title&&<> · <span>{e.project_title}</span></>}</p>
               <div className="hero-actions no-print">
                 <Link className="button button-secondary" href={'/dad/proposals/'+e.proposal_id}>{eo?'Propona dosiero':en?'Proposal dossier':'提案档案'}</Link>
