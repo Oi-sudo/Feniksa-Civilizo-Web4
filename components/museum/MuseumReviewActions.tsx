@@ -10,5 +10,5 @@ export default function MuseumReviewActions({id}:{id:string}){
   if(!r.ok){setMessage(data.error||'操作失败');return;}
   setMessage(data.message);router.refresh();
  }
- return <div className="hero-actions"><button className="button button-primary" disabled={busy} onClick={()=>act('approve')}>批准并公开</button><button className="button button-secondary" disabled={busy} onClick={()=>act('changes')}>退回修改</button>{message&&<small>{message}</small>}</div>;
+ return <div className="hero-actions"><button className="button button-primary" disabled={busy} onClick={()=>act('approve')}>整理后公开</button><button className="button button-secondary" disabled={busy} onClick={()=>act('changes')}>返回继续整理</button>{message&&<small>{message}</small>}</div>;
 }
