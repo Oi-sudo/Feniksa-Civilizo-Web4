@@ -102,6 +102,18 @@ Stable identity:
 
 The report is a read-only derivative of two preserved archive snapshots and their public source records. It does not replace the underlying governance dossiers.
 
+### DAD annual governance report
+Format:
+`Phoenix DAD Annual Governance Report · GOVERNANCE-YEAR · YYYY`
+
+Current type codes:
+- GOVERNANCE-YEAR
+
+Stable identity:
+- GOVERNANCE-YEAR: calendar year
+
+The annual report is a read-only chronological summary of public governance records for one calendar year. It does not replace the underlying proposal, decision, governance-event, project, milestone, snapshot, or archived report records.
+
 ### Personal project passport
 Format:
 `Phoenix Personal Project Passport · <TYPE> · <SHORT_ID> · YYYY-MM-DD`
