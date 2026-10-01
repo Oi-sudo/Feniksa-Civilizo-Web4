@@ -272,3 +272,10 @@ main[id^="project-"]{scroll-margin-top:100px}
 }
 
 [id^="status-event-"],[id^="budget-event-"]{scroll-margin-top:100px}
+
+.project-citation{flex-basis:100%}
+.project-citation code,.citation-format{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.citation-format{display:block;margin-top:6px;color:#9f978a;overflow-wrap:anywhere}
+@media print{
+  .project-citation code,.citation-format{color:#111!important}
+}
