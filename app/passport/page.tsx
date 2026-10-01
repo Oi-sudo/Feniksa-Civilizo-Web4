@@ -39,11 +39,13 @@ const yaoNames=[
   ['六爻 · 大同共行识','Sesa linio · Komuna monda agado']
 ];
 
-export default async function PassportPage(){
+export default async function PassportPage({searchParams}:{searchParams:Promise<{timeline?:string}>}){
   const user=await getCurrentUser();
   if(!user) redirect('/login');
-  const [locale,m]=await Promise.all([getLocale(),getMessages()]); const eo=locale==='eo'; const en=locale==='en';
+  const [locale,m,p]=await Promise.all([getLocale(),getMessages(),searchParams]); const eo=locale==='eo'; const en=locale==='en';
+  const timelineFilter=['all','est','bud','project','work'].includes(p.timeline||'')?(p.timeline||'all'):'all';
   const d=await getPassportOverview(user.id);
+  const filteredTimeline=timelineFilter==='all'?d.timeline:d.timeline.filter(x=>x.kind===timelineFilter);
   const six=new Map(d.sixYao.map(x=>[x.stage,x]));
   const activeYao=[...d.sixYao]
     .filter(x=>x.learning_status==='in_progress'||x.learning_status==='completed')
@@ -133,8 +135,17 @@ export default async function PassportPage(){
     <section className="card">
       <h2>{eo?'Persona registra tempolinio':en?'Personal record timeline':'个人记录时间线'}</h2>
       <p className="muted">{eo?'Nur registroj kun reala datotempo estas montrataj ĉi tie: aprobitaj EST/BUD-registroj, aliĝo al projektoj kaj kreitaj verkoj.':en?'Only records with a real database timestamp are shown here: approved EST/BUD records, project joins and created works.':'这里只显示数据库中有真实时间戳的记录：已审核 EST/BUD、加入项目与创建作品。'}</p>
-      {d.timeline.length?<div className="passport-timeline">
-        {d.timeline.map(item=>{
+      <div className="timeline-filters" aria-label={eo?'Filtri tempolinion':en?'Filter timeline':'筛选时间线'}>
+        {[
+          ['all',eo?'Ĉiuj':en?'All':'全部'],
+          ['est','EST'],
+          ['bud','BUD'],
+          ['project',eo?'Projektoj':en?'Projects':'项目'],
+          ['work',eo?'Verkoj':en?'Works':'作品']
+        ].map(([key,label])=><Link key={key} href={key==='all'?'/passport':`/passport?timeline=${key}`} className={timelineFilter===key?'active':''}>{label}</Link>)}
+      </div>
+      {filteredTimeline.length?<div className="passport-timeline">
+        {filteredTimeline.map(item=>{
           const kindLabel=item.kind==='est'?'EST':item.kind==='bud'?'BUD':item.kind==='project'?(eo?'Projekto':en?'Project':'项目'):(eo?'Verko':en?'Work':'作品');
           const detail=item.kind==='project' ? ((eo?roleEo:en?roleEn:roleZh)[item.detail||'']||item.detail) : item.kind==='work' ? ((eo?workTypeEo:en?workTypeEn:workTypeZh)[item.detail||'']||item.detail) : item.detail;
           return <article className="timeline-item" key={item.id}>
@@ -142,7 +153,7 @@ export default async function PassportPage(){
             <div><span className="badge">{kindLabel}</span><h3>{item.title}</h3>{detail&&<p>{detail}</p>}</div>
           </article>;
         })}
-      </div>:<p>{eo?'Ankoraŭ ne estas datitaj registroj por la tempolinio.':en?'There are no dated records for the timeline yet.':'目前还没有可按日期排列的记录。'}</p>}
+      </div>:<p>{timelineFilter==='all'?(eo?'Ankoraŭ ne estas datitaj registroj por la tempolinio.':en?'There are no dated records for the timeline yet.':'目前还没有可按日期排列的记录。'):(eo?'Ne estas registroj en ĉi tiu filtrilo.':en?'There are no records in this filter.':'当前筛选下没有记录。')}</p>}
     </section>
 
     <section className="card">
