@@ -262,3 +262,11 @@ main[id^="project-"]{scroll-margin-top:100px}
   .project-reference-strip{background:#fff!important;border-color:#bbb!important}
   .project-reference-strip span,.project-reference-strip code,.project-reference-strip a{color:#111!important}
 }
+
+.subrecord-ref{margin:.55rem 0 0!important;font-size:.82rem;color:#9f978a!important}
+.subrecord-ref code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:#d8cfbf;background:#0d1013;border:1px solid #343a40;border-radius:6px;padding:2px 5px}
+.subrecord-ref a{color:#d7b46a}
+[id^="milestone-"],[id^="output-"],[id^="risk-"]{scroll-margin-top:100px}
+@media print{
+  .subrecord-ref,.subrecord-ref code,.subrecord-ref a{color:#111!important}
+}
