@@ -34,6 +34,9 @@ export default async function ProjectDetailPage({params}:{params:Promise<{id:str
  const eo=locale==='eo'; const en=locale==='en'; const p=d.project;
  const status=(eo?statusEo:en?statusEn:statusZh)[p.status]||p.status;
  const risk=(eo?riskEo:en?riskEn:riskZh)[p.risk_level]||p.risk_level;
+ const shortProjectRef=id.replace(/-/g,'').slice(0,8);
+ const projectRef=`PROJECT · ${shortProjectRef}`;
+ const projectLocator=`project-${shortProjectRef}`;
  const milestoneCompleted=d.milestones.filter(x=>x.status==='completed').length;
  const outputsPublished=d.outputs.filter(x=>x.status==='published').length;
  const openRisks=d.risks.filter(x=>x.status==='open'||x.status==='mitigating').length;
@@ -45,7 +48,7 @@ export default async function ProjectDetailPage({params}:{params:Promise<{id:str
  const now=Date.now();
  const scheduleProgress=startMs!==null&&endMs!==null&&endMs>startMs?Math.max(0,Math.min(100,((now-startMs)/(endMs-startMs))*100)):null;
  const scheduleState=startMs===null||endMs===null?(eo?'Neniu plena tempofenestro':en?'No complete time window':'缺少完整时间窗'):now<startMs?(eo?'Ankoraŭ ne komencita':en?'Not started yet':'尚未到开始日期'):now>endMs?(eo?'Trans la cela findato':en?'Past target end date':'已超过目标结束日期'):(eo?'En la planita tempofenestro':en?'Within planned time window':'处于计划时间窗内');
- return <main>
+ return <main id={projectLocator}>
   <span className="badge">DAD · Projects</span>
   <header className="project-print-header">
    <div><strong>{eo?'Feniksa Projekta Dosiero':en?'Phoenix Project Dossier':'凤凰文明项目档案'}</strong><span>Phoenix Project Dossier · Feniksa Projekta Dosiero</span></div>
@@ -53,6 +56,10 @@ export default async function ProjectDetailPage({params}:{params:Promise<{id:str
   </header>
   <h1>{p.title}</h1>
   {p.description&&<p className="lead">{p.description}</p>}
+  <section className="project-reference-strip">
+   <div><span>{eo?'Projekta referenco':en?'Project reference':'项目引用号'}</span><code>{projectRef}</code></div>
+   <div><span>{eo?'Konstanta loko':en?'Permanent locator':'永久定位'}</span><a href={`#${projectLocator}`}>#{projectLocator}</a></div>
+  </section>
   <div className="hero-actions no-print"><PassportPrintButton label={eo?'Presi / konservi kiel PDF':en?'Print / save as PDF':'打印 / 存为 PDF'} /></div>
 
   <section className="project-summary-grid">
