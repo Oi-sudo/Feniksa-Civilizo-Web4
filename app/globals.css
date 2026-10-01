@@ -324,3 +324,5 @@ main[id^="project-"]{scroll-margin-top:100px}
   .personal-project-print-footer strong{font-size:10.5pt}
   .personal-project-print-footer p{margin:.35rem 0 0;color:#333!important;font-size:9.5pt;line-height:1.55}
 }
+
+[id^="personal-project-membership-"],[id^="personal-project-est-"],[id^="personal-project-bud-"]{scroll-margin-top:100px}
