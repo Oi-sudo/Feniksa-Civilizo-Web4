@@ -3,7 +3,7 @@ import { query } from '@/lib/db';
 export type ProjectListItem={
   id:string; title:string; description:string|null; status:string; risk_level:string;
   approved_budget:string; spent:string; currency:string; start_date:string|null;
-  target_end_date:string|null; updated_at:string; manager_name:string|null;
+  target_end_date:string|null; created_at:string; updated_at:string; manager_name:string|null;
 };
 
 export type ProjectDetail=ProjectListItem & {
@@ -12,7 +12,7 @@ export type ProjectDetail=ProjectListItem & {
   proposal_outcome:string|null; proposal_decision_finalized_at:string|null; proposal_decision_id:string|null;
 };
 
-export type ProjectMilestone={id:string;title:string;description:string|null;due_date:string|null;status:string;completed_at:string|null;updated_at:string};
+export type ProjectMilestone={id:string;title:string;description:string|null;due_date:string|null;status:string;completed_at:string|null;created_at:string;updated_at:string};
 export type ProjectOutput={id:string;output_type:string;title:string;url:string|null;status:string;description:string|null;created_at:string};
 export type ProjectRisk={id:string;risk_level:string;description:string;mitigation:string|null;status:string;created_at:string;resolved_at:string|null;updated_at:string};
 export type ProjectStatusEvent={id:string;from_status:string|null;to_status:string;note:string|null;created_at:string;actor_name:string|null};
@@ -21,7 +21,7 @@ export type ProjectContributionSummary={est_count:number;est_value:string;bud_co
 
 export async function listVisibleProjects(limit=50){
   const r=await query<ProjectListItem>(`SELECT p.id,p.title,p.description,p.status,p.risk_level::text,
-      p.approved_budget::text,p.spent::text,p.currency,p.start_date::text,p.target_end_date::text,p.updated_at::text,
+      p.approved_budget::text,p.spent::text,p.currency,p.start_date::text,p.target_end_date::text,p.created_at::text,p.updated_at::text,
       u.display_name AS manager_name
     FROM projects p
     LEFT JOIN users u ON u.id=p.manager_id
@@ -42,7 +42,7 @@ export async function getVisibleProject(id:string){
     WHERE p.id=$1 AND p.status IN ('approved','active','paused','completed','terminated','archived') LIMIT 1`,[id]);
   if(!p.rows[0]) return null;
   const [milestones,outputs,risks,statusEvents,budgetEvents,contributions]=await Promise.all([
-    query<ProjectMilestone>(`SELECT id,title,description,due_date::text,status,completed_at::text,updated_at::text FROM project_milestones WHERE project_id=$1 ORDER BY due_date ASC NULLS LAST,title`,[id]),
+    query<ProjectMilestone>(`SELECT id,title,description,due_date::text,status,completed_at::text,created_at::text,updated_at::text FROM project_milestones WHERE project_id=$1 ORDER BY due_date ASC NULLS LAST,title`,[id]),
     query<ProjectOutput>(`SELECT id,output_type,title,url,status::text,description,created_at::text FROM project_outputs WHERE project_id=$1 ORDER BY created_at DESC`,[id]),
     query<ProjectRisk>(`SELECT id,risk_level::text,description,mitigation,status,created_at::text,resolved_at::text,updated_at::text FROM project_risks WHERE project_id=$1 ORDER BY CASE risk_level WHEN 'red' THEN 1 WHEN 'orange' THEN 2 WHEN 'yellow' THEN 3 ELSE 4 END,created_at DESC`,[id]),
     query<ProjectStatusEvent>(`SELECT e.id,e.from_status,e.to_status,e.note,e.created_at::text,u.display_name AS actor_name FROM project_status_events e LEFT JOIN users u ON u.id=e.actor_id WHERE e.project_id=$1 ORDER BY e.created_at DESC`,[id]),
