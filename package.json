@@ -23,7 +23,8 @@
     "i18n:check": "node scripts/i18n-check.mjs",
     "locale:check": "node scripts/locale-branch-check.mjs",
     "enum:check": "node scripts/raw-enum-check.mjs",
-    "citation:check": "node scripts/citation-integrity-check.mjs"
+    "citation:check": "node scripts/citation-integrity-check.mjs",
+    "runtime:routes": "node scripts/runtime-route-check.mjs"
   },
   "dependencies": {
     "next": "^15.0.0",
