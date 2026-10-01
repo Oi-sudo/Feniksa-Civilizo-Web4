@@ -28,6 +28,6 @@ export default async function ArchiveSnapshotsPage(){
         </article>;
       })}</div>:<p>{eo?'Ankoraŭ ne ekzistas publikaj arkivaj momentbildoj.':en?'No public archive snapshots exist yet.':'目前尚无公共归档快照。'}</p>}
     </section>
-    <div className="hero-actions"><Link className="button button-primary" href="/dad/archive">{eo?'Reveni al arkivo':en?'Back to archive':'返回治理档案馆'}</Link></div>
+    <div className="hero-actions"><Link className="button button-primary" href="/dad/archive/compare">{eo?'Kompari momentbildojn':en?'Compare snapshots':'比较快照'}</Link><Link className="button button-secondary" href="/dad/archive">{eo?'Reveni al arkivo':en?'Back to archive':'返回治理档案馆'}</Link></div>
   </main>;
 }
