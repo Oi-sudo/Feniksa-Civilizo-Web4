@@ -8,10 +8,10 @@ type LoginUser = { id:string; password_hash:string|null; account_status:'active'
 
 export async function POST(req: NextRequest) {
   try {
-    const eo=(await getLocale())==='eo';
+    const locale=await getLocale(); const eo=locale==='eo'; const en=locale==='en';
     const body = await req.json();
     if (typeof body.email !== 'string' || typeof body.password !== 'string') {
-      return NextResponse.json({ error: eo?'Bonvolu enigi retpoŝtadreson kaj pasvorton.':'请输入邮箱和密码。' }, { status: 400 });
+      return NextResponse.json({ error: eo?'Bonvolu enigi retpoŝtadreson kaj pasvorton.':en?'Please enter your email and password.':'请输入邮箱和密码。' }, { status: 400 });
     }
     const result = await query<LoginUser>(
       `SELECT id,password_hash,account_status,email_verified_at FROM users WHERE email=$1 AND deleted_at IS NULL LIMIT 1`,
@@ -19,14 +19,14 @@ export async function POST(req: NextRequest) {
     );
     const user = result.rows[0];
     if (!user?.password_hash || !(await verifyPassword(body.password, user.password_hash))) {
-      return NextResponse.json({ error: eo?'La retpoŝtadreso aŭ pasvorto estas malĝusta.':'邮箱或密码不正确。' }, { status: 401 });
+      return NextResponse.json({ error: eo?'La retpoŝtadreso aŭ pasvorto estas malĝusta.':en?'The email or password is incorrect.':'邮箱或密码不正确。' }, { status: 401 });
     }
-    if (user.account_status !== 'active') return NextResponse.json({ error: eo?'Ĉi tiu konto nun ne povas ensaluti; bonvolu kontakti administranton.':'该账号目前不可登录，请联系管理员。' }, { status: 403 });
-    if (!user.email_verified_at) return NextResponse.json({ error: eo?'Via retpoŝtadreso ankoraŭ ne estas konfirmita; bonvolu unue kompletigi la konfirmon.':'您的邮箱尚未验证，请先完成邮箱验证。' }, { status: 403 });
+    if (user.account_status !== 'active') return NextResponse.json({ error: eo?'Ĉi tiu konto nun ne povas ensaluti; bonvolu kontakti administranton.':en?'This account cannot currently log in; please contact an administrator.':'该账号目前不可登录，请联系管理员。' }, { status: 403 });
+    if (!user.email_verified_at) return NextResponse.json({ error: eo?'Via retpoŝtadreso ankoraŭ ne estas konfirmita; bonvolu unue kompletigi la konfirmon.':en?'Your email has not yet been verified; please complete verification first.':'您的邮箱尚未验证，请先完成邮箱验证。' }, { status: 403 });
     await createSession(user.id);
     return NextResponse.json({ ok: true });
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ error: (await getLocale())==='eo'?'Provizore ne eblas ensaluti; bonvolu reprovi poste.':'暂时无法登录，请稍后再试。' }, { status: 500 });
+    return NextResponse.json({ error: (await getLocale())==='eo'?'Provizore ne eblas ensaluti; bonvolu reprovi poste.':(await getLocale())==='en'?'Login is temporarily unavailable; please try again later.':'暂时无法登录，请稍后再试。' }, { status: 500 });
   }
 }
