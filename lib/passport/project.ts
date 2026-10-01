@@ -7,6 +7,7 @@ export type PersonalProjectContext={
 export type PersonalProjectEvent={
   id:string;kind:'membership'|'est'|'bud';title:string;detail:string|null;status:string|null;occurred_at:string;
 };
+export type PersonalProjectSummary={est_count:number;est_value:string;bud_count:number;bud_value:string;bud_hours:string};
 
 export async function getPersonalProjectPassport(userId:string,projectId:string){
   const context=await query<PersonalProjectContext>(`
@@ -19,7 +20,8 @@ export async function getPersonalProjectPassport(userId:string,projectId:string)
      LIMIT 1`,[userId,projectId]);
   if(!context.rows[0]) return null;
 
-  const events=await query<PersonalProjectEvent>(`
+  const [events,summary]=await Promise.all([
+  query<PersonalProjectEvent>(`
     SELECT * FROM (
       SELECT ('membership-' || pm.project_id::text) AS id,
              'membership'::text AS kind,
@@ -50,7 +52,14 @@ export async function getPersonalProjectPassport(userId:string,projectId:string)
         FROM bud_records b
        WHERE b.user_id=$1 AND b.project_id=$2 AND b.revoked_at IS NULL
     ) x
-    ORDER BY occurred_at ASC`,[userId,projectId]);
+    ORDER BY occurred_at ASC`,[userId,projectId]),
+  query<PersonalProjectSummary>(`SELECT
+    (SELECT COUNT(*)::int FROM est_records WHERE user_id=$1 AND project_id=$2 AND review_status='approved' AND revoked_at IS NULL) AS est_count,
+    COALESCE((SELECT SUM(est_value) FROM est_records WHERE user_id=$1 AND project_id=$2 AND review_status='approved' AND revoked_at IS NULL),0)::text AS est_value,
+    (SELECT COUNT(*)::int FROM bud_records WHERE user_id=$1 AND project_id=$2 AND review_status='approved' AND revoked_at IS NULL) AS bud_count,
+    COALESCE((SELECT SUM(bud_value) FROM bud_records WHERE user_id=$1 AND project_id=$2 AND review_status='approved' AND revoked_at IS NULL),0)::text AS bud_value,
+    COALESCE((SELECT SUM(COALESCE(verified_hours,hours,0)) FROM bud_records WHERE user_id=$1 AND project_id=$2 AND review_status='approved' AND revoked_at IS NULL),0)::text AS bud_hours`,[userId,projectId])
+  ]);
 
-  return {context:context.rows[0],events:events.rows};
+  return {context:context.rows[0],events:events.rows,summary:summary.rows[0]};
 }
