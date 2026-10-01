@@ -10,6 +10,7 @@ export type ProposalDecision={
   abstain_count:number;revise_count:number;decision_vote_count:number;approvals_required:number;outcome:string;finalized_at:string;
 };
 export type ProposalStatusEvent={id:string;from_status:string|null;to_status:string;note:string|null;created_at:string};
+export type ProposalProject={id:string;title:string;status:string;updated_at:string};
 
 const publicStatuses=['approved','rejected','executing','completed','terminated','archived'];
 
@@ -18,12 +19,13 @@ export async function getPublicProposal(id:string){
       public_value,risk_description,status::text,created_at::text,updated_at::text,final_outcome,decision_finalized_at::text
     FROM proposals WHERE id=$1 AND status::text = ANY($2::text[]) LIMIT 1`,[id,publicStatuses]);
   if(!p.rows[0]) return null;
-  const [decision,events]=await Promise.all([
+  const [decision,events,projects]=await Promise.all([
     query<ProposalDecision>(`SELECT decision_rule,eligible_count,participation_count,approve_count,reject_count,abstain_count,
         revise_count,decision_vote_count,approvals_required,outcome,finalized_at::text
       FROM proposal_decisions WHERE proposal_id=$1 LIMIT 1`,[id]),
     query<ProposalStatusEvent>(`SELECT id,from_status::text,to_status::text,note,created_at::text
-      FROM proposal_status_events WHERE proposal_id=$1 ORDER BY created_at ASC`,[id])
+      FROM proposal_status_events WHERE proposal_id=$1 ORDER BY created_at ASC`,[id]),
+    query<ProposalProject>(`SELECT id,title,status,updated_at::text FROM projects WHERE proposal_id=$1 AND status IN ('approved','active','paused','completed','terminated','archived') ORDER BY updated_at DESC`,[id])
   ]);
-  return {proposal:p.rows[0],decision:decision.rows[0]||null,statusEvents:events.rows};
+  return {proposal:p.rows[0],decision:decision.rows[0]||null,statusEvents:events.rows,projects:projects.rows};
 }
