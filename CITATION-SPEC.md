@@ -90,6 +90,18 @@ Stable identity:
 
 Each date may have at most one snapshot. A snapshot stores aggregate public counts only and is not a substitute for the underlying proposal, decision, governance-event, project, or milestone records.
 
+### DAD governance change report
+Format:
+`Phoenix DAD Governance Change Report · ARCHIVE-REPORT · YYYY-MM-DD · YYYY-MM-DD`
+
+Current type codes:
+- ARCHIVE-REPORT
+
+Stable identity:
+- ARCHIVE-REPORT: ordered pair of starting and ending `ARCHIVE-SNAPSHOT` dates
+
+The report is a read-only derivative of two preserved archive snapshots and their public source records. It does not replace the underlying governance dossiers.
+
 ### Personal project passport
 Format:
 `Phoenix Personal Project Passport · <TYPE> · <SHORT_ID> · YYYY-MM-DD`
