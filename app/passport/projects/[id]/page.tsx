@@ -11,6 +11,9 @@ const kindEn:Record<string,string>={membership:'Joined project',membership_end:'
 const statusZh:Record<string,string>={active:'参与中',completed:'已完成',withdrawn:'已退出',pending:'待审核',approved:'已通过',rejected:'已驳回'};
 const statusEo:Record<string,string>={active:'Aktiva',completed:'Kompletigita',withdrawn:'Retirita',pending:'Atendas kontrolon',approved:'Aprobita',rejected:'Malakceptita'};
 const statusEn:Record<string,string>={active:'Active',completed:'Completed',withdrawn:'Withdrawn',pending:'Pending review',approved:'Approved',rejected:'Rejected'};
+const projectStatusZh:Record<string,string>={draft:'草稿',approved:'已批准',active:'进行中',paused:'已暂停',completed:'已完成',terminated:'已终止',archived:'已归档'};
+const projectStatusEo:Record<string,string>={draft:'Malneto',approved:'Aprobita',active:'Aktiva',paused:'Paŭzita',completed:'Kompletigita',terminated:'Ĉesigita',archived:'Arkivita'};
+const projectStatusEn:Record<string,string>={draft:'Draft',approved:'Approved',active:'Active',paused:'Paused',completed:'Completed',terminated:'Terminated',archived:'Archived'};
 
 export default async function PersonalProjectPassportPage({params}:{params:Promise<{id:string}>}){
  const [user,locale,{id}]=await Promise.all([getCurrentUser(),getLocale(),params]);
@@ -20,6 +23,9 @@ export default async function PersonalProjectPassportPage({params}:{params:Promi
  const eo=locale==='eo'; const en=locale==='en';
  const label=(eo?kindEo:en?kindEn:kindZh); const status=(eo?statusEo:en?statusEn:statusZh);
  const archiveDate=new Date().toLocaleDateString(eo?'eo':en?'en-US':'zh-CN');
+ const projectStatus=(eo?projectStatusEo:en?projectStatusEn:projectStatusZh)[d.context.project_status]||d.context.project_status;
+ const memberStatus=status[d.context.member_status]||d.context.member_status;
+ const participationState=d.context.left_at?(eo?'Partopreno finiĝis':en?'Participation ended':'参与已结束'):(d.context.member_status==='active'?(eo?'Nun partoprenanta':en?'Currently participating':'当前参与中'):(eo?'Partopreno registrita':en?'Participation recorded':'已有参与记录'));
  return <main>
   <header className="personal-project-print-header">
    <div><strong>{eo?'Persona Projekta Pasporto':en?'Personal Project Passport':'个人项目护照'}</strong><span>Phoenix Passport · Personal Project</span></div>
@@ -36,6 +42,18 @@ export default async function PersonalProjectPassportPage({params}:{params:Promi
    <Link href={'/projects/'+id}>{eo?'Reveni al publika projekta dosiero →':en?'Back to public project dossier →':'返回公共项目档案 →'}</Link>
   </section>
   <section className="card">
+   <h2>{eo?'Vivcikla resumo':en?'Participation lifecycle':'参与生命周期摘要'}</h2>
+   <div className="personal-project-lifecycle">
+    <div><span>{eo?'Projekta stato':en?'Project status':'项目状态'}</span><strong>{projectStatus}</strong></div>
+    <div><span>{eo?'Mia partoprena stato':en?'My participation status':'我的参与状态'}</span><strong>{memberStatus}</strong></div>
+    <div><span>{eo?'Aliĝdato':en?'Joined':'加入日期'}</span><strong>{new Date(d.context.joined_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN')}</strong></div>
+    <div><span>{eo?'Forirdato':en?'Left':'退出日期'}</span><strong>{d.context.left_at?new Date(d.context.left_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN'):'—'}</strong></div>
+    <div className="lifecycle-state"><span>{eo?'Nuna vivcikla stato':en?'Current lifecycle state':'当前生命周期状态'}</span><strong>{participationState}</strong></div>
+   </div>
+   <p className="muted">{eo?'La resumo uzas nur la registritajn projektan staton, membran staton kaj aliĝ-/forirdatojn.':en?'This summary uses only recorded project status, membership status, and join/leave dates.':'本摘要只使用已登记的项目状态、成员状态以及加入/退出日期。'}</p>
+  </section>
+
+  <section className="card">
    <h2>{eo?'Mia resumo en ĉi tiu projekto':en?'My summary in this project':'我在本项目中的摘要'}</h2>
    <div className="project-contribution-grid">
     <div><span>EST</span><strong>{d.summary.est_value}</strong><small>{eo?'Aprobitaj registroj':en?'Approved records':'已批准记录'}：{d.summary.est_count}</small></div>
@@ -47,7 +65,7 @@ export default async function PersonalProjectPassportPage({params}:{params:Promi
   <section className="card">
    <h2>{eo?'Mia kronologio en ĉi tiu projekto':en?'My timeline in this project':'我在本项目中的时间线'}</h2>
    <p className="muted">{eo?'La kronologio uzas nur registritajn datojn: aliĝo al projekto kaj kreotempo de EST/BUD-registroj.':en?'This timeline uses only recorded dates: project joining and EST/BUD record creation times.':'本时间线只使用数据库中真实登记的日期：加入项目时间，以及 EST/BUD 记录创建时间。'}</p>
-   {d.events.length?<div className="project-audit-list">{d.events.map(e=>{const raw=e.id.replace(/^(membership|est|bud)-/,'').replace(/-/g,'').slice(0,8);const anchor='personal-project-'+e.kind+'-'+raw;const type=e.kind==='membership'?'MEMBERSHIP':e.kind==='membership_end'?'MEMBERSHIP-END':e.kind.toUpperCase();const ref=type+' · '+raw;const citation='Phoenix Personal Project Passport · '+type+' · '+raw+' · '+new Date(e.occurred_at).toISOString().slice(0,10);return <article id={anchor} className="project-audit-item" key={e.id}>
+   {d.events.length?<div className="project-audit-list">{d.events.map(e=>{const raw=e.id.replace(/^(membership_end|membership|est|bud)-/,'').replace(/-/g,'').slice(0,8);const anchor='personal-project-'+e.kind+'-'+raw;const type=e.kind==='membership'?'MEMBERSHIP':e.kind==='membership_end'?'MEMBERSHIP-END':e.kind.toUpperCase();const ref=type+' · '+raw;const citation='Phoenix Personal Project Passport · '+type+' · '+raw+' · '+new Date(e.occurred_at).toISOString().slice(0,10);return <article id={anchor} className="project-audit-item" key={e.id}>
     <div className="timeline-date">{new Date(e.occurred_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN')}</div>
     <div><div className="record-top"><strong>{label[e.kind]||e.kind}</strong>{e.status&&<span>{status[e.status]||e.status}</span>}</div><p>{e.title}</p>{e.detail&&<small>{e.detail}</small>}{(e.kind==='membership'||e.kind==='membership_end')&&<div className="membership-facts"><p><span>{eo?'Rolo':en?'Role':'角色'}：</span><strong>{d.context.participation_role}</strong></p><p><span>{eo?'Aliĝdato':en?'Joined':'加入日期'}：</span><strong>{new Date(d.context.joined_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN')}</strong></p><p><span>{eo?'Forirdato':en?'Left':'退出日期'}：</span><strong>{d.context.left_at?new Date(d.context.left_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN'):'—'}</strong></p><p><span>{eo?'Partoprena stato':en?'Participation status':'参与状态'}：</span><strong>{status[d.context.member_status]||d.context.member_status}</strong></p></div>}<p className="subrecord-ref"><code>{ref}</code> · <a href={'#'+anchor}>{eo?'Konstanta loko':en?'Permanent locator':'永久定位'}</a><span className="citation-format">{eo?'Citformo':en?'Citation format':'引用格式'}：{citation}</span></p>{(e.kind==='est'||e.kind==='bud')&&<p className="personal-project-source-link no-print"><Link href={(e.kind==='est'?'/passport/est?project='+id+'#est-record-':'/passport/bud?project='+id+'#bud-record-')+e.id.replace(/^(est|bud)-/,'')}>{eo?'Vidi la originan personan registron →':en?'View original personal record →':'查看个人原始记录 →'}</Link></p>}</div>
    </article>})}</div>:<p>{eo?'Neniu persona projekta evento registrita.':en?'No personal project events recorded.':'尚未登记个人项目事件。'}</p>}
