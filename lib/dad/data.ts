@@ -307,6 +307,47 @@ export async function archiveGovernanceChangeReport(fromDate:string,toDate:strin
   return r.rows[0]||null;
 }
 
+
+export type GovernanceArchiveYearSummary={
+  year:number;snapshot_count:number;report_count:number;first_snapshot_date:string|null;last_snapshot_date:string|null;
+};
+
+export async function listGovernanceArchiveYears(){
+  const r=await query<GovernanceArchiveYearSummary>(`
+    WITH years AS (
+      SELECT EXTRACT(YEAR FROM snapshot_date)::int AS year FROM governance_archive_snapshots
+      UNION
+      SELECT EXTRACT(YEAR FROM from_snapshot_date)::int AS year FROM governance_archive_reports
+      UNION
+      SELECT EXTRACT(YEAR FROM to_snapshot_date)::int AS year FROM governance_archive_reports
+    )
+    SELECT y.year,
+      (SELECT COUNT(*)::int FROM governance_archive_snapshots s WHERE EXTRACT(YEAR FROM s.snapshot_date)::int=y.year) AS snapshot_count,
+      (SELECT COUNT(*)::int FROM governance_archive_reports r WHERE EXTRACT(YEAR FROM r.from_snapshot_date)::int=y.year OR EXTRACT(YEAR FROM r.to_snapshot_date)::int=y.year) AS report_count,
+      (SELECT MIN(snapshot_date)::text FROM governance_archive_snapshots s WHERE EXTRACT(YEAR FROM s.snapshot_date)::int=y.year) AS first_snapshot_date,
+      (SELECT MAX(snapshot_date)::text FROM governance_archive_snapshots s WHERE EXTRACT(YEAR FROM s.snapshot_date)::int=y.year) AS last_snapshot_date
+    FROM years y
+    ORDER BY y.year DESC`);
+  return r.rows;
+}
+
+export async function getGovernanceArchiveYear(year:number){
+  const [snapshots,reports]=await Promise.all([
+    query<GovernanceArchiveSnapshot>(`SELECT id,snapshot_date::text,proposal_count,decision_count,governance_event_count,
+        project_count,milestone_count,created_at::text
+      FROM governance_archive_snapshots
+      WHERE EXTRACT(YEAR FROM snapshot_date)::int=$1
+      ORDER BY snapshot_date DESC`,[year]),
+    query<GovernanceArchiveReport>(`SELECT r.id,r.from_snapshot_date::text,r.to_snapshot_date::text,r.created_at::text,
+        u.display_name AS created_by
+      FROM governance_archive_reports r
+      LEFT JOIN users u ON u.id=r.created_by
+      WHERE EXTRACT(YEAR FROM r.from_snapshot_date)::int=$1 OR EXTRACT(YEAR FROM r.to_snapshot_date)::int=$1
+      ORDER BY r.created_at DESC`,[year])
+  ]);
+  return {snapshots:snapshots.rows,reports:reports.rows};
+}
+
 export async function getPublicProposal(id:string){
   const p=await query<PublicProposal>(`SELECT id,short_code,title,problem_statement,proposed_solution,budget_requested::text,currency,
       public_value,risk_description,status::text,created_at::text,updated_at::text,final_outcome,decision_finalized_at::text
