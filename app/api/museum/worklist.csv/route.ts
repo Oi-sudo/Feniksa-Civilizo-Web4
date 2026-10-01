@@ -5,9 +5,9 @@ import { listAdminMuseumAssets,type MuseumEvidenceFilter } from '@/lib/museum/da
 
 function esc(v:unknown){const s=String(v??'');return '"'+s.replaceAll('"','""')+'"';}
 export async function GET(req:NextRequest){
- const user=await getCurrentUser();
- if(!user||!hasAnyRole(user,['admin','curator','museum_reviewer']))return NextResponse.json({error:'需要馆藏管理权限。'},{status:403});
  const eo=req.cookies.get('feniksa_locale')?.value==='eo';
+ const user=await getCurrentUser();
+ if(!user||!hasAnyRole(user,['admin','curator','museum_reviewer']))return NextResponse.json({error:eo?'Muzea administra permeso estas bezonata.':'需要馆藏管理权限。'},{status:403});
  const sp=req.nextUrl.searchParams;
  const raw=sp.get('evidence')||'all'; const allowed=new Set<MuseumEvidenceFilter>(['all','missing','unverified','source_confirmed','reviewed']);
  const evidence=allowed.has(raw as MuseumEvidenceFilter)?raw as MuseumEvidenceFilter:'all';
