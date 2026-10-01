@@ -13,7 +13,11 @@ const required = [
   'app/admin/page.tsx',
   'app/admin/audit/page.tsx',
   'app/api/health/route.ts',
+  'ALPHA-DEPLOYMENT.md',
+  '.env.example',
   'database/migrations/0017_audit_integrity.sql',
+  'database/migrations/0026_dad_archive_snapshots.sql',
+  'database/migrations/0027_dad_archive_reports.sql',
   'locales/zh.json', 'locales/eo.json', 'locales/en.json'
 ];
 
