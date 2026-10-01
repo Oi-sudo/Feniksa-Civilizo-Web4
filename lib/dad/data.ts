@@ -404,6 +404,31 @@ export async function getGovernanceAnnualSummary(year:number){
   return months;
 }
 
+
+export type GovernanceArchiveCatalogSummary={
+  proposal_count:number;decision_count:number;governance_event_count:number;project_count:number;milestone_count:number;
+  snapshot_count:number;report_count:number;year_count:number;
+};
+
+export async function getGovernanceArchiveCatalogSummary(){
+  const [base,extra]=await Promise.all([
+    getGovernanceArchiveSummary(),
+    query<{snapshot_count:number;report_count:number;year_count:number}>(`
+      SELECT
+        (SELECT COUNT(*)::int FROM governance_archive_snapshots) AS snapshot_count,
+        (SELECT COUNT(*)::int FROM governance_archive_reports) AS report_count,
+        (SELECT COUNT(DISTINCT year_value)::int FROM (
+          SELECT EXTRACT(YEAR FROM snapshot_date)::int AS year_value FROM governance_archive_snapshots
+          UNION
+          SELECT EXTRACT(YEAR FROM from_snapshot_date)::int AS year_value FROM governance_archive_reports
+          UNION
+          SELECT EXTRACT(YEAR FROM to_snapshot_date)::int AS year_value FROM governance_archive_reports
+        ) y) AS year_count
+    `)
+  ]);
+  return {...base,...extra.rows[0]};
+}
+
 export async function getPublicProposal(id:string){
   const p=await query<PublicProposal>(`SELECT id,short_code,title,problem_statement,proposed_solution,budget_requested::text,currency,
       public_value,risk_description,status::text,created_at::text,updated_at::text,final_outcome,decision_finalized_at::text
