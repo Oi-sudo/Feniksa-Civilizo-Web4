@@ -312,3 +312,15 @@ main[id^="project-"]{scroll-margin-top:100px}
 .passport-project-context p{margin:0}
 .passport-project-context span{color:#bcb5a9}
 .passport-project-context a{color:#d7b46a}
+
+.personal-project-print-header,.personal-project-print-footer{display:none}
+@media print{
+  .personal-project-print-header{display:flex!important;justify-content:space-between;gap:24px;align-items:flex-end;margin:0 0 22px;padding:0 0 14px;border-bottom:2px solid #222}
+  .personal-project-print-header>div{display:grid;gap:4px}
+  .personal-project-print-header>div:last-child{text-align:right;font-size:9.5pt}
+  .personal-project-print-header strong{font-size:16pt}
+  .personal-project-print-header span{color:#333!important}
+  .personal-project-print-footer{display:block!important;margin-top:24px;padding-top:12px;border-top:1px solid #888;break-inside:avoid}
+  .personal-project-print-footer strong{font-size:10.5pt}
+  .personal-project-print-footer p{margin:.35rem 0 0;color:#333!important;font-size:9.5pt;line-height:1.55}
+}
