@@ -182,3 +182,7 @@
 .timeline-locator-link{color:#b9c7d8}
 .timeline-locator-link:hover{text-decoration:underline}
 [id^="timeline-"]{scroll-margin-top:100px}
+
+.timeline-citation{margin-top:4px!important;font-size:.82rem;color:#9f978a!important}
+.timeline-citation span{margin-right:4px}
+.timeline-citation code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:#d8cfbf;background:#0d1013;border:1px solid #343a40;border-radius:6px;padding:2px 5px;overflow-wrap:anywhere}
