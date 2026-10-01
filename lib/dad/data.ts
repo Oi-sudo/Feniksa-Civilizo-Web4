@@ -192,6 +192,33 @@ export async function getGovernanceArchiveSummary(){
   return r.rows[0];
 }
 
+
+export type GovernanceArchiveSnapshot={
+  id:string;snapshot_date:string;proposal_count:number;decision_count:number;governance_event_count:number;
+  project_count:number;milestone_count:number;created_at:string;
+};
+
+export async function listGovernanceArchiveSnapshots(limit=120){
+  const r=await query<GovernanceArchiveSnapshot>(`SELECT id,snapshot_date::text,proposal_count,decision_count,governance_event_count,
+      project_count,milestone_count,created_at::text
+    FROM governance_archive_snapshots
+    ORDER BY snapshot_date DESC
+    LIMIT $1`,[limit]);
+  return r.rows;
+}
+
+export async function createGovernanceArchiveSnapshot(snapshotDate?:string){
+  const date=snapshotDate||new Date().toISOString().slice(0,10);
+  const summary=await getGovernanceArchiveSummary();
+  const r=await query<GovernanceArchiveSnapshot>(`INSERT INTO governance_archive_snapshots
+      (snapshot_date,proposal_count,decision_count,governance_event_count,project_count,milestone_count)
+    VALUES ($1::date,$2,$3,$4,$5,$6)
+    ON CONFLICT (snapshot_date) DO NOTHING
+    RETURNING id,snapshot_date::text,proposal_count,decision_count,governance_event_count,project_count,milestone_count,created_at::text`,
+    [date,summary.proposal_count,summary.decision_count,summary.governance_event_count,summary.project_count,summary.milestone_count]);
+  return r.rows[0]||null;
+}
+
 export async function getPublicProposal(id:string){
   const p=await query<PublicProposal>(`SELECT id,short_code,title,problem_statement,proposed_solution,budget_requested::text,currency,
       public_value,risk_description,status::text,created_at::text,updated_at::text,final_outcome,decision_finalized_at::text
