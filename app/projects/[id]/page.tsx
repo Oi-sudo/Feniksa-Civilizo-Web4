@@ -101,7 +101,7 @@ export default async function ProjectDetailPage({params}:{params:Promise<{id:str
    {d.milestones.length?<div className="record-list">{d.milestones.map(m=><article key={m.id} className="project-subrecord">
     <div className="record-top"><strong>{m.title}</strong><span>{(eo?milestoneEo:en?milestoneEn:milestoneZh)[m.status]||m.status}</span></div>
     {m.description&&<p>{m.description}</p>}
-    <small>{eo?'Limdato':en?'Due':'到期'}：{m.due_date||'—'}{m.completed_at?' · '+(eo?'Kompletigita':en?'Completed':'完成')+' '+new Date(m.completed_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN'):''}</small>
+    <small>{eo?'Limdato':en?'Due':'到期'}：{m.due_date||'—'} · {eo?'Ĝisdatigita':en?'Updated':'最近更新'}：{new Date(m.updated_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN')}{m.completed_at?' · '+(eo?'Kompletigita':en?'Completed':'完成')+' '+new Date(m.completed_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN'):''}</small>
    </article>)}</div>:<p>{eo?'Ankoraŭ neniu mejloŝtono registrita.':en?'No milestones recorded yet.':'尚未登记里程碑。'}</p>}
   </section>
 
@@ -110,6 +110,7 @@ export default async function ProjectDetailPage({params}:{params:Promise<{id:str
    {d.outputs.length?<div className="record-list">{d.outputs.map(o=><article key={o.id} className="project-subrecord">
     <div className="record-top"><strong>{o.title}</strong><span>{(eo?outputEo:en?outputEn:outputZh)[o.status]||o.status}</span></div>
     {o.description&&<p>{o.description}</p>}
+    <small>{eo?'Kreita':en?'Created':'创建'}：{new Date(o.created_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN')}</small>
     {o.url&&<p><a href={o.url} target="_blank" rel="noreferrer">{eo?'Malfermi rezulton →':en?'Open output →':'打开成果 →'}</a></p>}
    </article>)}</div>:<p>{eo?'Ankoraŭ neniu rezulto registrita.':en?'No outputs recorded yet.':'尚未登记成果。'}</p>}
   </section>
@@ -142,7 +143,7 @@ export default async function ProjectDetailPage({params}:{params:Promise<{id:str
    <h2>{eo?'Riskoj':en?'Risks':'风险记录'}</h2>
    {d.risks.length?<div className="record-list">{d.risks.map(r=><article key={r.id} className="project-subrecord">
     <div className="record-top"><strong>{(eo?riskEo:en?riskEn:riskZh)[r.risk_level]||r.risk_level}</strong><span>{(eo?riskStatusEo:en?riskStatusEn:riskStatusZh)[r.status]||r.status}</span></div>
-    <p>{r.description}</p>{r.mitigation&&<p><strong>{eo?'Mildigo':en?'Mitigation':'缓解措施'}：</strong>{r.mitigation}</p>}
+    <p>{r.description}</p>{r.mitigation&&<p><strong>{eo?'Mildigo':en?'Mitigation':'缓解措施'}：</strong>{r.mitigation}</p>}<small>{eo?'Kreita':en?'Created':'创建'}：{new Date(r.created_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN')} · {eo?'Ĝisdatigita':en?'Updated':'最近更新'}：{new Date(r.updated_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN')}{r.resolved_at?' · '+(eo?'Solvita':en?'Resolved':'解决')+' '+new Date(r.resolved_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN'):''}</small>
    </article>)}</div>:<p>{eo?'Ankoraŭ neniu risko registrita.':en?'No risks recorded yet.':'尚未登记风险。'}</p>}
   </section>
 
