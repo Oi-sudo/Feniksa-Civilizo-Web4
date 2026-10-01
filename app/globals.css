@@ -307,3 +307,8 @@ main[id^="project-"]{scroll-margin-top:100px}
 .project-contribution-grid small{color:#bdb6aa}
 @media(max-width:620px){.project-contribution-grid{grid-template-columns:1fr}}
 @media print{.project-contribution-grid>div{background:#fff!important;border-color:#bbb!important;color:#111!important}}
+
+.passport-project-context{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin:12px 0 18px;padding:12px 14px;border:1px solid #343a40;border-radius:14px;background:rgba(255,255,255,.02)}
+.passport-project-context p{margin:0}
+.passport-project-context span{color:#bcb5a9}
+.passport-project-context a{color:#d7b46a}
