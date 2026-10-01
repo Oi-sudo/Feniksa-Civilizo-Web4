@@ -146,8 +146,8 @@ export async function listAssetsByCatalogVolume(volume:string){
 
 
 export async function getMuseumAssetForEvidence(code:string){
-  const r=await query<{id:string;permanent_code:string;catalog_code:string|null;title_zh:string;submitted_for_review_by:string|null}>(`
-    SELECT id,permanent_code,catalog_code,title_zh,submitted_for_review_by::text
+  const r=await query<{id:string;permanent_code:string;catalog_code:string|null;title_zh:string;submitted_for_review_by:string|null;workflow_status:string;public_status:string}>(`
+    SELECT id,permanent_code,catalog_code,title_zh,submitted_for_review_by::text,workflow_status,public_status
       FROM cultural_assets
      WHERE permanent_code=$1 AND deleted_at IS NULL
      LIMIT 1`,[code]);
