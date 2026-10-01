@@ -12,6 +12,7 @@ const requiredFiles=[
   'app/dad/archive/compare/page.tsx',
   'app/dad/archive/reports/page.tsx',
   'app/dad/archive/years/page.tsx',
+  'app/dad/archive/annual-reports/page.tsx',
   'app/dad/archive/years/[year]/page.tsx',
   'app/dad/archive/years/[year]/[month]/page.tsx',
   'app/dad/archive/years/[year]/summary/page.tsx',
@@ -58,6 +59,9 @@ const requiredTokens={
   'app/dad/archive/years/[year]/summary/page.tsx':[
     'GOVERNANCE-YEAR','Phoenix DAD Annual Governance Report','PassportPrintButton','proposal-print-header','proposal-print-footer',
     'getGovernanceAnnualSummary','proposal_count','decision_count','governance_event_count','project_count','milestone_count','archived_report_count','Monthly summary'
+  ],
+  'app/dad/archive/annual-reports/page.tsx':[
+    'GOVERNANCE-YEAR','listGovernanceArchiveYears','/dad/archive/years/','/summary','Annual reports'
   ],
   'app/passport/projects/[id]/page.tsx':[
     'Phoenix Personal Project Passport','PERSONAL-PROJECT','MEMBERSHIP','MEMBERSHIP-END','EST','BUD','CopyCitationButton','slice(0,8)'
