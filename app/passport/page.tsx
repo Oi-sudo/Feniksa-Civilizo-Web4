@@ -207,8 +207,11 @@ export default async function PassportPage({searchParams}:{searchParams:Promise<
 
     <section className="card">
       <h2>{m.passport_projects} · Projektoj</h2>
-      {d.projects.length?d.projects.map(p=><p id={`project-record-${p.id}`} key={p.id}>{p.title} · {(eo?roleEo:en?roleEn:roleZh)[p.role]||p.role} · {(eo?projectStatusEo:en?projectStatusEn:projectStatusZh)[p.status]||p.status}</p>):<p>{m.no_projects_yet}</p>}
-      <Link href="/projects">{eo?'Vidi projektan enirejon →':en?'View project entry →':'查看项目入口 →'}</Link>
+      {d.projects.length?<div className="passport-project-list">{d.projects.map(p=><article className="passport-project-row" id={`project-record-${p.id}`} key={p.id}>
+        <div><strong>{p.title}</strong><small>{(eo?roleEo:en?roleEn:roleZh)[p.role]||p.role} · {(eo?projectStatusEo:en?projectStatusEn:projectStatusZh)[p.status]||p.status}</small></div>
+        <div className="passport-project-actions no-print"><Link href={`/passport/projects/${p.id}`}>{eo?'Mia projekta pasporto':en?'My project passport':'我的项目护照'}</Link><Link href={`/projects/${p.id}`}>{eo?'Publika projekta dosiero':en?'Public project dossier':'公共项目档案'}</Link></div>
+      </article>)}</div>:<p>{m.no_projects_yet}</p>}
+      <Link className="no-print" href="/projects">{eo?'Vidi projektan enirejon →':en?'View project entry →':'查看项目入口 →'}</Link>
     </section>
 
     <section className="card">
