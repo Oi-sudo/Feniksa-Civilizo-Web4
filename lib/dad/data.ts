@@ -398,6 +398,12 @@ export async function getGovernanceMonthlySummary(year:number,month:number){
   return r.rows[0];
 }
 
+
+export async function getGovernanceAnnualSummary(year:number){
+  const months=await Promise.all(Array.from({length:12},(_,i)=>getGovernanceMonthlySummary(year,i+1)));
+  return months;
+}
+
 export async function getPublicProposal(id:string){
   const p=await query<PublicProposal>(`SELECT id,short_code,title,problem_statement,proposed_solution,budget_requested::text,currency,
       public_value,risk_description,status::text,created_at::text,updated_at::text,final_outcome,decision_finalized_at::text
