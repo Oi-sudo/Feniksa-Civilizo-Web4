@@ -45,6 +45,13 @@ export default async function PassportPage(){
   const [locale,m]=await Promise.all([getLocale(),getMessages()]); const eo=locale==='eo'; const en=locale==='en';
   const d=await getPassportOverview(user.id);
   const six=new Map(d.sixYao.map(x=>[x.stage,x]));
+  const activeYao=[...d.sixYao]
+    .filter(x=>x.learning_status==='in_progress'||x.learning_status==='completed')
+    .sort((a,b)=>b.stage-a.stage)[0];
+  const currentYaoIndex=activeYao?Math.max(0,Math.min(5,activeYao.stage-1)):-1;
+  const currentYaoLabel=currentYaoIndex>=0
+    ? (locale==='eo'?yaoNames[currentYaoIndex][1]:locale==='en'?['First line · Awakening','Second line · Non-self','Third line · Insight','Fourth line · Vow in action','Fifth line · Bodhisattva action','Sixth line · Shared world action'][currentYaoIndex]:yaoNames[currentYaoIndex][0])
+    : (eo?'Ne komencita':en?'Not started':'尚未开始');
 
   return <main>
     <span className="badge">{m.passport_badge}</span>
@@ -58,6 +65,23 @@ export default async function PassportPage(){
       <p><strong>{m.preferred_language_label}</strong> {(eo?languageEo:en?languageEn:languageZh)[user.preferred_language]||user.preferred_language.toUpperCase()}</p>
       <p><strong>{m.current_roles}</strong> {(user.roles.length?user.roles:['learner']).map(r=>(eo?userRoleEo:en?userRoleEn:userRoleZh)[r]||r).join(', ')}</p>
       <p><strong>{m.passport_privacy}</strong> {(eo?visibilityEo:en?visibilityEn:visibilityZh)[d.visibility]||d.visibility}</p>
+    </section>
+
+    <section className="passport-current card">
+      <div className="passport-current-head">
+        <div>
+          <span className="badge">{eo?'Nuna superrigardo':en?'Current overview':'当前概览'}</span>
+          <h2>{eo?'Mia nuna registra bildo':en?'My current record snapshot':'我的当前记录概览'}</h2>
+        </div>
+        <p>{eo?'Resumo por rapida legado; ne poentaro nek rango.':en?'A quick-reading summary, not a score or rank.':'用于快速阅读的记录摘要，不是评分，也不是等级。'}</p>
+      </div>
+      <div className="passport-overview-grid">
+        <div><span>{eo?'Ses-linia etapo':en?'Six-line stage':'六爻阶段'}</span><strong>{currentYaoLabel}</strong></div>
+        <Link href="/passport/est"><span>EST</span><strong>{d.est.value}</strong><small>{eo?`${d.est.approved} aprobitaj`:en?`${d.est.approved} approved`:`${d.est.approved} 条已审核`}</small></Link>
+        <Link href="/passport/bud"><span>BUD</span><strong>{d.bud.value}</strong><small>{d.bud.hours}h</small></Link>
+        <Link href="/projects"><span>{eo?'Projektoj':en?'Projects':'项目'}</span><strong>{d.projects.length}</strong></Link>
+        <div><span>{eo?'Verkoj':en?'Works':'作品'}</span><strong>{d.works.length}</strong></div>
+      </div>
     </section>
 
     <section className="stat-grid">
