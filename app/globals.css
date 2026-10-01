@@ -364,3 +364,6 @@ main[id^="project-"]{scroll-margin-top:100px}
 main[id^="personal-project-passport-"]{scroll-margin-top:100px}
 .personal-project-private-note{margin-top:-6px}
 @media print{.personal-project-private-note{color:#333!important}}
+
+.passport-project-ref{display:inline-block;width:max-content;margin-top:3px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.78rem;color:#bcb5a9;background:#0d1013;border:1px solid #343a40;border-radius:6px;padding:2px 5px}
+@media print{.passport-project-ref{color:#111!important;background:#fff!important;border-color:#bbb!important}}
