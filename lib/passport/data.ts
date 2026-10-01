@@ -8,6 +8,7 @@ export type PassportOverview = {
   projects: Array<{ id: string; title: string; role: string; status: string }>;
   works: Array<{ id: string; title: string; work_type: string; url: string | null; visibility: string; status: string }>;
   sixYao: Array<{ stage: number; learning_status: string; practice_status: string | null }>;
+  timeline: Array<{ id: string; kind: 'est' | 'bud' | 'project' | 'work'; title: string; detail: string | null; occurred_at: string }>;
 };
 
 function number(value: unknown): number {
@@ -16,7 +17,7 @@ function number(value: unknown): number {
 }
 
 export async function getPassportOverview(userId: string): Promise<PassportOverview> {
-  const [passport, courses, est, bud, projects, works, sixYao] = await Promise.all([
+  const [passport, courses, est, bud, projects, works, sixYao, timeline] = await Promise.all([
     query<{ public_visibility: PassportOverview['visibility'] }>(
       `SELECT public_visibility FROM learning_passports WHERE user_id = $1`, [userId]
     ),
@@ -73,6 +74,44 @@ export async function getPassportOverview(userId: string): Promise<PassportOverv
     query<{ stage: number; learning_status: string; practice_status: string | null }>(
       `SELECT yao_stage AS stage, learning_status::text, practice_status
          FROM six_yao_progress WHERE user_id = $1 ORDER BY yao_stage`, [userId]
+    ),
+    query<{ id: string; kind: 'est' | 'bud' | 'project' | 'work'; title: string; detail: string | null; occurred_at: string }>(
+      `SELECT * FROM (
+          SELECT 'est-' || id::text AS id,
+                 'est'::text AS kind,
+                 COALESCE(description,'EST') AS title,
+                 ('EST +' || COALESCE(est_value,0)::text) AS detail,
+                 created_at::text AS occurred_at
+            FROM est_records
+           WHERE user_id=$1 AND review_status='approved'
+          UNION ALL
+          SELECT 'bud-' || id::text AS id,
+                 'bud'::text AS kind,
+                 COALESCE(description,'BUD') AS title,
+                 ('BUD +' || COALESCE(bud_value,0)::text) AS detail,
+                 created_at::text AS occurred_at
+            FROM bud_records
+           WHERE user_id=$1 AND review_status='approved'
+          UNION ALL
+          SELECT 'project-' || p.id::text AS id,
+                 'project'::text AS kind,
+                 p.title,
+                 pm.participation_role::text AS detail,
+                 pm.joined_at::text AS occurred_at
+            FROM project_members pm
+            JOIN projects p ON p.id=pm.project_id
+           WHERE pm.user_id=$1 AND pm.status<>'withdrawn'
+          UNION ALL
+          SELECT 'work-' || id::text AS id,
+                 'work'::text AS kind,
+                 title,
+                 work_type::text AS detail,
+                 created_at::text AS occurred_at
+            FROM passport_works
+           WHERE user_id=$1 AND deleted_at IS NULL
+        ) t
+        ORDER BY occurred_at DESC
+        LIMIT 12`, [userId]
     )
   ]);
 
@@ -87,6 +126,7 @@ export async function getPassportOverview(userId: string): Promise<PassportOverv
     bud: { approved: number(b.approved), value: number(b.value), hours: number(b.hours) },
     projects: projects.rows,
     works: works.rows,
-    sixYao: sixYao.rows
+    sixYao: sixYao.rows,
+    timeline: timeline.rows
   };
 }
