@@ -9,6 +9,7 @@ const requiredFiles=[
   'app/dad/index/page.tsx',
   'app/dad/archive/page.tsx',
   'app/dad/archive/snapshots/page.tsx',
+  'app/dad/archive/compare/page.tsx',
   'app/passport/projects/[id]/page.tsx',
   'app/passport/page.tsx'
 ];
@@ -31,6 +32,9 @@ const requiredTokens={
   ],
   'app/dad/archive/snapshots/page.tsx':[
     'Phoenix DAD Governance Archive','ARCHIVE-SNAPSHOT','CopyCitationButton','archive-snapshot-'
+  ],
+  'app/dad/archive/compare/page.tsx':[
+    'ARCHIVE-SNAPSHOT','/dad/archive/snapshots','proposal_count','decision_count','governance_event_count','project_count','milestone_count'
   ],
   'app/passport/projects/[id]/page.tsx':[
     'Phoenix Personal Project Passport','PERSONAL-PROJECT','MEMBERSHIP','MEMBERSHIP-END','EST','BUD','CopyCitationButton','slice(0,8)'
