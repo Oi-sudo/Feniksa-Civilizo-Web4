@@ -73,3 +73,6 @@ jobs:
 
       - name: Production build
         run: npm run build
+
+      - name: Runtime public archive routes
+        run: npm run runtime:routes
