@@ -32,7 +32,7 @@ export default async function GovernanceArchiveYearPage({params}:{params:Promise
       const snapshots=data.snapshots.filter(s=>s.snapshot_date.startsWith(prefix));
       const reports=data.reports.filter(r=>r.from_snapshot_date.startsWith(prefix)||r.to_snapshot_date.startsWith(prefix));
       return <section className="card" key={month}>
-        <div className="record-top"><h2>{monthName(month,locale)}</h2><strong>{snapshots.length+reports.length}</strong></div>
+        <div className="record-top"><div><h2>{monthName(month,locale)}</h2><p><Link href={'/dad/archive/years/'+year+'/'+String(month).padStart(2,'0')}>{eo?'Monata regada resumo →':en?'Monthly governance summary →':'月度治理摘要 →'}</Link></p></div><strong>{snapshots.length+reports.length}</strong></div>
         {snapshots.length>0&&<div>
           <h3>ARCHIVE-SNAPSHOT</h3>
           <div className="record-list">{snapshots.map(s=><article className="project-subrecord" key={s.id}>
