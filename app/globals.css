@@ -208,3 +208,10 @@
   .passport-print-header strong{font-size:16pt}
   .passport-print-header span{color:#333!important}
 }
+
+.passport-print-footer{display:none}
+@media print{
+  .passport-print-footer{display:block!important;margin-top:24px;padding-top:12px;border-top:1px solid #888;break-inside:avoid}
+  .passport-print-footer strong{font-size:10.5pt}
+  .passport-print-footer p{margin:.35rem 0 0;color:#333!important;font-size:9.5pt;line-height:1.55}
+}
