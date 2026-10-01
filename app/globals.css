@@ -125,3 +125,15 @@
 .passport-dimensions strong{display:block;color:#d7b46a;margin-bottom:6px}
 .passport-dimensions p{margin:0;line-height:1.6}
 @media(max-width:760px){.passport-dimensions{grid-template-columns:1fr}}
+
+.passport-current{margin:24px 0}
+.passport-current-head{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;margin-bottom:16px}
+.passport-current-head h2{margin:.5rem 0 0}
+.passport-current-head p{max-width:360px;margin:0;color:#bdb6aa;line-height:1.6}
+.passport-overview-grid{display:grid;grid-template-columns:2fr repeat(4,1fr);gap:10px}
+.passport-overview-grid>div,.passport-overview-grid>a{display:grid;gap:6px;padding:15px;border:1px solid #3a4046;border-radius:15px;background:rgba(255,255,255,.02)}
+.passport-overview-grid span{font-size:.82rem;color:#bcb5a9}
+.passport-overview-grid strong{color:#f0d89b;font-size:1.05rem;line-height:1.4}
+.passport-overview-grid small{opacity:.72}
+@media(max-width:900px){.passport-overview-grid{grid-template-columns:1fr 1fr}.passport-current-head{display:block}.passport-current-head p{margin-top:10px}}
+@media(max-width:520px){.passport-overview-grid{grid-template-columns:1fr}}
