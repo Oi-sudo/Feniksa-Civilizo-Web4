@@ -12,25 +12,25 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const [user,locale]=await Promise.all([getCurrentUser(),getLocale()]);
-  const eo=locale==='eo';
+  const eo=locale==='eo'; const en=locale==='en';
   return (
     <html lang={locale}>
       <body>
         <header className="site-header">
-          <Link className="brand" href="/">{eo?'Feniksa Civilizo':'凤凰文明 · Feniksa Civilizo'}</Link>
+          <Link className="brand" href="/">{eo?'Feniksa Civilizo':en?'Phoenix Civilization · Feniksa Civilizo':'凤凰文明 · Feniksa Civilizo'}</Link>
           <nav>
-            <Link href="/courses">{eo?'Kursoj':'课程 / Kursoj'}</Link>
-            <Link href="/museum">{eo?'Muzeo':'博物馆 / Muzeo'}</Link>
+            <Link href="/courses">{eo?'Kursoj':en?'Courses':'课程 / Kursoj'}</Link>
+            <Link href="/museum">{eo?'Muzeo':en?'Museum':'博物馆 / Muzeo'}</Link>
             <Link href="/dad">DAD</Link>
-            <Link href="/passport">{eo?'Pasporto':'护照 / Pasporto'}</Link>
-            <Link href="/dual-wing">{eo?'Du Flugiloj':'双翼 / Du Flugiloj'}</Link>
-            <Link href="/status">{eo?'Stato':'状态 / Stato'}</Link>
+            <Link href="/passport">{eo?'Pasporto':en?'Passport':'护照 / Pasporto'}</Link>
+            <Link href="/dual-wing">{eo?'Du Flugiloj':en?'Dual Wing':'双翼 / Du Flugiloj'}</Link>
+            <Link href="/status">{eo?'Stato':en?'Status':'状态 / Stato'}</Link>
             {user ? <>
               <span className="nav-user">{user.display_name}</span>
-              <LogoutButton label={eo?'Eliri':'退出 / Eliri'} />
+              <LogoutButton label={eo?'Eliri':en?'Log out':'退出 / Eliri'} />
             </> : <>
-              <Link href="/login">{eo?'Ensaluti':'登录 / Ensaluti'}</Link>
-              <Link href="/register">{eo?'Registriĝi':'注册 / Registriĝi'}</Link>
+              <Link href="/login">{eo?'Ensaluti':en?'Log in':'登录 / Ensaluti'}</Link>
+              <Link href="/register">{eo?'Registriĝi':en?'Register':'注册 / Registriĝi'}</Link>
             </>}
             <a href="/api/locale?locale=zh&next=/">中</a>
             <a href="/api/locale?locale=eo&next=/">EO</a>
