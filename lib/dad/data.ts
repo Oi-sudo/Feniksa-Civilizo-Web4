@@ -168,6 +168,30 @@ export async function getGovernanceChainIndex(){
   return r.rows;
 }
 
+
+export type GovernanceArchiveSummary={
+  proposal_count:number;decision_count:number;governance_event_count:number;project_count:number;milestone_count:number;
+};
+
+export async function getGovernanceArchiveSummary(){
+  const r=await query<GovernanceArchiveSummary>(`
+    SELECT
+      (SELECT COUNT(*)::int FROM proposals p WHERE p.status::text = ANY($1::text[])) AS proposal_count,
+      (SELECT COUNT(*)::int FROM proposal_decisions d JOIN proposals p ON p.id=d.proposal_id WHERE p.status::text = ANY($1::text[])) AS decision_count,
+      (
+        (SELECT COUNT(*)::int FROM proposals p WHERE p.status::text = ANY($1::text[]))
+        +(SELECT COUNT(*)::int FROM proposal_status_events e JOIN proposals p ON p.id=e.proposal_id WHERE p.status::text = ANY($1::text[]))
+        +(SELECT COUNT(*)::int FROM proposal_decisions d JOIN proposals p ON p.id=d.proposal_id WHERE p.status::text = ANY($1::text[]))
+        +(SELECT COUNT(*)::int FROM projects prj JOIN proposals p ON p.id=prj.proposal_id WHERE p.status::text = ANY($1::text[]) AND prj.status IN ('approved','active','paused','completed','terminated','archived'))
+        +(SELECT COUNT(*)::int FROM project_status_events e JOIN projects prj ON prj.id=e.project_id JOIN proposals p ON p.id=prj.proposal_id WHERE p.status::text = ANY($1::text[]) AND prj.status IN ('approved','active','paused','completed','terminated','archived'))
+        +(SELECT COUNT(*)::int FROM project_milestones m JOIN projects prj ON prj.id=m.project_id JOIN proposals p ON p.id=prj.proposal_id WHERE p.status::text = ANY($1::text[]) AND prj.status IN ('approved','active','paused','completed','terminated','archived') AND m.status='completed')
+      )::int AS governance_event_count,
+      (SELECT COUNT(*)::int FROM projects prj JOIN proposals p ON p.id=prj.proposal_id WHERE p.status::text = ANY($1::text[]) AND prj.status IN ('approved','active','paused','completed','terminated','archived')) AS project_count,
+      (SELECT COUNT(*)::int FROM project_milestones m JOIN projects prj ON prj.id=m.project_id JOIN proposals p ON p.id=prj.proposal_id WHERE p.status::text = ANY($1::text[]) AND prj.status IN ('approved','active','paused','completed','terminated','archived')) AS milestone_count
+  `,[publicStatuses]);
+  return r.rows[0];
+}
+
 export async function getPublicProposal(id:string){
   const p=await query<PublicProposal>(`SELECT id,short_code,title,problem_statement,proposed_solution,budget_requested::text,currency,
       public_value,risk_description,status::text,created_at::text,updated_at::text,final_outcome,decision_finalized_at::text
