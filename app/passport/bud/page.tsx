@@ -46,7 +46,7 @@ export default async function BudPassportPage(){
       <div className="stat-card"><strong>{hours}</strong><span>{eo?'Konfirmitaj servhoroj':en?'Confirmed service hours':'已确认服务小时'}</span></div>
       <div className="stat-card"><strong>{approved.length}</strong><span>{eo?'Aprobitaj registroj':en?'Approved records':'已审核记录'}</span></div>
     </section>
-    {rows.length?<div className="record-list">{rows.map(r=><article className="card" key={r.id}>
+    {rows.length?<div className="record-list">{rows.map(r=><article className="card" id={`bud-record-${r.id}`} key={r.id}>
       <div className="record-top"><strong>{(eo?serviceEo:en?serviceEn:serviceZh)[r.service_type]||r.service_type}</strong><span>{(eo?statusEo:en?statusEn:statusZh)[r.review_status]||r.review_status}</span></div>
       <p>{r.description}</p>
       {r.project_title&&<p><small>{eo?'Projekto':en?'Project':'项目'}：{r.project_title}</small></p>}
