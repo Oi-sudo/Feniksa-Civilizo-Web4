@@ -360,3 +360,7 @@ main[id^="project-"]{scroll-margin-top:100px}
 .latest-project-event-title{grid-column:1/-1}
 @media(max-width:620px){.latest-project-event{grid-template-columns:1fr}.latest-project-event-title{grid-column:auto}}
 @media print{.latest-project-event>div{background:#fff!important;border-color:#bbb!important;color:#111!important}}
+
+main[id^="personal-project-passport-"]{scroll-margin-top:100px}
+.personal-project-private-note{margin-top:-6px}
+@media print{.personal-project-private-note{color:#333!important}}
