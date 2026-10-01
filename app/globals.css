@@ -68,3 +68,9 @@
 .filter-bar{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
 .filter-chip{display:inline-flex;align-items:center;padding:8px 12px;border:1px solid rgba(127,127,127,.45);border-radius:999px;text-decoration:none}
 .filter-chip.active{font-weight:700;border-width:2px}
+
+.worklist-table{width:100%;border-collapse:collapse;margin-top:18px;font-size:.92rem}
+.worklist-table th,.worklist-table td{border:1px solid rgba(127,127,127,.35);padding:8px;text-align:left;vertical-align:top}
+.worklist-table th{font-weight:700}
+@media(max-width:760px){.worklist-table{display:block;overflow-x:auto;white-space:nowrap}}
+@media print{.no-print,.site-header,.site-footer{display:none!important}.museum-worklist{max-width:none}.worklist-table{font-size:10pt}.worklist-table th,.worklist-table td{padding:5px}}

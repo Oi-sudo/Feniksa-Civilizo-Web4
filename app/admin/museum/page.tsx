@@ -73,7 +73,11 @@ export default async function MuseumReviewPage({searchParams}:{searchParams:Prom
     {halls.map(h=><Link key={h.code} className={`filter-chip ${hallFilter===h.code?'active':''}`} href={q({hall:h.code})}>{h.title_zh}</Link>)}
    </nav>
    <p className="muted">当前组合筛选：证据 {evidenceFilter==='all'?'全部':evidenceFilter==='missing'?'无证据':evidenceFilter==='unverified'?'未核':evidenceFilter==='source_confirmed'?'来源已确认':'已审阅'}；分册 {volumeFilter||'全部'}；馆籍 {halls.find(h=>h.code===hallFilter)?.title_zh||'全部'}。列表仍按证据链最薄弱优先排序。</p>
-   {(evidenceFilter!=='all'||volumeFilter||hallFilter)&&<Link className="button button-secondary" href="/admin/museum">清除全部筛选</Link>}
+   <div className="hero-actions">
+    <Link className="button button-primary" href={q({}).replace('/admin/museum','/admin/museum/worklist')}>生成工作清单</Link>
+    <a className="button button-secondary" href={q({}).replace('/admin/museum','/api/museum/worklist.csv')}>导出 CSV</a>
+    {(evidenceFilter!=='all'||volumeFilter||hallFilter)&&<Link className="button button-secondary" href="/admin/museum">清除全部筛选</Link>}
+   </div>
 
    {assets.length?<div className="record-list">{assets.map(a=><article className="card museum-admin-row" key={a.id}>
     <div>
