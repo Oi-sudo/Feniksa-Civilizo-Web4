@@ -141,6 +141,11 @@ export default async function PassportPage({searchParams}:{searchParams:Promise<
     <section className="card">
       <h2>{eo?'Persona registra tempolinio':en?'Personal record timeline':'个人记录时间线'}</h2>
       <p className="muted">{eo?'Nur registroj kun reala datotempo estas montrataj ĉi tie: aprobitaj EST/BUD-registroj, aliĝo al projektoj kaj kreitaj verkoj.':en?'Only records with a real database timestamp are shown here: approved EST/BUD records, project joins and created works.':'这里只显示数据库中有真实时间戳的记录：已审核 EST/BUD、加入项目与创建作品。'}</p>
+      <div className="timeline-summary">
+        <div><span>{eo?'Ĉiuj datitaj registroj':en?'All dated records':'全部有日期记录'}</span><strong>{d.timeline.length}</strong></div>
+        <div><span>{eo?'Nun montrataj':en?'Currently shown':'当前显示'}</span><strong>{filteredTimeline.length}</strong></div>
+        <div><span>{eo?'Jaroj':en?'Years':'涉及年份'}</span><strong>{timelineYears.length}</strong></div>
+      </div>
       <div className="timeline-filters" aria-label={eo?'Filtri tempolinion':en?'Filter timeline':'筛选时间线'}>
         {[
           ['all',eo?'Ĉiuj':en?'All':'全部'],
