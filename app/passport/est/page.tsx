@@ -23,17 +23,18 @@ const activityEo:Record<string,string>={
   knowledge_contribution:'Scia kontribuo'
 };
 
-export default async function EstPassportPage(){
-  const [user,locale]=await Promise.all([getCurrentUser(),getLocale()]);
+export default async function EstPassportPage({searchParams}:{searchParams:Promise<{project?:string}>}){
+  const [user,locale,params]=await Promise.all([getCurrentUser(),getLocale(),searchParams]);
   if(!user) redirect('/login');
   const eo=locale==='eo'; const en=locale==='en';
-  const rows=await listEstRecords(user.id);
+  const rows=await listEstRecords(user.id,params.project);
   const approved=rows.filter(x=>x.review_status==='approved');
   const total=approved.reduce((s,x)=>s+Number(x.est_value||0),0);
 
   return <main>
     <span className="badge">EST · {eo?'Mia registro':en?'My records':'我的记录'}</span>
     <h1>{eo?'Miaj EST-registroj':en?'My EST records':'我的 EST 世界语币记录'}</h1>
+    {params.project&&<p className="muted">{eo?'Filtrita laŭ unu projekto.':en?'Filtered to one project.':'当前仅显示一个项目中的记录。'}</p>}
     <p className="lead">{eo?'Ĉi tie aperas viaj registroj pri Esperanto-lernado, tradukado, instruado, provlegado kaj sciaj kontribuoj. Nur aprobitaj registroj estas inkluzivitaj en la supra sumo.':en?'This page shows your Esperanto learning, translation, teaching, proofreading and knowledge-contribution records. Only approved records are included in the total above.':'这里显示您的世界语学习、翻译、教学、校对和知识贡献记录。只有审核通过的记录计入上方总值。'}</p>
     <section className="stat-grid">
       <div className="stat-card"><strong>{total}</strong><span>{eo?'Konfirmita EST':en?'Confirmed EST':'已确认 EST'}</span></div>
