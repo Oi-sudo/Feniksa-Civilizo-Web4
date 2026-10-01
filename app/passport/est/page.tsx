@@ -11,6 +11,8 @@ const activityZh:Record<string,string>={
   teaching:'教学',
   knowledge_contribution:'知识贡献'
 };
+const statusZh:Record<string,string>={pending:'待审核',approved:'已通过',rejected:'已驳回'};
+const statusEo:Record<string,string>={pending:'Atendas kontrolon',approved:'Aprobita',rejected:'Malakceptita'};
 const activityEo:Record<string,string>={
   course_completion:'Kursfino',
   translation:'Tradukado',
@@ -37,7 +39,7 @@ export default async function EstPassportPage(){
       <div className="stat-card"><strong>{rows.length}</strong><span>{eo?'Ĉiuj registroj':'全部记录'}</span></div>
     </section>
     {rows.length? <div className="record-list">{rows.map(r=><article className="card" key={r.id}>
-      <div className="record-top"><strong>{(eo?activityEo:activityZh)[r.activity_type]||r.activity_type}</strong><span>{r.review_status}</span></div>
+      <div className="record-top"><strong>{(eo?activityEo:activityZh)[r.activity_type]||r.activity_type}</strong><span>{(eo?statusEo:statusZh)[r.review_status]||r.review_status}</span></div>
       <p>{r.description}</p>
       {r.course_title&&<p><small>{eo?'Kurso':'课程'}：{r.course_title}</small></p>}
       {r.project_title&&<p><small>{eo?'Projekto':'项目'}：{r.project_title}</small></p>}
