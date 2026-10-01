@@ -156,14 +156,14 @@ export async function getMuseumAssetForEvidence(code:string){
 
 
 export type AdminMuseumAsset={
-  id:string;permanent_code:string;catalog_code:string|null;catalog_volume:string|null;title_zh:string;
-  workflow_status:string;public_status:string;hall_zh:string|null;evidence_count:string;
+  id:string;permanent_code:string;catalog_code:string|null;catalog_volume:string|null;title_zh:string;title_eo:string|null;
+  workflow_status:string;public_status:string;hall_zh:string|null;hall_eo:string|null;evidence_count:string;
   evidence_unverified:string;evidence_source_confirmed:string;evidence_reviewed:string;
 };
 export type MuseumEvidenceFilter='all'|'missing'|'unverified'|'source_confirmed'|'reviewed';
 export async function listAdminMuseumAssets(limit=200,filter:MuseumEvidenceFilter='all',catalogVolume:string|null=null,hallCode:string|null=null){
-  const r=await query<AdminMuseumAsset>(`SELECT a.id,a.permanent_code,a.catalog_code,a.catalog_volume,a.title_zh,
-      a.workflow_status,a.public_status,h.title_zh AS hall_zh,
+  const r=await query<AdminMuseumAsset>(`SELECT a.id,a.permanent_code,a.catalog_code,a.catalog_volume,a.title_zh,a.title_eo,
+      a.workflow_status,a.public_status,h.title_zh AS hall_zh,h.title_eo AS hall_eo,
       COUNT(m.id)::text AS evidence_count,
       COUNT(m.id) FILTER(WHERE m.verification_status='unverified')::text AS evidence_unverified,
       COUNT(m.id) FILTER(WHERE m.verification_status='source_confirmed')::text AS evidence_source_confirmed,
@@ -174,7 +174,7 @@ export async function listAdminMuseumAssets(limit=200,filter:MuseumEvidenceFilte
     WHERE a.deleted_at IS NULL
       AND ($3::text IS NULL OR a.catalog_volume=$3)
       AND ($4::text IS NULL OR h.code=$4)
-    GROUP BY a.id,a.permanent_code,a.catalog_code,a.catalog_volume,a.title_zh,a.workflow_status,a.public_status,h.title_zh
+    GROUP BY a.id,a.permanent_code,a.catalog_code,a.catalog_volume,a.title_zh,a.title_eo,a.workflow_status,a.public_status,h.title_zh,h.title_eo
     HAVING (
       $2='all'
       OR ($2='missing' AND COUNT(m.id)=0)
