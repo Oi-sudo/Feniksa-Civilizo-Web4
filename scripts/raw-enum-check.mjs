@@ -26,7 +26,10 @@ for(const file of files){
     for(const field of fields){
       const direct=new RegExp('\\{\\s*[A-Za-z_$][\\w$]*\\.'+field+'\\s*\\}');
       if(direct.test(line)){
-        findings.push({file,line:i+1,field,text:line.trim()});
+        const trimmed=line.trim();
+        const propPattern='\\w+\\s*=\\s*\\{\\s*[A-Za-z_$][\\w$]*\\.'+field+'\\s*\\}';
+        const looksLikeProp=new RegExp(propPattern).test(trimmed);
+        if(!looksLikeProp) findings.push({file,line:i+1,field,text:trimmed});
       }
     }
   });
