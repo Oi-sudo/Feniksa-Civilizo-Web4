@@ -28,11 +28,11 @@ const serviceEo:Record<string,string>={
   public_project:'Publika projekto'
 };
 
-export default async function BudPassportPage(){
-  const [user,locale]=await Promise.all([getCurrentUser(),getLocale()]);
+export default async function BudPassportPage({searchParams}:{searchParams:Promise<{project?:string}>}){
+  const [user,locale,params]=await Promise.all([getCurrentUser(),getLocale(),searchParams]);
   if(!user) redirect('/login');
   const eo=locale==='eo'; const en=locale==='en';
-  const rows=await listBudRecords(user.id);
+  const rows=await listBudRecords(user.id,params.project);
   const approved=rows.filter(x=>x.review_status==='approved');
   const total=approved.reduce((s,x)=>s+Number(x.bud_value||0),0);
   const hours=approved.reduce((s,x)=>s+Number(x.verified_hours??x.hours??0),0);
@@ -40,6 +40,7 @@ export default async function BudPassportPage(){
   return <main>
     <span className="badge">BUD · {eo?'Mia registro':en?'My records':'我的记录'}</span>
     <h1>{eo?'Miaj BUD-registroj':en?'My BUD records':'我的 BUD 佛光币记录'}</h1>
+    {params.project&&<p className="muted">{eo?'Filtrita laŭ unu projekto.':en?'Filtered to one project.':'当前仅显示一个项目中的记录。'}</p>}
     <p className="lead">{eo?'Ĉi tie aperas kontroleblaj registroj pri vola agado, volontula servo kaj publika servo. BUD registras agojn; ĝi ne taksas personecon nek atestas religian atingon.':en?'This page shows verifiable records of vow-in-action, volunteer service and public service. BUD records actions; it does not assess personality or certify religious attainment.':'这里显示愿行、志愿服务和公共服务的可核查记录。BUD 记录行动，不评定人格，也不认证宗教修证境界。'}</p>
     <section className="stat-grid">
       <div className="stat-card"><strong>{total}</strong><span>{eo?'Konfirmita BUD':en?'Confirmed BUD':'已确认 BUD'}</span></div>
