@@ -299,3 +299,11 @@ main[id^="project-"]{scroll-margin-top:100px}
 .governance-source-summary span{font-size:.82rem;color:#bcb5a9}
 @media(max-width:620px){.governance-source-summary{grid-template-columns:1fr}}
 @media print{.governance-source-summary p{background:#fff!important;border-color:#bbb!important;color:#111!important}}
+
+.project-contribution-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+.project-contribution-grid>div{display:grid;gap:6px;padding:16px;border:1px solid #3b4147;border-radius:16px;background:rgba(255,255,255,.02)}
+.project-contribution-grid span{font-size:.82rem;color:#bcb5a9}
+.project-contribution-grid strong{font-size:1.35rem;color:#f0d89b}
+.project-contribution-grid small{color:#bdb6aa}
+@media(max-width:620px){.project-contribution-grid{grid-template-columns:1fr}}
+@media print{.project-contribution-grid>div{background:#fff!important;border-color:#bbb!important;color:#111!important}}
