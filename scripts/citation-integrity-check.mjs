@@ -34,7 +34,9 @@ const requiredTokens={
     'PROPOSAL','DECISION','GOV-EVENT','PROJECT','MILESTONE','/dad/proposals/','/dad/decisions','/dad/timeline','/projects/'
   ],
   'app/dad/archive/page.tsx':[
-    'PROPOSAL','DECISION','GOV-EVENT','PROJECT','MILESTONE','/dad/decisions','/dad/timeline','/dad/index'
+    'PROPOSAL','DECISION','GOV-EVENT','PROJECT','MILESTONE','ARCHIVE-SNAPSHOT','ARCHIVE-REPORT','GOVERNANCE-ARCHIVE','GOVERNANCE-YEAR',
+    '/dad/decisions','/dad/timeline','/dad/index','/dad/archive/snapshots','/dad/archive/reports','/dad/archive/years','/dad/archive/annual-reports',
+    'getGovernanceArchiveCatalogSummary'
   ],
   'app/dad/archive/snapshots/page.tsx':[
     'Phoenix DAD Governance Archive','ARCHIVE-SNAPSHOT','CopyCitationButton','archive-snapshot-'
