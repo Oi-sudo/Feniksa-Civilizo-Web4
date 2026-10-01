@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import RegisterForm from '@/components/auth/RegisterForm';
-import { getMessages } from '@/lib/i18n';
+import { getLocale,getMessages } from '@/lib/i18n';
 
 export default async function RegisterPage() {
-  const m = await getMessages();
+  const [locale,m]=await Promise.all([getLocale(),getMessages()]); const eo=locale==='eo';
   return <main>
     <span className="badge">{m.register_badge}</span>
     <h1>{m.register_title}</h1>
@@ -11,11 +11,11 @@ export default async function RegisterPage() {
     <div className="card auth-card">
       <RegisterForm labels={{
         displayName:m.display_name,email:m.email,password:m.password,preferredLanguage:m.preferred_language,
-        creating:m.creating,submit:m.create_identity,failed:m.register_failed,devVerify:'Alpha 验证链接：',
+        creating:m.creating,submit:m.create_identity,failed:m.register_failed,devVerify:eo?'Alpha-konfirma ligilo:':'Alpha 验证链接：',
         verifyClick:m.verify_click,zh:m.lang_zh,eo:m.lang_eo,en:m.lang_en
       }} />
     </div>
-    <p className="muted">Alpha 阶段尚未接入正式邮件供应商，因此注册后页面会显示一次性验证链接。正式公开版将改为邮件发送。</p>
+    <p className="muted">{eo?'En la Alpha-fazo ankoraŭ ne estas konektita oficiala retpoŝta provizanto, tial post registrado la paĝo montras unufojan konfirman ligilon. En la publika versio ĝi estos sendata per retpoŝto.':'Alpha 阶段尚未接入正式邮件供应商，因此注册后页面会显示一次性验证链接。正式公开版将改为邮件发送。'}</p>
     <p>{m.have_account} <Link href="/login">{m.go_login}</Link></p>
   </main>;
 }
