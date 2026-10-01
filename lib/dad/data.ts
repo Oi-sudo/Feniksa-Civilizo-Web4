@@ -221,7 +221,7 @@ export async function getGovernanceArchiveChangeDetails(fromDate:string,toDate:s
         p.id AS proposal_id,NULL::uuid AS project_id,p.short_code AS proposal_short_code
       FROM proposals p
       WHERE p.status::text = ANY($1::text[])
-        AND p.created_at >= $2::date
+        AND p.created_at >= ($2::date + INTERVAL '1 day')
         AND p.created_at < ($3::date + INTERVAL '1 day')
 
       UNION ALL
@@ -231,7 +231,7 @@ export async function getGovernanceArchiveChangeDetails(fromDate:string,toDate:s
       FROM proposal_decisions d
       JOIN proposals p ON p.id=d.proposal_id
       WHERE p.status::text = ANY($1::text[])
-        AND d.finalized_at >= $2::date
+        AND d.finalized_at >= ($2::date + INTERVAL '1 day')
         AND d.finalized_at < ($3::date + INTERVAL '1 day')
 
       UNION ALL
@@ -242,7 +242,7 @@ export async function getGovernanceArchiveChangeDetails(fromDate:string,toDate:s
       JOIN proposals p ON p.id=prj.proposal_id
       WHERE p.status::text = ANY($1::text[])
         AND prj.status IN ('approved','active','paused','completed','terminated','archived')
-        AND prj.created_at >= $2::date
+        AND prj.created_at >= ($2::date + INTERVAL '1 day')
         AND prj.created_at < ($3::date + INTERVAL '1 day')
 
       UNION ALL
@@ -255,7 +255,7 @@ export async function getGovernanceArchiveChangeDetails(fromDate:string,toDate:s
       WHERE p.status::text = ANY($1::text[])
         AND prj.status IN ('approved','active','paused','completed','terminated','archived')
         AND m.status='completed'
-        AND COALESCE(m.completed_at,m.updated_at) >= $2::date
+        AND COALESCE(m.completed_at,m.updated_at) >= ($2::date + INTERVAL '1 day')
         AND COALESCE(m.completed_at,m.updated_at) < ($3::date + INTERVAL '1 day')
     ) changes
     ORDER BY occurred_at ASC,record_type,id`,[publicStatuses,fromDate,toDate]);
