@@ -48,6 +48,102 @@ export async function getPublicDecisions(outcome?:string){
   return d.rows;
 }
 
+
+export type PublicGovernanceTimelineEvent={
+  event_key:string;event_type:string;occurred_at:string;proposal_id:string;proposal_title:string;proposal_short_code:string|null;
+  project_id:string|null;project_title:string|null;from_status:string|null;to_status:string|null;outcome:string|null;note:string|null;
+};
+
+export async function getPublicGovernanceTimeline(limit=200){
+  const r=await query<PublicGovernanceTimelineEvent>(`
+    SELECT * FROM (
+      SELECT
+        'proposal-created-'||p.id::text AS event_key,
+        'proposal_created'::text AS event_type,
+        p.created_at::text AS occurred_at,
+        p.id AS proposal_id,p.title AS proposal_title,p.short_code AS proposal_short_code,
+        NULL::uuid AS project_id,NULL::text AS project_title,
+        NULL::text AS from_status,p.status::text AS to_status,NULL::text AS outcome,
+        NULL::text AS note
+      FROM proposals p
+      WHERE p.status::text = ANY($1::text[])
+
+      UNION ALL
+
+      SELECT
+        'proposal-status-'||e.id::text,
+        'proposal_status',
+        e.created_at::text,
+        p.id,p.title,p.short_code,
+        NULL::uuid,NULL::text,
+        e.from_status::text,e.to_status::text,NULL::text,e.note
+      FROM proposal_status_events e
+      JOIN proposals p ON p.id=e.proposal_id
+      WHERE p.status::text = ANY($1::text[])
+
+      UNION ALL
+
+      SELECT
+        'decision-'||d.id::text,
+        'decision',
+        d.finalized_at::text,
+        p.id,p.title,p.short_code,
+        NULL::uuid,NULL::text,
+        NULL::text,p.status::text,d.outcome,NULL::text
+      FROM proposal_decisions d
+      JOIN proposals p ON p.id=d.proposal_id
+      WHERE p.status::text = ANY($1::text[])
+
+      UNION ALL
+
+      SELECT
+        'project-created-'||prj.id::text,
+        'project_created',
+        prj.created_at::text,
+        p.id,p.title,p.short_code,
+        prj.id,prj.title,
+        NULL::text,prj.status::text,NULL::text,NULL::text
+      FROM projects prj
+      JOIN proposals p ON p.id=prj.proposal_id
+      WHERE p.status::text = ANY($1::text[])
+        AND prj.status IN ('approved','active','paused','completed','terminated','archived')
+
+      UNION ALL
+
+      SELECT
+        'project-status-'||e.id::text,
+        'project_status',
+        e.created_at::text,
+        p.id,p.title,p.short_code,
+        prj.id,prj.title,
+        e.from_status,e.to_status,NULL::text,e.note
+      FROM project_status_events e
+      JOIN projects prj ON prj.id=e.project_id
+      JOIN proposals p ON p.id=prj.proposal_id
+      WHERE p.status::text = ANY($1::text[])
+        AND prj.status IN ('approved','active','paused','completed','terminated','archived')
+
+      UNION ALL
+
+      SELECT
+        'milestone-completed-'||m.id::text,
+        'milestone_completed',
+        COALESCE(m.completed_at,m.updated_at)::text,
+        p.id,p.title,p.short_code,
+        prj.id,prj.title,
+        NULL::text,m.status::text,NULL::text,m.title
+      FROM project_milestones m
+      JOIN projects prj ON prj.id=m.project_id
+      JOIN proposals p ON p.id=prj.proposal_id
+      WHERE p.status::text = ANY($1::text[])
+        AND prj.status IN ('approved','active','paused','completed','terminated','archived')
+        AND m.status='completed'
+    ) timeline
+    ORDER BY occurred_at DESC,event_key DESC
+    LIMIT $2`,[publicStatuses,limit]);
+  return r.rows;
+}
+
 export async function getPublicProposal(id:string){
   const p=await query<PublicProposal>(`SELECT id,short_code,title,problem_statement,proposed_solution,budget_requested::text,currency,
       public_value,risk_description,status::text,created_at::text,updated_at::text,final_outcome,decision_finalized_at::text
