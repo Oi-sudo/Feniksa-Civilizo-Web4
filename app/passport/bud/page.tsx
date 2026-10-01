@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { getCurrentUser } from '@/lib/auth/session';
 import { getLocale } from '@/lib/i18n';
+import { getVisibleProject } from '@/lib/projects/data';
 import { listBudRecords } from '@/lib/contributions/data';
 
 const serviceZh:Record<string,string>={
@@ -32,7 +33,8 @@ export default async function BudPassportPage({searchParams}:{searchParams:Promi
   const [user,locale,params]=await Promise.all([getCurrentUser(),getLocale(),searchParams]);
   if(!user) redirect('/login');
   const eo=locale==='eo'; const en=locale==='en';
-  const rows=await listBudRecords(user.id,params.project);
+  const projectId=params.project&&/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(params.project)?params.project:undefined;
+  const [rows,projectContext]=await Promise.all([listBudRecords(user.id,projectId),projectId?getVisibleProject(projectId):Promise.resolve(null)]);
   const approved=rows.filter(x=>x.review_status==='approved');
   const total=approved.reduce((s,x)=>s+Number(x.bud_value||0),0);
   const hours=approved.reduce((s,x)=>s+Number(x.verified_hours??x.hours??0),0);
@@ -40,7 +42,7 @@ export default async function BudPassportPage({searchParams}:{searchParams:Promi
   return <main>
     <span className="badge">BUD · {eo?'Mia registro':en?'My records':'我的记录'}</span>
     <h1>{eo?'Miaj BUD-registroj':en?'My BUD records':'我的 BUD 佛光币记录'}</h1>
-    {params.project&&<p className="muted">{eo?'Filtrita laŭ unu projekto.':en?'Filtered to one project.':'当前仅显示一个项目中的记录。'}</p>}
+    {projectId&&<section className="passport-project-context"><p><span>{eo?'Nuna projekto':en?'Current project':'当前项目'}：</span><strong>{projectContext?.project.title||projectId.slice(0,8)}</strong></p>{projectContext&&<Link href={'/projects/'+projectId}>{eo?'Reveni al la projekta dosiero →':en?'Back to project dossier →':'返回项目档案 →'}</Link>}</section>}
     <p className="lead">{eo?'Ĉi tie aperas kontroleblaj registroj pri vola agado, volontula servo kaj publika servo. BUD registras agojn; ĝi ne taksas personecon nek atestas religian atingon.':en?'This page shows verifiable records of vow-in-action, volunteer service and public service. BUD records actions; it does not assess personality or certify religious attainment.':'这里显示愿行、志愿服务和公共服务的可核查记录。BUD 记录行动，不评定人格，也不认证宗教修证境界。'}</p>
     <section className="stat-grid">
       <div className="stat-card"><strong>{total}</strong><span>{eo?'Konfirmita BUD':en?'Confirmed BUD':'已确认 BUD'}</span></div>
