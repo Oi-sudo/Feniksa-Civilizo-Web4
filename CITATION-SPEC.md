@@ -78,6 +78,18 @@ Stable date source:
 
 The visible GOV-EVENT short reference is deterministic for the underlying event and is used only as a public locator. It does not publish individual ballots, private membership data, or internal comments.
 
+### DAD governance archive snapshot
+Format:
+`Phoenix DAD Governance Archive · ARCHIVE-SNAPSHOT · YYYY-MM-DD`
+
+Current type codes:
+- ARCHIVE-SNAPSHOT
+
+Stable identity:
+- ARCHIVE-SNAPSHOT: unique `snapshot_date`
+
+Each date may have at most one snapshot. A snapshot stores aggregate public counts only and is not a substitute for the underlying proposal, decision, governance-event, project, or milestone records.
+
 ### Personal project passport
 Format:
 `Phoenix Personal Project Passport · <TYPE> · <SHORT_ID> · YYYY-MM-DD`
@@ -111,6 +123,7 @@ Current locator patterns include:
 - `decision-<SHORT_ID>`
 - `proposal-status-<SHORT_ID>`
 - `gov-event-<SHORT_ID>`
+- `archive-snapshot-YYYY-MM-DD`
 - `personal-project-passport-<SHORT_ID>`
 - `personal-project-membership-<SHORT_ID>`
 - `personal-project-membership_end-<SHORT_ID>`
