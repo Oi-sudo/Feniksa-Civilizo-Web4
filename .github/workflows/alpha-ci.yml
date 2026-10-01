@@ -56,6 +56,9 @@ jobs:
       - name: Esperanto i18n integrity
         run: npm run i18n:check
 
+      - name: Locale branch integrity
+        run: npm run locale:check
+
       - name: Smoke check
         run: npm run test:smoke
 
