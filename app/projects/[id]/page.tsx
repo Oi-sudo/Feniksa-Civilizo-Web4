@@ -42,7 +42,7 @@ export default async function ProjectDetailPage({params}:{params:Promise<{id:str
  const projectLocator=`project-${shortProjectRef}`;
  const archiveDate=new Date().toLocaleDateString(eo?'eo':en?'en-US':'zh-CN');
  const citationDate=(value:string)=>new Date(value).toISOString().slice(0,10);
- const projectCitation=`Phoenix Project Dossier · PROJECT · ${shortProjectRef} · ${citationDate(p.updated_at)}`;
+ const projectCitation=`Phoenix Project Dossier · PROJECT · ${shortProjectRef} · ${citationDate(p.created_at)}`;
  const milestoneCompleted=d.milestones.filter(x=>x.status==='completed').length;
  const outputsPublished=d.outputs.filter(x=>x.status==='published').length;
  const openRisks=d.risks.filter(x=>x.status==='open'||x.status==='mitigating').length;
@@ -151,7 +151,7 @@ export default async function ProjectDetailPage({params}:{params:Promise<{id:str
 
   <section className="card">
    <h2>{eo?'Mejloŝtonoj':en?'Milestones':'里程碑'}</h2>
-   {d.milestones.length?<div className="record-list">{d.milestones.map(m=>{const short=m.id.replace(/-/g,'').slice(0,8);const ref='MILESTONE · '+short;const anchor='milestone-'+short;const citation='Phoenix Project Dossier · MILESTONE · '+short+' · '+citationDate(m.updated_at);return <article id={anchor} key={m.id} className="project-subrecord">
+   {d.milestones.length?<div className="record-list">{d.milestones.map(m=>{const short=m.id.replace(/-/g,'').slice(0,8);const ref='MILESTONE · '+short;const anchor='milestone-'+short;const citation='Phoenix Project Dossier · MILESTONE · '+short+' · '+citationDate(m.created_at);return <article id={anchor} key={m.id} className="project-subrecord">
     <div className="record-top"><strong>{m.title}</strong><span>{(eo?milestoneEo:en?milestoneEn:milestoneZh)[m.status]||m.status}</span></div>
     {m.description&&<p>{m.description}</p>}
     <small>{eo?'Limdato':en?'Due':'到期'}：{m.due_date||'—'} · {eo?'Ĝisdatigita':en?'Updated':'最近更新'}：{new Date(m.updated_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN')}{m.completed_at?' · '+(eo?'Kompletigita':en?'Completed':'完成')+' '+new Date(m.completed_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN'):''}</small>
@@ -196,7 +196,7 @@ export default async function ProjectDetailPage({params}:{params:Promise<{id:str
 
   <section className="card">
    <h2>{eo?'Riskoj':en?'Risks':'风险记录'}</h2>
-   {d.risks.length?<div className="record-list">{d.risks.map(r=>{const short=r.id.replace(/-/g,'').slice(0,8);const ref='RISK · '+short;const anchor='risk-'+short;const citation='Phoenix Project Dossier · RISK · '+short+' · '+citationDate(r.updated_at);return <article id={anchor} key={r.id} className="project-subrecord">
+   {d.risks.length?<div className="record-list">{d.risks.map(r=>{const short=r.id.replace(/-/g,'').slice(0,8);const ref='RISK · '+short;const anchor='risk-'+short;const citation='Phoenix Project Dossier · RISK · '+short+' · '+citationDate(r.created_at);return <article id={anchor} key={r.id} className="project-subrecord">
     <div className="record-top"><strong>{(eo?riskEo:en?riskEn:riskZh)[r.risk_level]||r.risk_level}</strong><span>{(eo?riskStatusEo:en?riskStatusEn:riskStatusZh)[r.status]||r.status}</span></div>
     <p>{r.description}</p>{r.mitigation&&<p><strong>{eo?'Mildigo':en?'Mitigation':'缓解措施'}：</strong>{r.mitigation}</p>}<small>{eo?'Kreita':en?'Created':'创建'}：{new Date(r.created_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN')} · {eo?'Ĝisdatigita':en?'Updated':'最近更新'}：{new Date(r.updated_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN')}{r.resolved_at?' · '+(eo?'Solvita':en?'Resolved':'解决')+' '+new Date(r.resolved_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN'):''}</small>
    <p className="subrecord-ref"><code>{ref}</code> · <a href={'#'+anchor}>{eo?'Konstanta loko':en?'Permanent locator':'永久定位'}</a><span className="citation-format">{eo?'Citformo':en?'Citation format':'引用格式'}：{citation}</span></p></article>})}</div>:<p>{eo?'Ankoraŭ neniu risko registrita.':en?'No risks recorded yet.':'尚未登记风险。'}</p>}
