@@ -5,7 +5,7 @@ export type PersonalProjectContext={
   member_status:string;joined_at:string;left_at:string|null;
 };
 export type PersonalProjectEvent={
-  id:string;kind:'membership'|'est'|'bud';title:string;detail:string|null;status:string|null;occurred_at:string;
+  id:string;kind:'membership'|'membership_end'|'est'|'bud';title:string;detail:string|null;status:string|null;occurred_at:string;
 };
 export type PersonalProjectSummary={est_count:number;est_value:string;bud_count:number;bud_value:string;bud_hours:string};
 
@@ -32,6 +32,17 @@ export async function getPersonalProjectPassport(userId:string,projectId:string)
         FROM project_members pm
         JOIN projects p ON p.id=pm.project_id
        WHERE pm.user_id=$1 AND pm.project_id=$2
+      UNION ALL
+      UNION ALL
+      SELECT ('membership_end-' || pm.project_id::text) AS id,
+             'membership_end'::text AS kind,
+             p.title AS title,
+             pm.participation_role AS detail,
+             pm.status AS status,
+             pm.left_at::text AS occurred_at
+        FROM project_members pm
+        JOIN projects p ON p.id=pm.project_id
+       WHERE pm.user_id=$1 AND pm.project_id=$2 AND pm.left_at IS NOT NULL
       UNION ALL
       SELECT ('est-' || e.id::text) AS id,
              'est'::text AS kind,
