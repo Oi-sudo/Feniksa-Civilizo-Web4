@@ -12,7 +12,20 @@ export type ProposalDecision={
 export type ProposalStatusEvent={id:string;from_status:string|null;to_status:string;note:string|null;created_at:string};
 export type ProposalProject={id:string;title:string;status:string;updated_at:string};
 
-const publicStatuses=['approved','rejected','executing','completed','terminated','archived'];
+export const publicStatuses=['approved','rejected','executing','completed','terminated','archived'] as const;
+
+export type PublicProposalStatus=(typeof publicStatuses)[number];
+
+export async function getPublicProposals(status?:string){
+  const selected=publicStatuses.includes(status as PublicProposalStatus)?status:null;
+  const p=await query<PublicProposal>(`SELECT id,short_code,title,problem_statement,proposed_solution,budget_requested::text,currency,
+      public_value,risk_description,status::text,created_at::text,updated_at::text,final_outcome,decision_finalized_at::text
+    FROM proposals
+    WHERE status::text = ANY($1::text[])
+      AND ($2::text IS NULL OR status::text=$2)
+    ORDER BY COALESCE(decision_finalized_at,updated_at,created_at) DESC, created_at DESC`,[publicStatuses,selected]);
+  return p.rows;
+}
 
 export async function getPublicProposal(id:string){
   const p=await query<PublicProposal>(`SELECT id,short_code,title,problem_statement,proposed_solution,budget_requested::text,currency,
