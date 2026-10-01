@@ -16,6 +16,9 @@ const riskStatusEn:Record<string,string>={open:'Open',mitigating:'Mitigating',re
 const riskZh:Record<string,string>={green:'绿色',yellow:'黄色',orange:'橙色',red:'红色'};
 const riskEo:Record<string,string>={green:'Verda',yellow:'Flava',orange:'Oranĝa',red:'Ruĝa'};
 const riskEn:Record<string,string>={green:'Green',yellow:'Yellow',orange:'Orange',red:'Red'};
+const outputZh:Record<string,string>={draft:'草稿',review:'审核中',published:'已发布',archived:'已归档'};
+const outputEo:Record<string,string>={draft:'Malneto',review:'Kontrolata',published:'Publikigita',archived:'Arkivita'};
+const outputEn:Record<string,string>={draft:'Draft',review:'In review',published:'Published',archived:'Archived'};
 
 export default async function ProjectDetailPage({params}:{params:Promise<{id:string}>}){
  const [{id},locale]=await Promise.all([params,getLocale()]);
@@ -24,6 +27,9 @@ export default async function ProjectDetailPage({params}:{params:Promise<{id:str
  const eo=locale==='eo'; const en=locale==='en'; const p=d.project;
  const status=(eo?statusEo:en?statusEn:statusZh)[p.status]||p.status;
  const risk=(eo?riskEo:en?riskEn:riskZh)[p.risk_level]||p.risk_level;
+ const milestoneCompleted=d.milestones.filter(x=>x.status==='completed').length;
+ const outputsPublished=d.outputs.filter(x=>x.status==='published').length;
+ const openRisks=d.risks.filter(x=>x.status==='open'||x.status==='mitigating').length;
  return <main>
   <span className="badge">DAD · Projects</span>
   <h1>{p.title}</h1>
@@ -34,6 +40,17 @@ export default async function ProjectDetailPage({params}:{params:Promise<{id:str
    <div><span>{eo?'Risko':en?'Risk':'风险'}</span><strong>{risk}</strong></div>
    <div><span>{eo?'Aprobita buĝeto':en?'Approved budget':'批准预算'}</span><strong>{p.approved_budget} {p.currency}</strong></div>
    <div><span>{eo?'Elspezita':en?'Spent':'已支出'}</span><strong>{p.spent} {p.currency}</strong></div>
+  </section>
+
+  <section className="card">
+   <h2>{eo?'Plenuma resumo':en?'Execution summary':'执行摘要'}</h2>
+   <div className="project-summary-grid">
+    <div><span>{eo?'Mejloŝtonoj kompletigitaj':en?'Milestones completed':'已完成里程碑'}</span><strong>{milestoneCompleted}/{d.milestones.length}</strong></div>
+    <div><span>{eo?'Publikigitaj rezultoj':en?'Published outputs':'已发布成果'}</span><strong>{outputsPublished}/{d.outputs.length}</strong></div>
+    <div><span>{eo?'Aktivaj riskoj':en?'Active risks':'当前风险'}</span><strong>{openRisks}</strong></div>
+    <div><span>{eo?'Lasta ĝisdatigo':en?'Last updated':'最近更新'}</span><strong>{new Date(p.updated_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN')}</strong></div>
+   </div>
+   <p className="muted">{eo?'Ĉi tiuj estas plenumaj nombroj por rapida legado, ne poentaro de la projekto.':en?'These are execution counts for quick reading, not a score for the project.':'这些只是用于快速阅读的执行记录数量，不是对项目的评分。'}</p>
   </section>
 
   <section className="card">
@@ -60,7 +77,7 @@ export default async function ProjectDetailPage({params}:{params:Promise<{id:str
   <section className="card">
    <h2>{eo?'Rezultoj':en?'Outputs':'成果'}</h2>
    {d.outputs.length?<div className="record-list">{d.outputs.map(o=><article key={o.id} className="project-subrecord">
-    <div className="record-top"><strong>{o.title}</strong><span>{o.status}</span></div>
+    <div className="record-top"><strong>{o.title}</strong><span>{(eo?outputEo:en?outputEn:outputZh)[o.status]||o.status}</span></div>
     {o.description&&<p>{o.description}</p>}
     {o.url&&<p><a href={o.url} target="_blank" rel="noreferrer">{eo?'Malfermi rezulton →':en?'Open output →':'打开成果 →'}</a></p>}
    </article>)}</div>:<p>{eo?'Ankoraŭ neniu rezulto registrita.':en?'No outputs recorded yet.':'尚未登记成果。'}</p>}
