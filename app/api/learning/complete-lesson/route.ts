@@ -1,13 +1,15 @@
 import { NextRequest,NextResponse } from 'next/server';
 import { getCurrentUser } from '@/lib/auth/session';
 import { withTransaction } from '@/lib/db';
+import { getLocale } from '@/lib/i18n';
 
 export async function POST(req:NextRequest){
+  const eo=(await getLocale())==='eo';
   const user=await getCurrentUser();
-  if(!user)return NextResponse.json({error:'请先登录。'},{status:401});
+  if(!user)return NextResponse.json({error:eo?'Bonvolu unue ensaluti.':'请先登录。'},{status:401});
   try{
     const body=await req.json();
-    if(typeof body.lessonId!=='string')return NextResponse.json({error:'课程章节无效。'},{status:400});
+    if(typeof body.lessonId!=='string')return NextResponse.json({error:eo?'La kursleciono estas nevalida.':'课程章节无效。'},{status:400});
 
     const result=await withTransaction(async client=>{
       const lessonResult=await client.query<{
@@ -54,7 +56,7 @@ export async function POST(req:NextRequest){
             `INSERT INTO est_records(user_id,activity_type,course_id,description,est_value,rule_version,review_status,reviewed_at)
              VALUES($1,'course_completion',$2,$3,$4,$5,'approved',NOW())
              ON CONFLICT DO NOTHING`,
-            [user.id,lesson.course_id,`完成已完整发布课程：${lesson.course_title}`,estValue,rule.rows[0].rule_version]
+            [user.id,lesson.course_id,eo?`Kompletigita plene publikigita kurso: ${lesson.course_title}`:`完成已完整发布课程：${lesson.course_title}`,estValue,rule.rows[0].rule_version]
           );
         }
       }
@@ -63,8 +65,8 @@ export async function POST(req:NextRequest){
 
     return NextResponse.json({ok:true,...result});
   }catch(error){
-    if(error instanceof Error&&error.message==='NOT_FOUND')return NextResponse.json({error:'找不到已发布的课程章节。'},{status:404});
+    if(error instanceof Error&&error.message==='NOT_FOUND')return NextResponse.json({error:eo?'La publikigita kursleciono ne estis trovita.':'找不到已发布的课程章节。'},{status:404});
     console.error(error);
-    return NextResponse.json({error:'暂时无法保存学习进度。'},{status:500});
+    return NextResponse.json({error:eo?'Provizore ne eblas konservi la lernoprogreson.':'暂时无法保存学习进度。'},{status:500});
   }
 }
