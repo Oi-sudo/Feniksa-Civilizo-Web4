@@ -150,8 +150,13 @@ export default async function PassportPage({searchParams}:{searchParams:Promise<
           ['work',eo?'Verkoj':en?'Works':'作品']
         ].map(([key,label])=><Link key={key} href={key==='all'?'/passport':`/passport?timeline=${key}`} className={timelineFilter===key?'active':''}>{label}</Link>)}
       </div>
-      {filteredTimeline.length?<div className="passport-timeline-groups">
-        {timelineYears.map(year=><section className="timeline-year" key={year}>
+      {filteredTimeline.length?<div>
+        <nav className="timeline-year-index" aria-label={eo?'Jarindekso':en?'Year index':'年份索引'}>
+          <span>{eo?'Jaroj':en?'Years':'年份'}</span>
+          <div>{timelineYears.map(year=><a key={year} href={`#timeline-year-${year}`}>{year}</a>)}</div>
+        </nav>
+        <div className="passport-timeline-groups">
+        {timelineYears.map(year=><section className="timeline-year" id={`timeline-year-${year}`} key={year}>
           <h3>{year}</h3>
           <div className="passport-timeline">
             {timelineByYear[year].map(item=>{
@@ -164,6 +169,7 @@ export default async function PassportPage({searchParams}:{searchParams:Promise<
             })}
           </div>
         </section>)}
+        </div>
       </div>:<p>{timelineFilter==='all'?(eo?'Ankoraŭ ne estas datitaj registroj por la tempolinio.':en?'There are no dated records for the timeline yet.':'目前还没有可按日期排列的记录。'):(eo?'Ne estas registroj en ĉi tiu filtrilo.':en?'There are no records in this filter.':'当前筛选下没有记录。')}</p>}
     </section>
 
