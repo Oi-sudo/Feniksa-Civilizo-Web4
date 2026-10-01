@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation';
 import { getCurrentUser } from '@/lib/auth/session';
 import { getPassportOverview } from '@/lib/passport/data';
 import { getLocale,getMessages } from '@/lib/i18n';
+import PassportPrintButton from '@/components/passport/PassportPrintButton';
 
 const userRoleZh:Record<string,string>={learner:'学习者',admin:'管理员',curator:'馆藏整理员',museum_reviewer:'馆藏审核员'};
 const userRoleEo:Record<string,string>={learner:'Lernanto',admin:'Administranto',curator:'Muzea prizorganto',museum_reviewer:'Muzea kontrolanto'};
@@ -65,6 +66,9 @@ export default async function PassportPage({searchParams}:{searchParams:Promise<
     <span className="badge">{m.passport_badge}</span>
     <h1>{m.passport_title}</h1>
     <p className="lead">{(m.passport_welcome||'欢迎回来，{name}。').replace('{name}',user.display_name)}</p>
+    <div className="hero-actions no-print">
+      <PassportPrintButton label={eo?'Presi / konservi kiel PDF':en?'Print / save as PDF':'打印 / 存为 PDF'} />
+    </div>
 
     <section className="card">
       <h2>{eo?'Lerna identeco':en?'Learning identity':'学习身份 · Lerna identeco'}</h2>
