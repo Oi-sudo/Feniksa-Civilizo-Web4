@@ -167,3 +167,7 @@
 .timeline-summary span{font-size:.82rem;color:#bcb5a9}
 .timeline-summary strong{font-size:1.2rem;color:#f0d89b}
 @media(max-width:640px){.timeline-summary{grid-template-columns:1fr}}
+
+.timeline-source-link{display:inline-block;margin-top:8px;color:#d7b46a;font-size:.9rem}
+.timeline-source-link:hover{text-decoration:underline}
+.record-list article[id],#project-record-anchor,[id^="project-record-"],[id^="work-record-"]{scroll-margin-top:100px}
