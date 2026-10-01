@@ -2,14 +2,16 @@ import { NextRequest,NextResponse } from 'next/server';
 import { getCurrentUser } from '@/lib/auth/session';
 import { hasAnyRole } from '@/lib/permissions/rbac';
 import { withTransaction } from '@/lib/db';
+import { getLocale } from '@/lib/i18n';
 
 export async function POST(req:NextRequest){
+ const eo=(await getLocale())==='eo';
  const user=await getCurrentUser();
- if(!user||!hasAnyRole(user,['admin','curator','museum_reviewer']))return NextResponse.json({error:'需要馆藏管理权限。'},{status:403});
+ if(!user||!hasAnyRole(user,['admin','curator','museum_reviewer']))return NextResponse.json({error:eo?'Muzea administra permeso estas bezonata.':'需要馆藏管理权限。'},{status:403});
  try{
   const b=await req.json(); const nextStatus=String(b.nextStatus||'');
-  if(!['source_confirmed','reviewed'].includes(nextStatus))return NextResponse.json({error:'目标状态无效。'},{status:400});
-  if(nextStatus==='reviewed'&&!hasAnyRole(user,['admin','museum_reviewer']))return NextResponse.json({error:'正式审阅需要馆藏审核员或管理员权限。'},{status:403});
+  if(!['source_confirmed','reviewed'].includes(nextStatus))return NextResponse.json({error:eo?'La cela stato estas nevalida.':'目标状态无效。'},{status:400});
+  if(nextStatus==='reviewed'&&!hasAnyRole(user,['admin','museum_reviewer']))return NextResponse.json({error:eo?'Formala revizio bezonas permeson de muzea kontrolanto aŭ administranto.':'正式审阅需要馆藏审核员或管理员权限。'},{status:403});
   await withTransaction(async client=>{
    const r=await client.query<{asset_id:string;verification_status:string}>(`SELECT asset_id,verification_status FROM asset_media WHERE id=$1 FOR UPDATE`,[b.mediaId]);
    if(!r.rowCount)throw new Error('NOT_FOUND');
@@ -37,8 +39,8 @@ export async function POST(req:NextRequest){
   });
   return NextResponse.json({ok:true});
  }catch(e){
-  if(e instanceof Error&&e.message==='NOT_FOUND')return NextResponse.json({error:'找不到证据附件。'},{status:404});
-  if(e instanceof Error&&e.message==='BAD_TRANSITION')return NextResponse.json({error:'必须按“未核 → 来源已确认 → 已审阅”的次序操作。'},{status:409});
-  console.error(e);return NextResponse.json({error:'暂时无法更新证据状态。'},{status:500});
+  if(e instanceof Error&&e.message==='NOT_FOUND')return NextResponse.json({error:eo?'La kolekta materialo ne estis trovita.':'找不到证据附件。'},{status:404});
+  if(e instanceof Error&&e.message==='BAD_TRANSITION')return NextResponse.json({error:eo?'La paŝoj devas sekvi la ordon: por ordigo → fonto ordigita → materialo ordigita.':'必须按“未核 → 来源已确认 → 已审阅”的次序操作。'},{status:409});
+  console.error(e);return NextResponse.json({error:eo?'Provizore ne eblas ĝisdatigi la staton de la kolekta materialo.':'暂时无法更新证据状态。'},{status:500});
  }
 }
