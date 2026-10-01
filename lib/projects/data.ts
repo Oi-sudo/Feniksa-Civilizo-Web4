@@ -8,6 +8,7 @@ export type ProjectListItem={
 
 export type ProjectDetail=ProjectListItem & {
   actual_end_date:string|null; completed_summary:string|null; terminated_reason:string|null;
+  proposal_id:string|null; proposal_title:string|null; proposal_short_code:string|null;
 };
 
 export type ProjectMilestone={id:string;title:string;description:string|null;due_date:string|null;status:string;completed_at:string|null;updated_at:string};
@@ -32,8 +33,9 @@ export async function listVisibleProjects(limit=50){
 export async function getVisibleProject(id:string){
   const p=await query<ProjectDetail>(`SELECT p.id,p.title,p.description,p.status,p.risk_level::text,
       p.approved_budget::text,p.spent::text,p.currency,p.start_date::text,p.target_end_date::text,p.actual_end_date::text,
-      p.completed_summary,p.terminated_reason,p.updated_at::text,u.display_name AS manager_name
-    FROM projects p LEFT JOIN users u ON u.id=p.manager_id
+      p.completed_summary,p.terminated_reason,p.updated_at::text,u.display_name AS manager_name,
+      p.proposal_id,pr.title AS proposal_title,pr.short_code AS proposal_short_code
+    FROM projects p LEFT JOIN users u ON u.id=p.manager_id LEFT JOIN proposals pr ON pr.id=p.proposal_id
     WHERE p.id=$1 AND p.status IN ('approved','active','paused','completed','terminated','archived') LIMIT 1`,[id]);
   if(!p.rows[0]) return null;
   const [milestones,outputs,risks,statusEvents,budgetEvents]=await Promise.all([
