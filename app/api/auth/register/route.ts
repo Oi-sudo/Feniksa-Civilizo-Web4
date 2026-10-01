@@ -2,19 +2,21 @@ import { NextRequest, NextResponse } from 'next/server';
 import { withTransaction } from '@/lib/db';
 import { hashPassword, hashToken, newOpaqueToken, normalizeEmail } from '@/lib/auth/crypto';
 import { sendVerificationEmail } from '@/lib/email';
+import { getLocale } from '@/lib/i18n';
 
-function validate(displayName: unknown, email: unknown, password: unknown, language: unknown) {
-  if (typeof displayName !== 'string' || displayName.trim().length < 2 || displayName.trim().length > 80) return '显示名需为2—80个字符。';
-  if (typeof email !== 'string' || !/^\S+@\S+\.\S+$/.test(email.trim())) return '请输入有效邮箱。';
-  if (typeof password !== 'string' || password.length < 10) return '密码至少需要10个字符。';
-  if (!['zh', 'eo', 'en'].includes(String(language))) return '语言选项无效。';
+function validate(displayName: unknown, email: unknown, password: unknown, language: unknown, eo=false) {
+  if (typeof displayName !== 'string' || displayName.trim().length < 2 || displayName.trim().length > 80) return eo?'Montrata nomo devas havi 2–80 signojn.':'显示名需为2—80个字符。';
+  if (typeof email !== 'string' || !/^\S+@\S+\.\S+$/.test(email.trim())) return eo?'Bonvolu enigi validan retpoŝtadreson.':'请输入有效邮箱。';
+  if (typeof password !== 'string' || password.length < 10) return eo?'La pasvorto devas havi almenaŭ 10 signojn.':'密码至少需要10个字符。';
+  if (!['zh', 'eo', 'en'].includes(String(language))) return eo?'La lingva elekto estas nevalida.':'语言选项无效。';
   return null;
 }
 
 export async function POST(req: NextRequest) {
   try {
+    const eo=(await getLocale())==='eo';
     const body = await req.json();
-    const error = validate(body.displayName, body.email, body.password, body.language);
+    const error = validate(body.displayName, body.email, body.password, body.language, eo);
     if (error) return NextResponse.json({ error }, { status: 400 });
 
     const email = normalizeEmail(body.email);
@@ -45,12 +47,12 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       ok: true,
       userId: user.id,
-      message: alphaConsoleMode ? '学习身份已建立。Alpha阶段请点击下方验证链接后登录。' : '学习身份已建立。请完成邮箱验证后登录。',
+      message: alphaConsoleMode ? (eo?'La lernidenteco estas kreita. En la Alpha-fazo alklaku la konfirman ligilon sube kaj poste ensalutu.':'学习身份已建立。Alpha阶段请点击下方验证链接后登录。') : (eo?'La lernidenteco estas kreita. Bonvolu konfirmi vian retpoŝtadreson antaŭ ensaluto.':'学习身份已建立。请完成邮箱验证后登录。'),
       ...(alphaConsoleMode ? { verificationUrl } : {})
     }, { status: 201 });
   } catch (error) {
-    if (error instanceof Error && error.message === 'EMAIL_EXISTS') return NextResponse.json({ error: '这个邮箱已经注册。' }, { status: 409 });
+    if (error instanceof Error && error.message === 'EMAIL_EXISTS') return NextResponse.json({ error: (await getLocale())==='eo'?'Ĉi tiu retpoŝtadreso jam estas registrita.':'这个邮箱已经注册。' }, { status: 409 });
     console.error(error);
-    return NextResponse.json({ error: '暂时无法创建账号，请稍后再试。' }, { status: 500 });
+    return NextResponse.json({ error: (await getLocale())==='eo'?'Provizore ne eblas krei konton; bonvolu reprovi poste.':'暂时无法创建账号，请稍后再试。' }, { status: 500 });
   }
 }
