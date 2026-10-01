@@ -35,7 +35,7 @@ const requiredTokens={
   ],
   'app/dad/archive/compare/page.tsx':[
     'ARCHIVE-SNAPSHOT','/dad/archive/snapshots','proposal_count','decision_count','governance_event_count','project_count','milestone_count',
-    'PROPOSAL','DECISION','PROJECT','MILESTONE','getGovernanceArchiveChangeDetails'
+    'PROPOSAL','DECISION','PROJECT','MILESTONE','getGovernanceArchiveChangeDetails','categoryStats','percent.toFixed'
   ],
   'app/passport/projects/[id]/page.tsx':[
     'Phoenix Personal Project Passport','PERSONAL-PROJECT','MEMBERSHIP','MEMBERSHIP-END','EST','BUD','CopyCitationButton','slice(0,8)'
