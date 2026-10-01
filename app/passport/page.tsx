@@ -131,6 +131,21 @@ export default async function PassportPage(){
     </section>
 
     <section className="card">
+      <h2>{eo?'Persona registra tempolinio':en?'Personal record timeline':'个人记录时间线'}</h2>
+      <p className="muted">{eo?'Nur registroj kun reala datotempo estas montrataj ĉi tie: aprobitaj EST/BUD-registroj, aliĝo al projektoj kaj kreitaj verkoj.':en?'Only records with a real database timestamp are shown here: approved EST/BUD records, project joins and created works.':'这里只显示数据库中有真实时间戳的记录：已审核 EST/BUD、加入项目与创建作品。'}</p>
+      {d.timeline.length?<div className="passport-timeline">
+        {d.timeline.map(item=>{
+          const kindLabel=item.kind==='est'?'EST':item.kind==='bud'?'BUD':item.kind==='project'?(eo?'Projekto':en?'Project':'项目'):(eo?'Verko':en?'Work':'作品');
+          const detail=item.kind==='project' ? ((eo?roleEo:en?roleEn:roleZh)[item.detail||'']||item.detail) : item.kind==='work' ? ((eo?workTypeEo:en?workTypeEn:workTypeZh)[item.detail||'']||item.detail) : item.detail;
+          return <article className="timeline-item" key={item.id}>
+            <div className="timeline-date">{new Date(item.occurred_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN')}</div>
+            <div><span className="badge">{kindLabel}</span><h3>{item.title}</h3>{detail&&<p>{detail}</p>}</div>
+          </article>;
+        })}
+      </div>:<p>{eo?'Ankoraŭ ne estas datitaj registroj por la tempolinio.':en?'There are no dated records for the timeline yet.':'目前还没有可按日期排列的记录。'}</p>}
+    </section>
+
+    <section className="card">
       <h2>{m.passport_projects} · Projektoj</h2>
       {d.projects.length?d.projects.map(p=><p key={p.id}>{p.title} · {(eo?roleEo:en?roleEn:roleZh)[p.role]||p.role} · {(eo?projectStatusEo:en?projectStatusEn:projectStatusZh)[p.status]||p.status}</p>):<p>{m.no_projects_yet}</p>}
       <Link href="/projects">{eo?'Vidi projektan enirejon →':en?'View project entry →':'查看项目入口 →'}</Link>
