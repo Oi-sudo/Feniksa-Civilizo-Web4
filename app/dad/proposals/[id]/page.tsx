@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { getLocale } from '@/lib/i18n';
 import { getPublicProposal } from '@/lib/dad/data';
 import PassportPrintButton from '@/components/passport/PassportPrintButton';
+import CopyCitationButton from '@/components/archive/CopyCitationButton';
 
 const statusZh:Record<string,string>={approved:'已批准',rejected:'已否决',executing:'执行中',completed:'已完成',terminated:'已终止',archived:'已归档'};
 const statusEo:Record<string,string>={approved:'Aprobita',rejected:'Malaprobita',executing:'Plenumata',completed:'Kompletigita',terminated:'Ĉesigita',archived:'Arkivita'};
@@ -31,7 +32,7 @@ export default async function ProposalPage({params}:{params:Promise<{id:string}>
   <section className="project-reference-strip">
    <div><span>{eo?'Propona referenco':en?'Proposal reference':'提案引用号'}</span><code>{ref}</code></div>
    <div><span>{eo?'Konstanta loko':en?'Permanent locator':'永久定位'}</span><a href={'#'+anchor}>#{anchor}</a></div>
-   <div className="project-citation"><span>{eo?'Citformo':en?'Citation format':'引用格式'}</span><code>{citation}</code></div>
+   <div className="project-citation"><span>{eo?'Citformo':en?'Citation format':'引用格式'}</span><code>{citation}</code><CopyCitationButton text={citation} label={eo?'Kopii citon':en?'Copy citation':'复制引用'} copiedLabel={eo?'Kopiita':en?'Copied':'已复制'} /></div>
   </section>
   <div className="hero-actions no-print"><PassportPrintButton label={eo?'Presi / konservi kiel PDF':en?'Print / save as PDF':'打印 / 存为 PDF'} /></div>
   <section className="project-summary-grid">
