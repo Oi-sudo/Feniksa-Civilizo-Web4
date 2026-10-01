@@ -291,3 +291,5 @@ main[id^="project-"]{scroll-margin-top:100px}
   .proposal-print-footer strong{font-size:10.5pt}
   .proposal-print-footer p{margin:.35rem 0 0;color:#333!important;font-size:9.5pt;line-height:1.55}
 }
+
+[id^="decision-"],[id^="proposal-status-"]{scroll-margin-top:100px}
