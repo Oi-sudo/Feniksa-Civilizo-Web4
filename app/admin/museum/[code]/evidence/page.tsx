@@ -1,12 +1,12 @@
 import Link from 'next/link'; import { notFound } from 'next/navigation';
-import { requireAnyRole } from '@/lib/permissions/rbac';
+import { hasAnyRole,requireAnyRole } from '@/lib/permissions/rbac';
 import { getMuseumAssetForEvidence,getAssetDossierAdmin,listEvidenceReviewEvents } from '@/lib/museum/data';
 import EvidenceLinkForm from '@/components/museum/EvidenceLinkForm';
 import EvidenceReviewActions from '@/components/museum/EvidenceReviewActions';
 import EvidenceVisibilityActions from '@/components/museum/EvidenceVisibilityActions';
 
 export default async function EvidenceAdminPage({params}:{params:Promise<{code:string}>}){
- await requireAnyRole(['admin','curator','museum_reviewer']);
+ const user=await requireAnyRole(['admin','curator','museum_reviewer']);
  const {code}=await params; const asset=await getMuseumAssetForEvidence(code); if(!asset)notFound();
  const [d,history]=await Promise.all([getAssetDossierAdmin(asset.id),listEvidenceReviewEvents(asset.id)]);
  return <main>
@@ -19,7 +19,7 @@ export default async function EvidenceAdminPage({params}:{params:Promise<{code:s
     <p>{m.caption}</p>{m.source_note&&<p className="muted">{m.source_note}</p>}
     {m.source_confirmed_at&&<p className="muted">来源整理：{m.source_confirmed_by_name||'馆藏人员'} · {new Date(m.source_confirmed_at).toLocaleDateString('zh-CN')}</p>}
     {m.reviewed_at&&<p className="muted">资料整理：{m.reviewed_by_name||'审核人员'} · {new Date(m.reviewed_at).toLocaleDateString('zh-CN')}</p>}
-    <div className="hero-actions"><a className="button button-secondary" href={m.file_url} target="_blank" rel="noreferrer">打开资料 →</a><EvidenceReviewActions mediaId={m.id} status={m.verification_status}/><EvidenceVisibilityActions mediaId={m.id} visibility={m.visibility}/></div>
+    <div className="hero-actions"><a className="button button-secondary" href={m.file_url} target="_blank" rel="noreferrer">打开资料 →</a><EvidenceReviewActions mediaId={m.id} status={m.verification_status}/><EvidenceVisibilityActions mediaId={m.id} visibility={m.visibility} canPublish={hasAnyRole(user,['admin','museum_reviewer'])&&asset.submitted_for_review_by!==user.id} publishNote={asset.submitted_for_review_by===user.id?'这是您提交的馆藏资料，请由另一位管理员或馆藏审核员确认公开。':!hasAnyRole(user,['admin','museum_reviewer'])?'您可以整理资料；公开展示由管理员或馆藏审核员确认。':undefined}/></div>
    </article>)}</div>:<div className="card"><p>尚未挂接附件。</p></div>}
   </section>
   <section className="home-section"><h2>资料整理时间线</h2>
