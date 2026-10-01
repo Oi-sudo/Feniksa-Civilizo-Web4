@@ -20,7 +20,7 @@ export default async function ProposalPage({params}:{params:Promise<{id:string}>
  const anchor='proposal-'+short;
  const status=(eo?statusEo:en?statusEn:statusZh)[p.status]||p.status;
  const archiveDate=new Date().toLocaleDateString(eo?'eo':en?'en-US':'zh-CN');
- const citation='Phoenix DAD Proposal Dossier · PROPOSAL · '+short+' · '+new Date(p.updated_at).toISOString().slice(0,10);
+ const citation='Phoenix DAD Proposal Dossier · PROPOSAL · '+short+' · '+new Date(p.created_at).toISOString().slice(0,10);
  return <main id={anchor}>
   <header className="proposal-print-header">
    <div><strong>{eo?'Feniksa DAD-Propona Dosiero':en?'Phoenix DAD Proposal Dossier':'凤凰文明 DAD 提案档案'}</strong><span>Phoenix DAD Proposal Dossier · Feniksa DAD-Propona Dosiero</span></div>
