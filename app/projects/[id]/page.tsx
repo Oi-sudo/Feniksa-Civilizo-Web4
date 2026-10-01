@@ -19,6 +19,12 @@ const riskEn:Record<string,string>={green:'Green',yellow:'Yellow',orange:'Orange
 const outputZh:Record<string,string>={draft:'草稿',review:'审核中',published:'已发布',archived:'已归档'};
 const outputEo:Record<string,string>={draft:'Malneto',review:'Kontrolata',published:'Publikigita',archived:'Arkivita'};
 const outputEn:Record<string,string>={draft:'Draft',review:'In review',published:'Published',archived:'Archived'};
+const budgetEventZh:Record<string,string>={initial_budget:'初始预算',budget_change:'预算变更',expense_record:'支出记录',adjustment:'调整'};
+const budgetEventEo:Record<string,string>={initial_budget:'Komenca buĝeto',budget_change:'Buĝeta ŝanĝo',expense_record:'Elspeza registro',adjustment:'Ĝustigo'};
+const budgetEventEn:Record<string,string>={initial_budget:'Initial budget',budget_change:'Budget change',expense_record:'Expense record',adjustment:'Adjustment'};
+const budgetStatusZh:Record<string,string>={pending:'待处理',approved:'已批准',rejected:'已驳回',recorded:'已记录'};
+const budgetStatusEo:Record<string,string>={pending:'Atendanta',approved:'Aprobita',rejected:'Malakceptita',recorded:'Registrita'};
+const budgetStatusEn:Record<string,string>={pending:'Pending',approved:'Approved',rejected:'Rejected',recorded:'Recorded'};
 
 export default async function ProjectDetailPage({params}:{params:Promise<{id:string}>}){
  const [{id},locale]=await Promise.all([params,getLocale()]);
@@ -106,6 +112,30 @@ export default async function ProjectDetailPage({params}:{params:Promise<{id:str
     {o.description&&<p>{o.description}</p>}
     {o.url&&<p><a href={o.url} target="_blank" rel="noreferrer">{eo?'Malfermi rezulton →':en?'Open output →':'打开成果 →'}</a></p>}
    </article>)}</div>:<p>{eo?'Ankoraŭ neniu rezulto registrita.':en?'No outputs recorded yet.':'尚未登记成果。'}</p>}
+  </section>
+
+  <section className="card">
+   <h2>{eo?'Historio de projekta stato':en?'Project status history':'项目状态历史'}</h2>
+   {d.statusEvents.length?<div className="project-audit-list">{d.statusEvents.map(e=><article className="project-audit-item" key={e.id}>
+    <div className="timeline-date">{new Date(e.created_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN')}</div>
+    <div>
+     <strong>{e.from_status?((eo?statusEo:en?statusEn:statusZh)[e.from_status]||e.from_status)+' → ':''}{(eo?statusEo:en?statusEn:statusZh)[e.to_status]||e.to_status}</strong>
+     {e.note&&<p>{e.note}</p>}
+     {e.actor_name&&<small>{eo?'Aganto':en?'Actor':'操作人'}：{e.actor_name}</small>}
+    </div>
+   </article>)}</div>:<p>{eo?'Ankoraŭ neniu projekta statŝanĝa evento registrita.':en?'No project status-change events recorded yet.':'尚未登记项目状态变更事件。'}</p>}
+  </section>
+
+  <section className="card">
+   <h2>{eo?'Historio de buĝetaj eventoj':en?'Budget event history':'预算事件历史'}</h2>
+   {d.budgetEvents.length?<div className="project-audit-list">{d.budgetEvents.map(e=><article className="project-audit-item" key={e.id}>
+    <div className="timeline-date">{new Date(e.created_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN')}</div>
+    <div>
+     <div className="record-top"><strong>{(eo?budgetEventEo:en?budgetEventEn:budgetEventZh)[e.event_type]||e.event_type} · {e.amount} {e.currency}</strong><span>{(eo?budgetStatusEo:en?budgetStatusEn:budgetStatusZh)[e.status]||e.status}</span></div>
+     {e.note&&<p>{e.note}</p>}
+     {(e.requested_by_name||e.approved_by_name)&&<small>{e.requested_by_name&&(eo?'Petanto':en?'Requested by':'申请人')+'：'+e.requested_by_name}{e.requested_by_name&&e.approved_by_name?' · ':''}{e.approved_by_name&&(eo?'Aprobinto':en?'Approved by':'批准人')+'：'+e.approved_by_name}</small>}
+    </div>
+   </article>)}</div>:<p>{eo?'Ankoraŭ neniu buĝeta evento registrita.':en?'No budget events recorded yet.':'尚未登记预算事件。'}</p>}
   </section>
 
   <section className="card">
