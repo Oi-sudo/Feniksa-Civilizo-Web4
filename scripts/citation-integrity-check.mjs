@@ -14,6 +14,7 @@ const requiredFiles=[
   'app/dad/archive/years/page.tsx',
   'app/dad/archive/years/[year]/page.tsx',
   'app/dad/archive/years/[year]/[month]/page.tsx',
+  'app/dad/archive/years/[year]/summary/page.tsx',
   'app/passport/projects/[id]/page.tsx',
   'app/passport/page.tsx'
 ];
@@ -53,6 +54,9 @@ const requiredTokens={
   ],
   'app/dad/archive/years/[year]/[month]/page.tsx':[
     'GOVERNANCE-MONTH','getGovernanceMonthlySummary','proposal_count','decision_count','governance_event_count','project_count','milestone_count','archived_report_count','ARCHIVE-REPORT'
+  ],
+  'app/dad/archive/years/[year]/summary/page.tsx':[
+    'GOVERNANCE-YEAR','getGovernanceAnnualSummary','proposal_count','decision_count','governance_event_count','project_count','milestone_count','archived_report_count','Monthly summary'
   ],
   'app/passport/projects/[id]/page.tsx':[
     'Phoenix Personal Project Passport','PERSONAL-PROJECT','MEMBERSHIP','MEMBERSHIP-END','EST','BUD','CopyCitationButton','slice(0,8)'
