@@ -31,7 +31,7 @@ export async function getAdminDashboardCounts(): Promise<AdminDashboardCounts> {
     scalar(`SELECT COUNT(*)::text count FROM users WHERE account_status='active' AND deleted_at IS NULL`),
     scalar(`SELECT COUNT(*)::text count FROM est_records WHERE review_status='pending' AND revoked_at IS NULL`),
     scalar(`SELECT COUNT(*)::text count FROM bud_records WHERE review_status='pending' AND revoked_at IS NULL`),
-    scalar(`SELECT COUNT(*)::text count FROM cultural_assets WHERE public_status IN ('draft','review','changes_requested','approved')`),
+    scalar(`SELECT COUNT(*)::text count FROM cultural_assets WHERE workflow_status IN ('draft','review','changes_requested','approved') AND deleted_at IS NULL`),
     scalar(`SELECT COUNT(*)::text count FROM project_budget_events WHERE event_type='budget_change' AND status='pending'`),
     scalar(`SELECT COUNT(*)::text count FROM project_risks WHERE risk_level='red' AND status IN ('open','mitigating')`),
     scalar(`SELECT COUNT(*)::text count FROM project_risks WHERE risk_level='orange' AND status IN ('open','mitigating')`),
