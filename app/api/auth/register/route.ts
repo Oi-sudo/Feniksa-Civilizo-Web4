@@ -14,6 +14,12 @@ function validate(displayName: unknown, email: unknown, password: unknown, langu
 
 export async function POST(req: NextRequest) {
   try {
+    const publicRegistration=process.env.PUBLIC_REGISTRATION==='true';
+    const realEmailProvider=Boolean(process.env.EMAIL_PROVIDER&&process.env.EMAIL_PROVIDER!=='console'&&process.env.EMAIL_FROM&&process.env.EMAIL_FROM!=='noreply@example.invalid');
+    if(process.env.NODE_ENV==='production'&&(!publicRegistration||!realEmailProvider)){
+      const locale=await getLocale(); const eo=locale==='eo'; const en=locale==='en';
+      return NextResponse.json({error:eo?'Publika registrado ankoraŭ ne estas malfermita en ĉi tiu Alpha-medio.':en?'Public registration is not open in this Alpha environment yet.':'此 Alpha 环境尚未开放公开注册。'},{status:503});
+    }
     const locale=await getLocale(); const eo=locale==='eo'; const en=locale==='en';
     const body = await req.json();
     const error = validate(body.displayName, body.email, body.password, body.language, eo, en);
