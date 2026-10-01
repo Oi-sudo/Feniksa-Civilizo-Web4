@@ -14,6 +14,8 @@ const required = [
   'app/admin/audit/page.tsx',
   'app/api/health/route.ts',
   'ALPHA-DEPLOYMENT.md',
+  'VERCEL-DEPLOYMENT.md',
+  'vercel.json',
   '.env.example',
   'database/migrations/0017_audit_integrity.sql',
   'database/migrations/0026_dad_archive_snapshots.sql',
