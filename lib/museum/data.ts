@@ -50,7 +50,7 @@ export async function listMuseumReviewQueue(){
 
 
 export type AssetMedia={
-  id:string; media_type:string; file_url:string; caption:string|null; is_primary:boolean; copyright_status:string; created_at:string;
+  id:string; media_type:string; file_url:string; caption:string|null; is_primary:boolean; copyright_status:string; evidence_role:string; verification_status:string; source_note:string|null; created_at:string;
 };
 export type ExhibitionText={
   id:string; locale:'zh'|'eo'|'en'; short_label:string|null; exhibition_text:string; version:string; reviewed_at:string|null;
@@ -64,7 +64,7 @@ export type AssetVersion={
 
 export async function getAssetDossier(assetId:string){
   const [media,labels,research,versions]=await Promise.all([
-    query<AssetMedia>(`SELECT id,media_type::text,file_url,caption,is_primary,copyright_status,created_at::text
+    query<AssetMedia>(`SELECT id,media_type::text,file_url,caption,is_primary,copyright_status,evidence_role,verification_status,source_note,created_at::text
       FROM asset_media WHERE asset_id=$1 ORDER BY is_primary DESC,created_at ASC`,[assetId]),
     query<ExhibitionText>(`SELECT id,locale,short_label,exhibition_text,version,reviewed_at::text
       FROM asset_exhibition_texts WHERE asset_id=$1 AND status='published'
@@ -132,4 +132,14 @@ export async function listAssetsByCatalogVolume(volume:string){
     WHERE a.catalog_volume=$1 AND a.public_status='published' AND a.workflow_status='published' AND a.deleted_at IS NULL
     ORDER BY a.catalog_code`,[volume]);
   return r.rows;
+}
+
+
+export async function getMuseumAssetForEvidence(code:string){
+  const r=await query<{id:string;permanent_code:string;catalog_code:string|null;title_zh:string}>(`
+    SELECT id,permanent_code,catalog_code,title_zh
+      FROM cultural_assets
+     WHERE permanent_code=$1 AND deleted_at IS NULL
+     LIMIT 1`,[code]);
+  return r.rows[0]||null;
 }

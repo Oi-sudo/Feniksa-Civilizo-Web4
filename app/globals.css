@@ -53,3 +53,5 @@
 .hall-summary>div{display:grid;gap:6px}.hall-summary>div strong{font-size:3rem;color:#d7b46a}.hall-summary>div span{opacity:.75}
 .hall-summary p{line-height:1.75}
 @media(max-width:650px){.hall-summary{grid-template-columns:1fr}}
+
+.evidence-chip{display:inline-block;padding:3px 8px;border:1px solid #4b5055;border-radius:999px;font-size:.78rem}

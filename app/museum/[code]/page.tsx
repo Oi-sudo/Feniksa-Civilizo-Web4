@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getAssetDossier,getPublishedAsset } from '@/lib/museum/data';
 
+const evidenceLabel:Record<string,string>={original:'原始证据',publication_history:'传播史证据',comparison:'外部比对资料',research_reference:'研究参考'};
 const mediaLabel:Record<string,string>={
   image:'原始图片 · Originala bildo',
   video:'原始视频 · Originala video',
@@ -57,8 +58,8 @@ export default async function AssetPage({params}:{params:Promise<{code:string}>}
       <span className="eyebrow">Evidence Chain · 证据链</span>
       <h2>原始证据</h2>
       {d.media.length?<div className="record-list">{d.media.map(x=><article className="card" key={x.id}>
-        <div className="record-top"><strong>{mediaLabel[x.media_type]||x.media_type}</strong><span>{x.copyright_status}</span></div>
-        <p>{x.caption||'原始档案材料'}</p>
+        <div className="record-top"><strong>{mediaLabel[x.media_type]||x.media_type}</strong><span>{evidenceLabel[x.evidence_role]||x.evidence_role} · {x.verification_status}</span></div>
+        <p>{x.caption||'档案材料'}</p>{x.source_note&&<p className="muted">来源备注：{x.source_note}</p>}
         <a href={x.file_url} target="_blank" rel="noreferrer">打开原始资料 →</a>
       </article>)}</div>:<div className="card"><p>目前尚未接入公开原始图片、视频、证书或文件。档案可以先登记，但不能因此推定缺失证据已经存在。</p></div>}
     </section>
