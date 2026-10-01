@@ -293,3 +293,9 @@ main[id^="project-"]{scroll-margin-top:100px}
 }
 
 [id^="decision-"],[id^="proposal-status-"]{scroll-margin-top:100px}
+
+.governance-source-summary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:12px 0 14px}
+.governance-source-summary p{display:grid;gap:4px;margin:0;padding:12px;border:1px solid #343a40;border-radius:12px;background:rgba(255,255,255,.02)}
+.governance-source-summary span{font-size:.82rem;color:#bcb5a9}
+@media(max-width:620px){.governance-source-summary{grid-template-columns:1fr}}
+@media print{.governance-source-summary p{background:#fff!important;border-color:#bbb!important;color:#111!important}}
