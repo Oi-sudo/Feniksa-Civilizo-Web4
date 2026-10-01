@@ -224,3 +224,10 @@
 .project-card p{line-height:1.6}
 @media(max-width:760px){.project-summary-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:480px){.project-summary-grid{grid-template-columns:1fr}}
+
+.project-progress-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+.project-progress-grid>div{display:grid;gap:6px;padding:16px;border:1px solid #3b4147;border-radius:16px;background:rgba(255,255,255,.02)}
+.project-progress-grid span{font-size:.82rem;color:#bcb5a9}
+.project-progress-grid strong{font-size:1.35rem;color:#f0d89b}
+.project-progress-grid small{color:#bdb6aa}
+@media(max-width:620px){.project-progress-grid{grid-template-columns:1fr}}
