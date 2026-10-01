@@ -6,6 +6,7 @@ const requiredFiles=[
   'app/projects/[id]/page.tsx',
   'app/dad/proposals/[id]/page.tsx',
   'app/dad/timeline/page.tsx',
+  'app/dad/index/page.tsx',
   'app/passport/projects/[id]/page.tsx',
   'app/passport/page.tsx'
 ];
@@ -19,6 +20,9 @@ const requiredTokens={
   ],
   'app/dad/timeline/page.tsx':[
     'Phoenix DAD Governance Timeline','GOV-EVENT','CopyCitationButton','eventAnchor','eventCitation'
+  ],
+  'app/dad/index/page.tsx':[
+    'PROPOSAL','DECISION','GOV-EVENT','PROJECT','MILESTONE','/dad/proposals/','/dad/decisions','/dad/timeline','/projects/'
   ],
   'app/passport/projects/[id]/page.tsx':[
     'Phoenix Personal Project Passport','PERSONAL-PROJECT','MEMBERSHIP','MEMBERSHIP-END','EST','BUD','CopyCitationButton','slice(0,8)'
