@@ -84,6 +84,7 @@ export default async function ProjectDetailPage({params}:{params:Promise<{id:str
     <div className="governance-source-summary">
      <p><span>{eo?'Fina rezulto':en?'Final outcome':'最终决定'}：</span><strong>{p.proposal_outcome?((eo?outcomeEo:en?outcomeEn:outcomeZh)[p.proposal_outcome]||p.proposal_outcome):(eo?'Neniu fina decida momentbildo':en?'No final decision snapshot':'尚无最终决定快照')}</strong></p>
      <p><span>{eo?'Decida dato':en?'Decision date':'决定日期'}：</span><strong>{p.proposal_decision_finalized_at?new Date(p.proposal_decision_finalized_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN'):'—'}</strong></p>
+     {p.proposal_decision_id&&(()=>{const ds=p.proposal_decision_id.replace(/-/g,'').slice(0,8);return <p><span>{eo?'Decida referenco':en?'Decision reference':'决定引用号'}：</span><strong><Link href={'/dad/proposals/'+p.proposal_id+'#decision-'+ds}>{'DECISION · '+ds}</Link></strong></p>})()}
     </div>
     <Link className="button button-secondary" href={'/dad/proposals/'+p.proposal_id}>{eo?'Vidi fontan DAD-proponon':en?'View source DAD proposal':'查看来源 DAD 提案'}</Link>
    </div>:<p>{eo?'Neniu DAD-propono estas ligita al ĉi tiu projekta registro.':en?'No DAD proposal is linked to this project record.':'此项目记录目前没有关联 DAD 提案。'}</p>}
