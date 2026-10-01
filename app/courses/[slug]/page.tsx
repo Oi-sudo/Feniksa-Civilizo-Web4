@@ -3,6 +3,11 @@ import { notFound } from 'next/navigation';
 import { getLocale } from '@/lib/i18n';
 import { getCourseBySlug,listPublishedLessons } from '@/lib/courses/data';
 
+const contentZh:Record<string,string>={complete:'完整',partial:'分批导入',draft:'草稿'};
+const contentEo:Record<string,string>={complete:'Kompleta',partial:'Parte importita',draft:'Malneto'};
+const accessZh:Record<string,string>={public:'公开',members:'成员',private:'内部'};
+const accessEo:Record<string,string>={public:'Publika',members:'Por membroj',private:'Interna'};
+
 export default async function CoursePage({params}:{params:Promise<{slug:string}>}){
   const {slug}=await params;
   const [course,locale]=await Promise.all([getCourseBySlug(slug),getLocale()]);
@@ -18,7 +23,7 @@ export default async function CoursePage({params}:{params:Promise<{slug:string}>
     {!eo&&course.description_eo&&<p className="muted">{course.description_eo}</p>}
     <section className="card">
       <h2>{eo?'Kursa stato':'课程状态'}</h2>
-      <p>{eo?'Enhava stato':'内容状态'}：<strong>{course.content_status}</strong> · {eo?'Aliro':'访问'}：{course.access_level} · {eo?'Ĉirkaŭ':'预计'} {course.estimated_lessons||'—'} {eo?'lecionoj':'课'}</p>
+      <p>{eo?'Enhava stato':'内容状态'}：<strong>{(eo?contentEo:contentZh)[course.content_status]||course.content_status}</strong> · {eo?'Aliro':'访问'}：{(eo?accessEo:accessZh)[course.access_level]||course.access_level} · {eo?'Ĉirkaŭ':'预计'} {course.estimated_lessons||'—'} {eo?'lecionoj':'课'}</p>
       <p>{eo?(course.learning_objectives_eo||course.learning_objectives_zh):course.learning_objectives_zh}</p>
       {!eo&&course.learning_objectives_eo&&<p className="muted">{course.learning_objectives_eo}</p>}
     </section>
@@ -30,7 +35,7 @@ export default async function CoursePage({params}:{params:Promise<{slug:string}>
         </Link>)}
       </div>
     </section>
-    <section className="card"><h2>{eo?'Regulo por EST':'EST 生成规则'}</h2><p>{eo?'Nur kiam la kurso estas markita kiel complete kaj ĉiuj publikigitaj lecionoj estas finitaj, la sistemo aŭtomate kreas unu EST-registron pri kurskompletigo. Parte importita kurso ne ricevas EST anticipe.':'只有当课程标记为 complete，并且所有已发布章节都完成后，系统才自动生成一次课程完成 EST 记录。部分导入课程不会提前发放。'}</p></section>
+    <section className="card"><h2>{eo?'Regulo por EST':'EST 生成规则'}</h2><p>{eo?'Nur kiam la kurso estas markita kiel “Kompleta” kaj ĉiuj publikigitaj lecionoj estas finitaj, la sistemo aŭtomate kreas unu EST-registron pri kurskompletigo. Parte importita kurso ne ricevas EST anticipe.':'只有当课程标记为“完整”，并且所有已发布章节都完成后，系统才自动生成一次课程完成 EST 记录。部分导入课程不会提前发放。'}</p></section>
     <Link className="button button-secondary" href="/courses">{eo?'Reveni al la kursaro':'返回课程目录'}</Link>
   </main>;
 }
