@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { getLocale } from '@/lib/i18n';
 import { getHallByCode,listPublishedAssetsByHall } from '@/lib/museum/data';
 
 const hallIntro:Record<string,{zh:string;eo:string}> = {
@@ -15,23 +16,24 @@ const hallIntro:Record<string,{zh:string;eo:string}> = {
 };
 
 export default async function HallPage({params}:{params:Promise<{code:string}>}){
+ const eo=(await getLocale())==='eo';
  const {code}=await params; const hall=await getHallByCode(code); if(!hall)notFound();
  const assets=await listPublishedAssetsByHall(hall.id);
  const intro=hallIntro[hall.code]||{zh:'凤凰文明数字博物馆九馆之一。',eo:'Unu el la naŭ haloj de la Cifereca Muzeo de Feniksa Civilizo.'};
  return <main>
-  <span className="badge">九馆 · Naŭ Haloj · {hall.code}</span>
-  <h1>{hall.title_zh}</h1><p className="lead">{hall.title_eo}</p>{hall.title_en&&<p className="muted">{hall.title_en}</p>}
+  <span className="badge">{eo?'Naŭ Haloj':'九馆'} · Naŭ Haloj · {hall.code}</span>
+  <h1>{eo?(hall.title_eo||hall.title_zh):hall.title_zh}</h1>{!eo&&<p className="lead">{hall.title_eo}</p>}{hall.title_en&&<p className="muted">{hall.title_en}</p>}
   <section className="card">
-    <div className="hall-summary"><div><strong>{hall.asset_count}</strong><span>公开馆藏 · publikaj eroj</span></div><p>{intro.zh}<br/><span className="muted">{intro.eo}</span></p></div>
+    <div className="hall-summary"><div><strong>{hall.asset_count}</strong><span>{eo?'publikaj eroj':'公开馆藏 · publikaj eroj'}</span></div><p>{eo?intro.eo:intro.zh}{!eo&&<><br/><span className="muted">{intro.eo}</span></>}</p></div>
   </section>
   <section className="home-section">
-    <h2>本馆藏品 · Kolektaĵoj en ĉi tiu halo</h2>
+    <h2>{eo?'Kolektaĵoj en ĉi tiu halo':'本馆藏品 · Kolektaĵoj en ĉi tiu halo'}</h2>
     {assets.length?<div className="card-grid">{assets.map(a=><Link className="card" href={`/museum/${a.permanent_code}`} key={a.id}>
       <span className="eyebrow">{a.permanent_code}{a.batch_code?` · ${a.batch_code}`:''}</span>
-      <h3>{a.title_zh}</h3><p>{a.title_eo}</p><small>{a.category||'未单列类别'}</small><span className="card-link">查看一物一档 →</span>
-    </Link>)}</div>:<div className="card"><p>本馆当前没有公开条目；后续可随收藏资料与文化记忆的整理继续丰富。</p></div>}
+      <h3>{eo?(a.title_eo||a.title_zh):a.title_zh}</h3>{!eo&&<p>{a.title_eo}</p>}<small>{a.category||(eo?'Kategorio ne aparte indikita':'未单列类别')}</small><span className="card-link">{eo?'Vidi la dosieron →':'查看一物一档 →'}</span>
+    </Link>)}</div>:<div className="card"><p>{eo?'Nun ne estas publikaj eroj en ĉi tiu halo; la enhavo povas kreski laŭ la ordigo de kolektaj materialoj kaj kultura memoro.':'本馆当前没有公开条目；后续可随收藏资料与文化记忆的整理继续丰富。'}</p></div>}
   </section>
-  <section className="card"><h2>主馆籍原则</h2><p>每件藏品只设一个主馆籍，避免九馆重复计数；关联展示可以跨馆，但主档案仍只归一馆。</p><p className="muted">本馆以个人收藏、文化记忆与数字赏玩为定位，资料可随学习与整理继续丰富。</p></section>
-  <div className="hero-actions"><Link className="button button-primary" href="/museum">返回九馆总览</Link><Link className="button button-secondary" href="/museum/about">收藏与赏玩说明</Link><Link className="button button-secondary" href="/wfb/intake">登记新藏品</Link></div>
+  <section className="card"><h2>{eo?'Principo de la ĉefa halo':'主馆籍原则'}</h2><p>{eo?'Ĉiu kolektaĵo havas nur unu ĉefan halon por eviti duoblan nombradon. Rilataj prezentoj povas transiri inter haloj, sed la ĉefa dosiero restas en unu halo.':'每件藏品只设一个主馆籍，避免九馆重复计数；关联展示可以跨馆，但主档案仍只归一馆。'}</p><p className="muted">{eo?'La halo celas personajn kolektaĵojn, kulturan memoron kaj ciferecan ĝuadon; la dokumentaro povas daŭre pliriĉiĝi dum lernado kaj ordigo.':'本馆以个人收藏、文化记忆与数字赏玩为定位，资料可随学习与整理继续丰富。'}</p></section>
+  <div className="hero-actions"><Link className="button button-primary" href="/museum">{eo?'Reveni al la naŭ haloj':'返回九馆总览'}</Link><Link className="button button-secondary" href="/museum/about">{eo?'Pri kolektoj kaj cifereca ĝuado':'收藏与赏玩说明'}</Link><Link className="button button-secondary" href="/wfb/intake">{eo?'Registri novan kolektaĵon':'登记新藏品'}</Link></div>
  </main>;
 }
