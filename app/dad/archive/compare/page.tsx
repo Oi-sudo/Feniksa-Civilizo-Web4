@@ -2,10 +2,13 @@ import Link from 'next/link';
 import { getLocale } from '@/lib/i18n';
 import { getGovernanceArchiveChangeDetails, getGovernanceArchiveSnapshot, listGovernanceArchiveSnapshots } from '@/lib/dad/data';
 import PassportPrintButton from '@/components/passport/PassportPrintButton';
+import ArchiveReportButton from '@/components/archive/ArchiveReportButton';
+import { getCurrentUser } from '@/lib/auth/session';
+import { hasRole } from '@/lib/permissions/rbac';
 
 export default async function ArchiveComparePage({searchParams}:{searchParams:Promise<{from?:string;to?:string}>}){
-  const [{from,to},locale,all]=await Promise.all([searchParams,getLocale(),listGovernanceArchiveSnapshots(120)]);
-  const eo=locale==='eo'; const en=locale==='en';
+  const [{from,to},locale,all,user]=await Promise.all([searchParams,getLocale(),listGovernanceArchiveSnapshots(120),getCurrentUser()]);
+  const eo=locale==='eo'; const en=locale==='en'; const isAdmin=!!user&&hasRole(user,'admin');
 
   const selectedTo=to||all[0]?.snapshot_date;
   const selectedFrom=from||all[1]?.snapshot_date;
@@ -63,7 +66,14 @@ export default async function ArchiveComparePage({searchParams}:{searchParams:Pr
     </section>
 
     {a&&b?<>
-      <div className="hero-actions no-print"><PassportPrintButton label={eo?'Presi / konservi kiel PDF':en?'Print / save as PDF':'打印 / 存为 PDF'} /></div>
+      <div className="hero-actions no-print">
+        <PassportPrintButton label={eo?'Presi / konservi kiel PDF':en?'Print / save as PDF':'打印 / 存为 PDF'} />
+        {isAdmin&&<ArchiveReportButton from={a.snapshot_date} to={b.snapshot_date}
+          label={eo?'Arkivi ĉi tiun raporton':en?'Archive this report':'归档此报告'}
+          working={eo?'Arkivante…':en?'Archiving…':'正在归档…'}
+          done={eo?'La raporto estis arkivita.':en?'Report archived.':'报告已归档。'}
+          exists={eo?'La raporto jam estas arkivita aŭ ne eblas arkivi ĝin.':en?'The report is already archived or could not be archived.':'该报告已归档，或暂时无法归档。'} />}
+      </div>
       <section className="project-reference-strip">
         <div><span>{eo?'Komenca momentbildo':en?'Starting snapshot':'起始快照'}</span><code>ARCHIVE-SNAPSHOT · {a.snapshot_date}</code></div>
         <div><span>{eo?'Fina momentbildo':en?'Ending snapshot':'结束快照'}</span><code>ARCHIVE-SNAPSHOT · {b.snapshot_date}</code></div>
