@@ -53,6 +53,9 @@ jobs:
       - name: Seed base data
         run: npm run db:seed
 
+      - name: Esperanto i18n integrity
+        run: npm run i18n:check
+
       - name: Smoke check
         run: npm run test:smoke
 
