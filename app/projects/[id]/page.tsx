@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { getLocale } from '@/lib/i18n';
 import { getVisibleProject } from '@/lib/projects/data';
 import TaohuayuanZoneNav from '@/components/taohuayuan/ZoneNav';
+import PassportPrintButton from '@/components/passport/PassportPrintButton';
 
 const statusZh:Record<string,string>={approved:'已批准',active:'进行中',paused:'已暂停',completed:'已完成',terminated:'已终止',archived:'已归档'};
 const statusEo:Record<string,string>={approved:'Aprobita',active:'Aktiva',paused:'Paŭzita',completed:'Kompletigita',terminated:'Ĉesigita',archived:'Arkivita'};
@@ -46,8 +47,13 @@ export default async function ProjectDetailPage({params}:{params:Promise<{id:str
  const scheduleState=startMs===null||endMs===null?(eo?'Neniu plena tempofenestro':en?'No complete time window':'缺少完整时间窗'):now<startMs?(eo?'Ankoraŭ ne komencita':en?'Not started yet':'尚未到开始日期'):now>endMs?(eo?'Trans la cela findato':en?'Past target end date':'已超过目标结束日期'):(eo?'En la planita tempofenestro':en?'Within planned time window':'处于计划时间窗内');
  return <main>
   <span className="badge">DAD · Projects</span>
+  <header className="project-print-header">
+   <div><strong>{eo?'Feniksa Projekta Dosiero':en?'Phoenix Project Dossier':'凤凰文明项目档案'}</strong><span>Phoenix Project Dossier · Feniksa Projekta Dosiero</span></div>
+   <div><span>{eo?'Projekto':en?'Project':'项目'}：{p.title}</span><span>{eo?'Stato':en?'Status':'状态'}：{status}</span></div>
+  </header>
   <h1>{p.title}</h1>
   {p.description&&<p className="lead">{p.description}</p>}
+  <div className="hero-actions no-print"><PassportPrintButton label={eo?'Presi / konservi kiel PDF':en?'Print / save as PDF':'打印 / 存为 PDF'} /></div>
 
   <section className="project-summary-grid">
    <div><span>{eo?'Stato':en?'Status':'状态'}</span><strong>{status}</strong></div>
@@ -146,6 +152,8 @@ export default async function ProjectDetailPage({params}:{params:Promise<{id:str
     <p>{r.description}</p>{r.mitigation&&<p><strong>{eo?'Mildigo':en?'Mitigation':'缓解措施'}：</strong>{r.mitigation}</p>}<small>{eo?'Kreita':en?'Created':'创建'}：{new Date(r.created_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN')} · {eo?'Ĝisdatigita':en?'Updated':'最近更新'}：{new Date(r.updated_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN')}{r.resolved_at?' · '+(eo?'Solvita':en?'Resolved':'解决')+' '+new Date(r.resolved_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN'):''}</small>
    </article>)}</div>:<p>{eo?'Ankoraŭ neniu risko registrita.':en?'No risks recorded yet.':'尚未登记风险。'}</p>}
   </section>
+
+  <footer className="project-print-footer"><strong>{eo?'Arkiva noto':en?'Archive note':'归档说明'}</strong><p>{eo?'Ĉi tiu presaĵo aŭ PDF estas nurlegebla momentbildo de la nuna projekta dosiero. Ĝi ne estas financa aprobo, paginstrukcio aŭ projekta poentaro, kaj ĝi ne anstataŭas la fontajn registrejojn.':en?'This printout or PDF is a read-only snapshot of the current project dossier. It is not a financial approval, payment instruction or project score, and it does not replace source records.':'本打印件或 PDF 是当前项目档案的只读快照，不是财务批准、付款指令或项目评分，也不能替代原始记录。'}</p></footer>
 
   <TaohuayuanZoneNav locale={locale} current="projects" />
   <div className="hero-actions"><Link className="button button-primary" href="/projects">{eo?'Reveni al projekta registro':en?'Back to project register':'返回项目总台账'}</Link><Link className="button button-secondary" href="/projects/bud-confirmations">{eo?'BUD-serva konfirmo':en?'BUD service confirmation':'BUD 服务确认'}</Link></div>
