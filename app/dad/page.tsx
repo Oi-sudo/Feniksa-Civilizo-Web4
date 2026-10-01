@@ -63,6 +63,6 @@ export default async function DadPage({searchParams}:{searchParams:Promise<{stat
       <p>{eo?'Unu homo havas unu regadan identecon; riĉeco ne aĉetas regrajton. AI povas resumi, traduki kaj serĉi, sed ĝi ne povas anstataŭi homojn en decido pri proponoj nek aŭtomate movi monon.':en?'One person has one governance identity; wealth does not buy governance rights. AI may summarize, translate and search, but it cannot replace people in deciding proposals or move funds automatically.':'一人一治理身份；财富不购买治理权；AI可以摘要、翻译与检索，但不能代替人决定提案是否通过，也不能自动移动资金。'}</p>
     </section>
     <TaohuayuanZoneNav locale={locale} current="dad" />
-    <div className="hero-actions"><Link className="button button-primary" href="/projects">{eo?'Vidi projektan plenumadon':en?'View project execution':'查看项目执行'}</Link><Link className="button button-secondary" href="/login">{eo?'Ensaluti por membrorajtoj':en?'Log in for member functions':'登录进入成员功能'}</Link></div>
+    <div className="hero-actions"><Link className="button button-primary" href="/dad/decisions">{eo?'Vidi publikan decidregistron':en?'View public decision registry':'查看公开决定总台账'}</Link><Link className="button button-secondary" href="/projects">{eo?'Vidi projektan plenumadon':en?'View project execution':'查看项目执行'}</Link><Link className="button button-secondary" href="/login">{eo?'Ensaluti por membrorajtoj':en?'Log in for member functions':'登录进入成员功能'}</Link></div>
   </main>;
 }
