@@ -38,10 +38,11 @@ export async function getPublishedAsset(code:string){
   return r.rows[0]||null;
 }
 
+export type MuseumReviewAsset=AssetDetail & {submitted_for_review_by:string|null};
 export async function listMuseumReviewQueue(){
-  const r=await query<AssetDetail>(`SELECT a.id,a.permanent_code,a.catalog_code,a.catalog_volume,a.batch_code,a.title_zh,a.title_eo,a.title_en,a.category,a.material,
+  const r=await query<MuseumReviewAsset>(`SELECT a.id,a.permanent_code,a.catalog_code,a.catalog_volume,a.batch_code,a.title_zh,a.title_eo,a.title_en,a.category,a.material,
       a.authentication_level::text,a.ownership_status,a.valuation_status,a.digital_rights_status,
-      a.period_description,a.dimensions,a.weight,a.provenance,a.current_location_note,a.workflow_status,a.public_status,
+      a.period_description,a.dimensions,a.weight,a.provenance,a.current_location_note,a.workflow_status,a.public_status,a.submitted_for_review_by::text,
       h.title_zh AS hall_zh,h.title_eo AS hall_eo
     FROM cultural_assets a LEFT JOIN museum_halls h ON h.id=a.primary_hall_id
     WHERE a.workflow_status='review' AND a.deleted_at IS NULL ORDER BY a.submitted_for_review_at ASC NULLS LAST`);
