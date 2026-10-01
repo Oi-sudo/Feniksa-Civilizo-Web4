@@ -171,3 +171,5 @@
 .timeline-source-link{display:inline-block;margin-top:8px;color:#d7b46a;font-size:.9rem}
 .timeline-source-link:hover{text-decoration:underline}
 .record-list article[id],#project-record-anchor,[id^="project-record-"],[id^="work-record-"]{scroll-margin-top:100px}
+
+.timeline-source-type{margin-top:7px!important;font-size:.82rem;color:#9f978a!important}
