@@ -208,6 +208,60 @@ export async function listGovernanceArchiveSnapshots(limit=120){
 }
 
 
+
+export type GovernanceArchiveChangeItem={
+  id:string;record_type:string;title:string;occurred_at:string;proposal_id:string|null;project_id:string|null;
+  proposal_short_code:string|null;
+};
+
+export async function getGovernanceArchiveChangeDetails(fromDate:string,toDate:string){
+  const r=await query<GovernanceArchiveChangeItem>(`
+    SELECT * FROM (
+      SELECT p.id,'proposal'::text AS record_type,p.title,p.created_at::text AS occurred_at,
+        p.id AS proposal_id,NULL::uuid AS project_id,p.short_code AS proposal_short_code
+      FROM proposals p
+      WHERE p.status::text = ANY($1::text[])
+        AND p.created_at >= $2::date
+        AND p.created_at < ($3::date + INTERVAL '1 day')
+
+      UNION ALL
+
+      SELECT d.id,'decision',p.title,d.finalized_at::text,
+        p.id,NULL::uuid,p.short_code
+      FROM proposal_decisions d
+      JOIN proposals p ON p.id=d.proposal_id
+      WHERE p.status::text = ANY($1::text[])
+        AND d.finalized_at >= $2::date
+        AND d.finalized_at < ($3::date + INTERVAL '1 day')
+
+      UNION ALL
+
+      SELECT prj.id,'project',prj.title,prj.created_at::text,
+        p.id,prj.id,p.short_code
+      FROM projects prj
+      JOIN proposals p ON p.id=prj.proposal_id
+      WHERE p.status::text = ANY($1::text[])
+        AND prj.status IN ('approved','active','paused','completed','terminated','archived')
+        AND prj.created_at >= $2::date
+        AND prj.created_at < ($3::date + INTERVAL '1 day')
+
+      UNION ALL
+
+      SELECT m.id,'milestone',m.title,COALESCE(m.completed_at,m.updated_at)::text,
+        p.id,prj.id,p.short_code
+      FROM project_milestones m
+      JOIN projects prj ON prj.id=m.project_id
+      JOIN proposals p ON p.id=prj.proposal_id
+      WHERE p.status::text = ANY($1::text[])
+        AND prj.status IN ('approved','active','paused','completed','terminated','archived')
+        AND m.status='completed'
+        AND COALESCE(m.completed_at,m.updated_at) >= $2::date
+        AND COALESCE(m.completed_at,m.updated_at) < ($3::date + INTERVAL '1 day')
+    ) changes
+    ORDER BY occurred_at ASC,record_type,id`,[publicStatuses,fromDate,toDate]);
+  return r.rows;
+}
+
 export async function getGovernanceArchiveSnapshot(date:string){
   const r=await query<GovernanceArchiveSnapshot>(`SELECT id,snapshot_date::text,proposal_count,decision_count,governance_event_count,
       project_count,milestone_count,created_at::text
