@@ -66,6 +66,19 @@ export default async function PassportPage(){
       <Link className="stat-card" href="/passport/bud"><strong>{d.bud.value}</strong><span>{eo?'BUD · Vola-Agada Registro':en?'BUD · Vow-and-Action Record':'BUD 佛光币'}</span><small>{eo?`Aprobitaj ${d.bud.approved} · Servo ${d.bud.hours} horoj · Vidi detalojn →`:en?`Approved ${d.bud.approved} · Service ${d.bud.hours} hours · View details →`:`已审核 ${d.bud.approved} · 服务 ${d.bud.hours} 小时 · 查看明细 →`}</small></Link>
     </section>
 
+    <section className="card passport-path">
+      <h2>{eo?'Mia socia vojo':en?'My social path':'我的社会运行路径'}</h2>
+      <p className="muted">{eo?'La pasporto kunigas lernadon, publikan diskuton, projektan partoprenon, servoregistrojn kaj verkojn en unu persona kronologio. Ĝi estas vojo de partopreno, ne rango de homo.':en?'The passport brings learning, public discussion, project participation, service records and works together into one personal chronology. It is a participation path, not a ranking of the person.':'学习护照把学习、公共议事、项目参与、服务记录与作品档案汇成一条个人轨迹。它记录参与路径，不给人排序。'}</p>
+      <div className="life-path-steps passport-life-path">
+        <Link href="/courses"><span>01</span><strong>{eo?'Lerni':en?'Learn':'学习'}</strong><small>{eo?`${d.courses.completed} kompletigitaj`:en?`${d.courses.completed} completed`:`已完成 ${d.courses.completed} 门`}</small></Link>
+        <Link href="/dad"><span>02</span><strong>{eo?'Diskuti':en?'Discuss':'议事'}</strong><small>DAD</small></Link>
+        <Link href="/projects"><span>03</span><strong>{eo?'Partopreni projektojn':en?'Join projects':'参与项目'}</strong><small>{d.projects.length}</small></Link>
+        <Link href="/passport/bud"><span>04</span><strong>{eo?'Servi':en?'Serve':'服务'}</strong><small>BUD {d.bud.value} · {d.bud.hours}h</small></Link>
+        <Link href="/museum"><span>05</span><strong>{eo?'Konservi kulturon':en?'Preserve culture':'文化存录'}</strong><small>{eo?'Muzeo':en?'Museum':'博物馆'}</small></Link>
+        <Link href="/passport"><span>06</span><strong>{eo?'Reveni al mia pasporto':en?'Return to my passport':'回到个人护照'}</strong><small>{eo?'Unu persona kronologio':en?'One personal chronology':'个人总轨迹'}</small></Link>
+      </div>
+    </section>
+
     <section className="card">
       <h2>{eo?'Ses-linia lernovojo':en?'Six-line learning journey':'六爻成长轨迹 · Ses-linia lernovojo'}</h2>
       <p className="muted">{eo?'Ĝi registras lernadon kaj praktikon, sed ne atestas religian atingon kaj ne kreas membran rangon.':en?'It records learning and practice, but does not certify religious attainment or create member rank.':'记录学习与实践轨迹，不认证宗教修证境界，也不形成成员等级。'}</p>
