@@ -4,6 +4,7 @@ import { getLocale } from '@/lib/i18n';
 import { getVisibleProject } from '@/lib/projects/data';
 import TaohuayuanZoneNav from '@/components/taohuayuan/ZoneNav';
 import PassportPrintButton from '@/components/passport/PassportPrintButton';
+import CopyCitationButton from '@/components/archive/CopyCitationButton';
 
 const statusZh:Record<string,string>={approved:'已批准',active:'进行中',paused:'已暂停',completed:'已完成',terminated:'已终止',archived:'已归档'};
 const statusEo:Record<string,string>={approved:'Aprobita',active:'Aktiva',paused:'Paŭzita',completed:'Kompletigita',terminated:'Ĉesigita',archived:'Arkivita'};
@@ -65,7 +66,7 @@ export default async function ProjectDetailPage({params}:{params:Promise<{id:str
   <section className="project-reference-strip">
    <div><span>{eo?'Projekta referenco':en?'Project reference':'项目引用号'}</span><code>{projectRef}</code></div>
    <div><span>{eo?'Konstanta loko':en?'Permanent locator':'永久定位'}</span><a href={`#${projectLocator}`}>#{projectLocator}</a></div>
-   <div className="project-citation"><span>{eo?'Citformo':en?'Citation format':'引用格式'}</span><code>{projectCitation}</code></div>
+   <div className="project-citation"><span>{eo?'Citformo':en?'Citation format':'引用格式'}</span><code>{projectCitation}</code><CopyCitationButton text={projectCitation} label={eo?'Kopii citon':en?'Copy citation':'复制引用'} copiedLabel={eo?'Kopiita':en?'Copied':'已复制'} /></div>
   </section>
   <div className="hero-actions no-print"><PassportPrintButton label={eo?'Presi / konservi kiel PDF':en?'Print / save as PDF':'打印 / 存为 PDF'} /><Link className="button button-secondary" href={'/passport/projects/'+p.id}>{eo?'Mia projekta pasporto':en?'My project passport':'我的项目护照'}</Link></div>
 
