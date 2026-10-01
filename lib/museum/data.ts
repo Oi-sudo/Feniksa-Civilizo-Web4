@@ -50,7 +50,7 @@ export async function listMuseumReviewQueue(){
 
 
 export type AssetMedia={
-  id:string; media_type:string; file_url:string; caption:string|null; is_primary:boolean; copyright_status:string; evidence_role:string; verification_status:string; source_note:string|null; created_at:string;
+  id:string; media_type:string; file_url:string; caption:string|null; is_primary:boolean; copyright_status:string; evidence_role:string; verification_status:string; source_note:string|null; source_confirmed_at:string|null; source_confirmed_by_name:string|null; reviewed_at:string|null; reviewed_by_name:string|null; created_at:string;
 };
 export type ExhibitionText={
   id:string; locale:'zh'|'eo'|'en'; short_label:string|null; exhibition_text:string; version:string; reviewed_at:string|null;
@@ -64,8 +64,12 @@ export type AssetVersion={
 
 export async function getAssetDossier(assetId:string){
   const [media,labels,research,versions]=await Promise.all([
-    query<AssetMedia>(`SELECT id,media_type::text,file_url,caption,is_primary,copyright_status,evidence_role,verification_status,source_note,created_at::text
-      FROM asset_media WHERE asset_id=$1 ORDER BY is_primary DESC,created_at ASC`,[assetId]),
+    query<AssetMedia>(`SELECT m.id,m.media_type::text,m.file_url,m.caption,m.is_primary,m.copyright_status,m.evidence_role,m.verification_status,m.source_note,
+        m.source_confirmed_at::text,uc.display_name AS source_confirmed_by_name,m.reviewed_at::text,ur.display_name AS reviewed_by_name,m.created_at::text
+      FROM asset_media m
+      LEFT JOIN users uc ON uc.id=m.source_confirmed_by
+      LEFT JOIN users ur ON ur.id=m.reviewed_by
+      WHERE m.asset_id=$1 ORDER BY is_primary DESC,created_at ASC`,[assetId]),
     query<ExhibitionText>(`SELECT id,locale,short_label,exhibition_text,version,reviewed_at::text
       FROM asset_exhibition_texts WHERE asset_id=$1 AND status='published'
       ORDER BY CASE locale WHEN 'zh' THEN 1 WHEN 'eo' THEN 2 ELSE 3 END,version DESC`,[assetId]),

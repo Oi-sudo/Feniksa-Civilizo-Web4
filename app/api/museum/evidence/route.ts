@@ -22,7 +22,7 @@ export async function POST(req:NextRequest){
    const a=await client.query(`SELECT id FROM cultural_assets WHERE id=$1 AND deleted_at IS NULL FOR UPDATE`,[b.assetId]);
    if(!a.rowCount)throw new Error('NOT_FOUND');
    const m=await client.query<{id:string}>(`INSERT INTO asset_media(asset_id,media_type,file_url,caption,is_primary,copyright_status,evidence_role,verification_status,source_note)
-     VALUES($1,$2,$3,$4,false,$5,$6,'source_confirmed',$7) RETURNING id`,
+     VALUES($1,$2,$3,$4,false,$5,$6,'unverified',$7) RETURNING id`,
      [b.assetId,mediaType,fileUrl,caption,copyrightStatus,evidenceRole,sourceNote]);
    await client.query(`INSERT INTO asset_review_events(asset_id,event_type,actor_id,note,snapshot)
      VALUES($1,'evidence_added',$2,'Museum evidence link added',$3::jsonb)`,
