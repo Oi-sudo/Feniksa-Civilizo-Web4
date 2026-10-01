@@ -67,7 +67,7 @@ export default async function ProjectDetailPage({params}:{params:Promise<{id:str
    <div><span>{eo?'Konstanta loko':en?'Permanent locator':'永久定位'}</span><a href={`#${projectLocator}`}>#{projectLocator}</a></div>
    <div className="project-citation"><span>{eo?'Citformo':en?'Citation format':'引用格式'}</span><code>{projectCitation}</code></div>
   </section>
-  <div className="hero-actions no-print"><PassportPrintButton label={eo?'Presi / konservi kiel PDF':en?'Print / save as PDF':'打印 / 存为 PDF'} /></div>
+  <div className="hero-actions no-print"><PassportPrintButton label={eo?'Presi / konservi kiel PDF':en?'Print / save as PDF':'打印 / 存为 PDF'} /><Link className="button button-secondary" href={'/passport/projects/'+p.id}>{eo?'Mia projekta pasporto':en?'My project passport':'我的项目护照'}</Link></div>
 
   <section className="project-summary-grid">
    <div><span>{eo?'Stato':en?'Status':'状态'}</span><strong>{status}</strong></div>
