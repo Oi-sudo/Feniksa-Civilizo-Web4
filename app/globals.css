@@ -55,3 +55,7 @@
 @media(max-width:650px){.hall-summary{grid-template-columns:1fr}}
 
 .evidence-chip{display:inline-block;padding:3px 8px;border:1px solid #4b5055;border-radius:999px;font-size:.78rem}
+
+.museum-admin-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px;align-items:center}
+.museum-admin-row .hero-actions{margin:0}
+@media(max-width:760px){.museum-admin-row{grid-template-columns:1fr}.museum-admin-row .hero-actions{margin-top:8px}}

@@ -143,3 +143,21 @@ export async function getMuseumAssetForEvidence(code:string){
      LIMIT 1`,[code]);
   return r.rows[0]||null;
 }
+
+
+export type AdminMuseumAsset={
+  id:string;permanent_code:string;catalog_code:string|null;catalog_volume:string|null;title_zh:string;
+  workflow_status:string;public_status:string;hall_zh:string|null;evidence_count:string;
+};
+export async function listAdminMuseumAssets(limit=200){
+  const r=await query<AdminMuseumAsset>(`SELECT a.id,a.permanent_code,a.catalog_code,a.catalog_volume,a.title_zh,
+      a.workflow_status,a.public_status,h.title_zh AS hall_zh,COUNT(m.id)::text AS evidence_count
+    FROM cultural_assets a
+    LEFT JOIN museum_halls h ON h.id=a.primary_hall_id
+    LEFT JOIN asset_media m ON m.asset_id=a.id
+    WHERE a.deleted_at IS NULL
+    GROUP BY a.id,a.permanent_code,a.catalog_code,a.catalog_volume,a.title_zh,a.workflow_status,a.public_status,h.title_zh
+    ORDER BY COALESCE(a.catalog_volume,''),COALESCE(a.catalog_code,a.permanent_code),a.created_at DESC
+    LIMIT $1`,[limit]);
+  return r.rows;
+}
