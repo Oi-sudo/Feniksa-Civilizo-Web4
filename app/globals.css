@@ -149,3 +149,8 @@
 .timeline-filters{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 18px}
 .timeline-filters a{padding:7px 11px;border:1px solid #353b41;border-radius:999px;background:#111418;font-size:.88rem}
 .timeline-filters a:hover,.timeline-filters a.active{border-color:#d7b46a;background:#211d16;color:#f0d89b}
+
+.passport-timeline-groups{display:grid;gap:22px;margin-top:18px}
+.timeline-year>h3{margin:0 0 8px;color:#d7b46a;font-size:1.25rem;letter-spacing:.04em}
+.timeline-year{padding-top:6px}
+.timeline-year+.timeline-year{border-top:1px solid #30363b;padding-top:20px}
