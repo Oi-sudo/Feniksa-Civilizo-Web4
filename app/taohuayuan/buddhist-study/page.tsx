@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { getLocale } from '@/lib/i18n';
+import TaohuayuanZoneNav from '@/components/taohuayuan/ZoneNav';
 
 const copy={
  zh:{badge:'3D 桃花源 · 佛法修学',title:'佛法修学区',lead:'这里作为经典学习、受控世界语佛经翻译、六爻修习阅读与数字馆藏之间的公共学习入口。它服务学习与文化传播，不认证个人修证果位。',cards:[['经典学习','进入已经登记并逐步发布的课程与双语教材。'],['受控翻译','把术语一致、版本可追踪和逐段对照作为佛经翻译的基本方法。'],['佛法馆藏','把经书、佛像、法器和相关文化资料作为学习与数字赏玩档案保存。']],rule:'修学原则',ruleText:'经典、术语、注释与个人体会应分层呈现；课程完成只是学习记录，不等于宗教果位、人格等级或治理权。',courses:'进入课程',museum:'进入数字博物馆',back:'返回3D桃花源'},
@@ -12,6 +13,7 @@ export default async function BuddhistStudyPage(){
  return <main><span className="badge">{t.badge}</span><h1>{t.title}</h1><p className="lead">{t.lead}</p>
   <div className="card-grid">{t.cards.map(([h,p])=><section className="card" key={h}><h2>{h}</h2><p>{p}</p></section>)}</div>
   <section className="card home-section"><h2>{t.rule}</h2><p>{t.ruleText}</p></section>
+  <TaohuayuanZoneNav locale={locale} current="buddhist" />
   <div className="hero-actions"><Link className="button button-primary" href="/courses">{t.courses}</Link><Link className="button button-secondary" href="/museum">{t.museum}</Link><Link className="button button-secondary" href="/taohuayuan">{t.back}</Link></div>
  </main>;
 }
