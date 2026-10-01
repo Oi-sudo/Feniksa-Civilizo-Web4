@@ -156,7 +156,7 @@ export default async function ProjectDetailPage({params}:{params:Promise<{id:str
     <div className="record-top"><strong>{m.title}</strong><span>{(eo?milestoneEo:en?milestoneEn:milestoneZh)[m.status]||m.status}</span></div>
     {m.description&&<p>{m.description}</p>}
     <small>{eo?'Limdato':en?'Due':'到期'}：{m.due_date||'—'} · {eo?'Ĝisdatigita':en?'Updated':'最近更新'}：{new Date(m.updated_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN')}{m.completed_at?' · '+(eo?'Kompletigita':en?'Completed':'完成')+' '+new Date(m.completed_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN'):''}</small>
-   <p className="subrecord-ref"><code>{ref}</code> · <a href={'#'+anchor}>{eo?'Konstanta loko':en?'Permanent locator':'永久定位'}</a><span className="citation-format">{eo?'Citformo':en?'Citation format':'引用格式'}：{citation}</span></p></article>})}</div>:<p>{eo?'Ankoraŭ neniu mejloŝtono registrita.':en?'No milestones recorded yet.':'尚未登记里程碑。'}</p>}
+   <p className="subrecord-ref"><code>{ref}</code> · <a href={'#'+anchor}>{eo?'Konstanta loko':en?'Permanent locator':'永久定位'}</a><span className="citation-format">{eo?'Citformo':en?'Citation format':'引用格式'}：{citation}<CopyCitationButton text={citation} label={eo?'Kopii citon':en?'Copy citation':'复制引用'} copiedLabel={eo?'Kopiita':en?'Copied':'已复制'} /></span></p></article>})}</div>:<p>{eo?'Ankoraŭ neniu mejloŝtono registrita.':en?'No milestones recorded yet.':'尚未登记里程碑。'}</p>}
   </section>
 
   <section className="card">
@@ -166,7 +166,7 @@ export default async function ProjectDetailPage({params}:{params:Promise<{id:str
     {o.description&&<p>{o.description}</p>}
     <small>{eo?'Kreita':en?'Created':'创建'}：{new Date(o.created_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN')}</small>
     {o.url&&<p><a href={o.url} target="_blank" rel="noreferrer">{eo?'Malfermi rezulton →':en?'Open output →':'打开成果 →'}</a></p>}
-   <p className="subrecord-ref"><code>{ref}</code> · <a href={'#'+anchor}>{eo?'Konstanta loko':en?'Permanent locator':'永久定位'}</a><span className="citation-format">{eo?'Citformo':en?'Citation format':'引用格式'}：{citation}</span></p></article>})}</div>:<p>{eo?'Ankoraŭ neniu rezulto registrita.':en?'No outputs recorded yet.':'尚未登记成果。'}</p>}
+   <p className="subrecord-ref"><code>{ref}</code> · <a href={'#'+anchor}>{eo?'Konstanta loko':en?'Permanent locator':'永久定位'}</a><span className="citation-format">{eo?'Citformo':en?'Citation format':'引用格式'}：{citation}<CopyCitationButton text={citation} label={eo?'Kopii citon':en?'Copy citation':'复制引用'} copiedLabel={eo?'Kopiita':en?'Copied':'已复制'} /></span></p></article>})}</div>:<p>{eo?'Ankoraŭ neniu rezulto registrita.':en?'No outputs recorded yet.':'尚未登记成果。'}</p>}
   </section>
 
   <section className="card">
@@ -177,7 +177,7 @@ export default async function ProjectDetailPage({params}:{params:Promise<{id:str
      <strong>{e.from_status?((eo?statusEo:en?statusEn:statusZh)[e.from_status]||e.from_status)+' → ':''}{(eo?statusEo:en?statusEn:statusZh)[e.to_status]||e.to_status}</strong>
      {e.note&&<p>{e.note}</p>}
      {e.actor_name&&<small>{eo?'Aganto':en?'Actor':'操作人'}：{e.actor_name}</small>}
-     <p className="subrecord-ref"><code>{ref}</code> · <a href={'#'+anchor}>{eo?'Konstanta loko':en?'Permanent locator':'永久定位'}</a><span className="citation-format">{eo?'Citformo':en?'Citation format':'引用格式'}：{citation}</span></p>
+     <p className="subrecord-ref"><code>{ref}</code> · <a href={'#'+anchor}>{eo?'Konstanta loko':en?'Permanent locator':'永久定位'}</a><span className="citation-format">{eo?'Citformo':en?'Citation format':'引用格式'}：{citation}<CopyCitationButton text={citation} label={eo?'Kopii citon':en?'Copy citation':'复制引用'} copiedLabel={eo?'Kopiita':en?'Copied':'已复制'} /></span></p>
     </div>
    </article>})}</div>:<p>{eo?'Ankoraŭ neniu projekta statŝanĝa evento registrita.':en?'No project status-change events recorded yet.':'尚未登记项目状态变更事件。'}</p>}
   </section>
@@ -190,7 +190,7 @@ export default async function ProjectDetailPage({params}:{params:Promise<{id:str
      <div className="record-top"><strong>{(eo?budgetEventEo:en?budgetEventEn:budgetEventZh)[e.event_type]||e.event_type} · {e.amount} {e.currency}</strong><span>{(eo?budgetStatusEo:en?budgetStatusEn:budgetStatusZh)[e.status]||e.status}</span></div>
      {e.note&&<p>{e.note}</p>}
      {(e.requested_by_name||e.approved_by_name)&&<small>{e.requested_by_name&&(eo?'Petanto':en?'Requested by':'申请人')+'：'+e.requested_by_name}{e.requested_by_name&&e.approved_by_name?' · ':''}{e.approved_by_name&&(eo?'Aprobinto':en?'Approved by':'批准人')+'：'+e.approved_by_name}</small>}
-     <p className="subrecord-ref"><code>{ref}</code> · <a href={'#'+anchor}>{eo?'Konstanta loko':en?'Permanent locator':'永久定位'}</a><span className="citation-format">{eo?'Citformo':en?'Citation format':'引用格式'}：{citation}</span></p>
+     <p className="subrecord-ref"><code>{ref}</code> · <a href={'#'+anchor}>{eo?'Konstanta loko':en?'Permanent locator':'永久定位'}</a><span className="citation-format">{eo?'Citformo':en?'Citation format':'引用格式'}：{citation}<CopyCitationButton text={citation} label={eo?'Kopii citon':en?'Copy citation':'复制引用'} copiedLabel={eo?'Kopiita':en?'Copied':'已复制'} /></span></p>
     </div>
    </article>})}</div>:<p>{eo?'Ankoraŭ neniu buĝeta evento registrita.':en?'No budget events recorded yet.':'尚未登记预算事件。'}</p>}
   </section>
@@ -200,7 +200,7 @@ export default async function ProjectDetailPage({params}:{params:Promise<{id:str
    {d.risks.length?<div className="record-list">{d.risks.map(r=>{const short=r.id.replace(/-/g,'').slice(0,8);const ref='RISK · '+short;const anchor='risk-'+short;const citation='Phoenix Project Dossier · RISK · '+short+' · '+citationDate(r.created_at);return <article id={anchor} key={r.id} className="project-subrecord">
     <div className="record-top"><strong>{(eo?riskEo:en?riskEn:riskZh)[r.risk_level]||r.risk_level}</strong><span>{(eo?riskStatusEo:en?riskStatusEn:riskStatusZh)[r.status]||r.status}</span></div>
     <p>{r.description}</p>{r.mitigation&&<p><strong>{eo?'Mildigo':en?'Mitigation':'缓解措施'}：</strong>{r.mitigation}</p>}<small>{eo?'Kreita':en?'Created':'创建'}：{new Date(r.created_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN')} · {eo?'Ĝisdatigita':en?'Updated':'最近更新'}：{new Date(r.updated_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN')}{r.resolved_at?' · '+(eo?'Solvita':en?'Resolved':'解决')+' '+new Date(r.resolved_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN'):''}</small>
-   <p className="subrecord-ref"><code>{ref}</code> · <a href={'#'+anchor}>{eo?'Konstanta loko':en?'Permanent locator':'永久定位'}</a><span className="citation-format">{eo?'Citformo':en?'Citation format':'引用格式'}：{citation}</span></p></article>})}</div>:<p>{eo?'Ankoraŭ neniu risko registrita.':en?'No risks recorded yet.':'尚未登记风险。'}</p>}
+   <p className="subrecord-ref"><code>{ref}</code> · <a href={'#'+anchor}>{eo?'Konstanta loko':en?'Permanent locator':'永久定位'}</a><span className="citation-format">{eo?'Citformo':en?'Citation format':'引用格式'}：{citation}<CopyCitationButton text={citation} label={eo?'Kopii citon':en?'Copy citation':'复制引用'} copiedLabel={eo?'Kopiita':en?'Copied':'已复制'} /></span></p></article>})}</div>:<p>{eo?'Ankoraŭ neniu risko registrita.':en?'No risks recorded yet.':'尚未登记风险。'}</p>}
   </section>
 
   <footer className="project-print-footer"><strong>{eo?'Arkiva noto':en?'Archive note':'归档说明'}</strong><p>{eo?'Ĉi tiu presaĵo aŭ PDF estas nurlegebla momentbildo de la nuna projekta dosiero. Ĝi ne estas financa aprobo, paginstrukcio aŭ projekta poentaro, kaj ĝi ne anstataŭas la fontajn registrejojn.':en?'This printout or PDF is a read-only snapshot of the current project dossier. It is not a financial approval, payment instruction or project score, and it does not replace source records.':'本打印件或 PDF 是当前项目档案的只读快照，不是财务批准、付款指令或项目评分，也不能替代原始记录。'}</p></footer>
