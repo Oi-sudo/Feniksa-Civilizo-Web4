@@ -26,6 +26,9 @@ const budgetEventEn:Record<string,string>={initial_budget:'Initial budget',budge
 const budgetStatusZh:Record<string,string>={pending:'待处理',approved:'已批准',rejected:'已驳回',recorded:'已记录'};
 const budgetStatusEo:Record<string,string>={pending:'Atendanta',approved:'Aprobita',rejected:'Malakceptita',recorded:'Registrita'};
 const budgetStatusEn:Record<string,string>={pending:'Pending',approved:'Approved',rejected:'Rejected',recorded:'Recorded'};
+const outcomeZh:Record<string,string>={approved:'通过',rejected:'否决',revision:'退回修订',no_quorum:'未达到法定参与门槛'};
+const outcomeEo:Record<string,string>={approved:'Aprobita',rejected:'Malaprobita',revision:'Reiru al revizio',no_quorum:'Neniu kvorumo'};
+const outcomeEn:Record<string,string>={approved:'Approved',rejected:'Rejected',revision:'Return for revision',no_quorum:'No quorum'};
 
 export default async function ProjectDetailPage({params}:{params:Promise<{id:string}>}){
  const [{id},locale]=await Promise.all([params,getLocale()]);
@@ -78,6 +81,10 @@ export default async function ProjectDetailPage({params}:{params:Promise<{id:str
    {p.proposal_id?<div>
     <p>{eo?'Ĉi tiu projekto estas ligita al DAD-propono. La propona dosiero montras la publikan proponon kaj agregitan finan decidon; ĝi ne publikigas individuajn voĉojn.':en?'This project is linked to a DAD proposal. The proposal dossier shows the public proposal and aggregated final decision; it does not publish individual votes.':'本项目关联一项 DAD 提案。提案档案展示公开提案与汇总后的最终决定，不公开个人逐票信息。'}</p>
     <p><strong>{p.proposal_title||p.proposal_short_code||p.proposal_id.replace(/-/g,'').slice(0,8)}</strong></p>
+    <div className="governance-source-summary">
+     <p><span>{eo?'Fina rezulto':en?'Final outcome':'最终决定'}：</span><strong>{p.proposal_outcome?((eo?outcomeEo:en?outcomeEn:outcomeZh)[p.proposal_outcome]||p.proposal_outcome):(eo?'Neniu fina decida momentbildo':en?'No final decision snapshot':'尚无最终决定快照')}</strong></p>
+     <p><span>{eo?'Decida dato':en?'Decision date':'决定日期'}：</span><strong>{p.proposal_decision_finalized_at?new Date(p.proposal_decision_finalized_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN'):'—'}</strong></p>
+    </div>
     <Link className="button button-secondary" href={'/dad/proposals/'+p.proposal_id}>{eo?'Vidi fontan DAD-proponon':en?'View source DAD proposal':'查看来源 DAD 提案'}</Link>
    </div>:<p>{eo?'Neniu DAD-propono estas ligita al ĉi tiu projekta registro.':en?'No DAD proposal is linked to this project record.':'此项目记录目前没有关联 DAD 提案。'}</p>}
   </section>
