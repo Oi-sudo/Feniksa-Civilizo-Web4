@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { getCurrentUser } from '@/lib/auth/session';
 import { getLocale } from '@/lib/i18n';
+import { getVisibleProject } from '@/lib/projects/data';
 import { listEstRecords } from '@/lib/contributions/data';
 
 const activityZh:Record<string,string>={
@@ -27,14 +28,15 @@ export default async function EstPassportPage({searchParams}:{searchParams:Promi
   const [user,locale,params]=await Promise.all([getCurrentUser(),getLocale(),searchParams]);
   if(!user) redirect('/login');
   const eo=locale==='eo'; const en=locale==='en';
-  const rows=await listEstRecords(user.id,params.project);
+  const projectId=params.project&&/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(params.project)?params.project:undefined;
+  const [rows,projectContext]=await Promise.all([listEstRecords(user.id,projectId),projectId?getVisibleProject(projectId):Promise.resolve(null)]);
   const approved=rows.filter(x=>x.review_status==='approved');
   const total=approved.reduce((s,x)=>s+Number(x.est_value||0),0);
 
   return <main>
     <span className="badge">EST · {eo?'Mia registro':en?'My records':'我的记录'}</span>
     <h1>{eo?'Miaj EST-registroj':en?'My EST records':'我的 EST 世界语币记录'}</h1>
-    {params.project&&<p className="muted">{eo?'Filtrita laŭ unu projekto.':en?'Filtered to one project.':'当前仅显示一个项目中的记录。'}</p>}
+    {projectId&&<section className="passport-project-context"><p><span>{eo?'Nuna projekto':en?'Current project':'当前项目'}：</span><strong>{projectContext?.project.title||projectId.slice(0,8)}</strong></p>{projectContext&&<Link href={'/projects/'+projectId}>{eo?'Reveni al la projekta dosiero →':en?'Back to project dossier →':'返回项目档案 →'}</Link>}</section>}
     <p className="lead">{eo?'Ĉi tie aperas viaj registroj pri Esperanto-lernado, tradukado, instruado, provlegado kaj sciaj kontribuoj. Nur aprobitaj registroj estas inkluzivitaj en la supra sumo.':en?'This page shows your Esperanto learning, translation, teaching, proofreading and knowledge-contribution records. Only approved records are included in the total above.':'这里显示您的世界语学习、翻译、教学、校对和知识贡献记录。只有审核通过的记录计入上方总值。'}</p>
     <section className="stat-grid">
       <div className="stat-card"><strong>{total}</strong><span>{eo?'Konfirmita EST':en?'Confirmed EST':'已确认 EST'}</span></div>
