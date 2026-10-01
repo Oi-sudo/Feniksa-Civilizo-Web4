@@ -37,6 +37,9 @@ export default async function ProjectDetailPage({params}:{params:Promise<{id:str
  const shortProjectRef=id.replace(/-/g,'').slice(0,8);
  const projectRef=`PROJECT · ${shortProjectRef}`;
  const projectLocator=`project-${shortProjectRef}`;
+ const archiveDate=new Date().toLocaleDateString(eo?'eo':en?'en-US':'zh-CN');
+ const citationDate=(value:string)=>new Date(value).toISOString().slice(0,10);
+ const projectCitation=`Phoenix Project Dossier · PROJECT · ${shortProjectRef} · ${citationDate(p.updated_at)}`;
  const milestoneCompleted=d.milestones.filter(x=>x.status==='completed').length;
  const outputsPublished=d.outputs.filter(x=>x.status==='published').length;
  const openRisks=d.risks.filter(x=>x.status==='open'||x.status==='mitigating').length;
@@ -52,13 +55,14 @@ export default async function ProjectDetailPage({params}:{params:Promise<{id:str
   <span className="badge">DAD · Projects</span>
   <header className="project-print-header">
    <div><strong>{eo?'Feniksa Projekta Dosiero':en?'Phoenix Project Dossier':'凤凰文明项目档案'}</strong><span>Phoenix Project Dossier · Feniksa Projekta Dosiero</span></div>
-   <div><span>{eo?'Projekto':en?'Project':'项目'}：{p.title}</span><span>{eo?'Stato':en?'Status':'状态'}：{status}</span></div>
+   <div><span>{eo?'Projekto':en?'Project':'项目'}：{p.title}</span><span>{eo?'Stato':en?'Status':'状态'}：{status}</span><span>{eo?'Arkiva dato':en?'Archive date':'归档日期'}：{archiveDate}</span><span>{projectRef}</span></div>
   </header>
   <h1>{p.title}</h1>
   {p.description&&<p className="lead">{p.description}</p>}
   <section className="project-reference-strip">
    <div><span>{eo?'Projekta referenco':en?'Project reference':'项目引用号'}</span><code>{projectRef}</code></div>
    <div><span>{eo?'Konstanta loko':en?'Permanent locator':'永久定位'}</span><a href={`#${projectLocator}`}>#{projectLocator}</a></div>
+   <div className="project-citation"><span>{eo?'Citformo':en?'Citation format':'引用格式'}</span><code>{projectCitation}</code></div>
   </section>
   <div className="hero-actions no-print"><PassportPrintButton label={eo?'Presi / konservi kiel PDF':en?'Print / save as PDF':'打印 / 存为 PDF'} /></div>
 
@@ -111,39 +115,39 @@ export default async function ProjectDetailPage({params}:{params:Promise<{id:str
 
   <section className="card">
    <h2>{eo?'Mejloŝtonoj':en?'Milestones':'里程碑'}</h2>
-   {d.milestones.length?<div className="record-list">{d.milestones.map(m=>{const ref='MILESTONE · '+m.id.replace(/-/g,'').slice(0,8);const anchor='milestone-'+m.id.replace(/-/g,'').slice(0,8);return <article id={anchor} key={m.id} className="project-subrecord">
+   {d.milestones.length?<div className="record-list">{d.milestones.map(m=>{const short=m.id.replace(/-/g,'').slice(0,8);const ref='MILESTONE · '+short;const anchor='milestone-'+short;const citation='Phoenix Project Dossier · MILESTONE · '+short+' · '+citationDate(m.updated_at);return <article id={anchor} key={m.id} className="project-subrecord">
     <div className="record-top"><strong>{m.title}</strong><span>{(eo?milestoneEo:en?milestoneEn:milestoneZh)[m.status]||m.status}</span></div>
     {m.description&&<p>{m.description}</p>}
     <small>{eo?'Limdato':en?'Due':'到期'}：{m.due_date||'—'} · {eo?'Ĝisdatigita':en?'Updated':'最近更新'}：{new Date(m.updated_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN')}{m.completed_at?' · '+(eo?'Kompletigita':en?'Completed':'完成')+' '+new Date(m.completed_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN'):''}</small>
-   <p className="subrecord-ref"><code>{ref}</code> · <a href={'#'+anchor}>{eo?'Konstanta loko':en?'Permanent locator':'永久定位'}</a></p></article>})}</div>:<p>{eo?'Ankoraŭ neniu mejloŝtono registrita.':en?'No milestones recorded yet.':'尚未登记里程碑。'}</p>}
+   <p className="subrecord-ref"><code>{ref}</code> · <a href={'#'+anchor}>{eo?'Konstanta loko':en?'Permanent locator':'永久定位'}</a><span className="citation-format">{eo?'Citformo':en?'Citation format':'引用格式'}：{citation}</span></p></article>})}</div>:<p>{eo?'Ankoraŭ neniu mejloŝtono registrita.':en?'No milestones recorded yet.':'尚未登记里程碑。'}</p>}
   </section>
 
   <section className="card">
    <h2>{eo?'Rezultoj':en?'Outputs':'成果'}</h2>
-   {d.outputs.length?<div className="record-list">{d.outputs.map(o=>{const ref='OUTPUT · '+o.id.replace(/-/g,'').slice(0,8);const anchor='output-'+o.id.replace(/-/g,'').slice(0,8);return <article id={anchor} key={o.id} className="project-subrecord">
+   {d.outputs.length?<div className="record-list">{d.outputs.map(o=>{const short=o.id.replace(/-/g,'').slice(0,8);const ref='OUTPUT · '+short;const anchor='output-'+short;const citation='Phoenix Project Dossier · OUTPUT · '+short+' · '+citationDate(o.created_at);return <article id={anchor} key={o.id} className="project-subrecord">
     <div className="record-top"><strong>{o.title}</strong><span>{(eo?outputEo:en?outputEn:outputZh)[o.status]||o.status}</span></div>
     {o.description&&<p>{o.description}</p>}
     <small>{eo?'Kreita':en?'Created':'创建'}：{new Date(o.created_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN')}</small>
     {o.url&&<p><a href={o.url} target="_blank" rel="noreferrer">{eo?'Malfermi rezulton →':en?'Open output →':'打开成果 →'}</a></p>}
-   <p className="subrecord-ref"><code>{ref}</code> · <a href={'#'+anchor}>{eo?'Konstanta loko':en?'Permanent locator':'永久定位'}</a></p></article>})}</div>:<p>{eo?'Ankoraŭ neniu rezulto registrita.':en?'No outputs recorded yet.':'尚未登记成果。'}</p>}
+   <p className="subrecord-ref"><code>{ref}</code> · <a href={'#'+anchor}>{eo?'Konstanta loko':en?'Permanent locator':'永久定位'}</a><span className="citation-format">{eo?'Citformo':en?'Citation format':'引用格式'}：{citation}</span></p></article>})}</div>:<p>{eo?'Ankoraŭ neniu rezulto registrita.':en?'No outputs recorded yet.':'尚未登记成果。'}</p>}
   </section>
 
   <section className="card">
    <h2>{eo?'Historio de projekta stato':en?'Project status history':'项目状态历史'}</h2>
-   {d.statusEvents.length?<div className="project-audit-list">{d.statusEvents.map(e=>{const ref='STATUS · '+e.id.replace(/-/g,'').slice(0,8);const anchor='status-event-'+e.id.replace(/-/g,'').slice(0,8);return <article id={anchor} className="project-audit-item" key={e.id}>
+   {d.statusEvents.length?<div className="project-audit-list">{d.statusEvents.map(e=>{const short=e.id.replace(/-/g,'').slice(0,8);const ref='STATUS · '+short;const anchor='status-event-'+short;const citation='Phoenix Project Dossier · STATUS · '+short+' · '+citationDate(e.created_at);return <article id={anchor} className="project-audit-item" key={e.id}>
     <div className="timeline-date">{new Date(e.created_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN')}</div>
     <div>
      <strong>{e.from_status?((eo?statusEo:en?statusEn:statusZh)[e.from_status]||e.from_status)+' → ':''}{(eo?statusEo:en?statusEn:statusZh)[e.to_status]||e.to_status}</strong>
      {e.note&&<p>{e.note}</p>}
      {e.actor_name&&<small>{eo?'Aganto':en?'Actor':'操作人'}：{e.actor_name}</small>}
-     <p className="subrecord-ref"><code>{ref}</code> · <a href={'#'+anchor}>{eo?'Konstanta loko':en?'Permanent locator':'永久定位'}</a></p>
+     <p className="subrecord-ref"><code>{ref}</code> · <a href={'#'+anchor}>{eo?'Konstanta loko':en?'Permanent locator':'永久定位'}</a><span className="citation-format">{eo?'Citformo':en?'Citation format':'引用格式'}：{citation}</span></p>
     </div>
    </article>})}</div>:<p>{eo?'Ankoraŭ neniu projekta statŝanĝa evento registrita.':en?'No project status-change events recorded yet.':'尚未登记项目状态变更事件。'}</p>}
   </section>
 
   <section className="card">
    <h2>{eo?'Historio de buĝetaj eventoj':en?'Budget event history':'预算事件历史'}</h2>
-   {d.budgetEvents.length?<div className="project-audit-list">{d.budgetEvents.map(e=>{const ref='BUDGET · '+e.id.replace(/-/g,'').slice(0,8);const anchor='budget-event-'+e.id.replace(/-/g,'').slice(0,8);return <article id={anchor} className="project-audit-item" key={e.id}>
+   {d.budgetEvents.length?<div className="project-audit-list">{d.budgetEvents.map(e=>{const short=e.id.replace(/-/g,'').slice(0,8);const ref='BUDGET · '+short;const anchor='budget-event-'+short;const citation='Phoenix Project Dossier · BUDGET · '+short+' · '+citationDate(e.created_at);return <article id={anchor} className="project-audit-item" key={e.id}>
     <div className="timeline-date">{new Date(e.created_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN')}</div>
     <div>
      <div className="record-top"><strong>{(eo?budgetEventEo:en?budgetEventEn:budgetEventZh)[e.event_type]||e.event_type} · {e.amount} {e.currency}</strong><span>{(eo?budgetStatusEo:en?budgetStatusEn:budgetStatusZh)[e.status]||e.status}</span></div>
@@ -156,7 +160,7 @@ export default async function ProjectDetailPage({params}:{params:Promise<{id:str
 
   <section className="card">
    <h2>{eo?'Riskoj':en?'Risks':'风险记录'}</h2>
-   {d.risks.length?<div className="record-list">{d.risks.map(r=>{const ref='RISK · '+r.id.replace(/-/g,'').slice(0,8);const anchor='risk-'+r.id.replace(/-/g,'').slice(0,8);return <article id={anchor} key={r.id} className="project-subrecord">
+   {d.risks.length?<div className="record-list">{d.risks.map(r=>{const short=r.id.replace(/-/g,'').slice(0,8);const ref='RISK · '+short;const anchor='risk-'+short;const citation='Phoenix Project Dossier · RISK · '+short+' · '+citationDate(r.updated_at);return <article id={anchor} key={r.id} className="project-subrecord">
     <div className="record-top"><strong>{(eo?riskEo:en?riskEn:riskZh)[r.risk_level]||r.risk_level}</strong><span>{(eo?riskStatusEo:en?riskStatusEn:riskStatusZh)[r.status]||r.status}</span></div>
     <p>{r.description}</p>{r.mitigation&&<p><strong>{eo?'Mildigo':en?'Mitigation':'缓解措施'}：</strong>{r.mitigation}</p>}<small>{eo?'Kreita':en?'Created':'创建'}：{new Date(r.created_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN')} · {eo?'Ĝisdatigita':en?'Updated':'最近更新'}：{new Date(r.updated_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN')}{r.resolved_at?' · '+(eo?'Solvita':en?'Resolved':'解决')+' '+new Date(r.resolved_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN'):''}</small>
    <p className="subrecord-ref"><code>{ref}</code> · <a href={'#'+anchor}>{eo?'Konstanta loko':en?'Permanent locator':'永久定位'}</a></p></article>})}</div>:<p>{eo?'Ankoraŭ neniu risko registrita.':en?'No risks recorded yet.':'尚未登记风险。'}</p>}
