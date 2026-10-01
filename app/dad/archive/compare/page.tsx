@@ -70,7 +70,7 @@ export default async function ArchiveComparePage({searchParams}:{searchParams:Pr
         <p className="muted">{eo?'La periodo komenciĝas post la komenca momentbilda dato kaj inkluzivas la finan momentbildan daton.':en?'The period starts after the starting snapshot date and includes the ending snapshot date.':'统计区间从起始快照日期之后开始，并包含结束快照日期当天。'}</p>
         {changes.length?<div className="record-list">{changes.map(item=>{
           const idShort=short(item.id);
-          const proposalShort=item.proposal_short_code||item.proposal_id?short(item.proposal_id||item.id):null;
+          const proposalShort=item.proposal_short_code||(item.proposal_id?short(item.proposal_id):null);
           const href=item.record_type==='proposal'&&item.proposal_id?'/dad/proposals/'+item.proposal_id:
             item.record_type==='decision'&&item.proposal_id?'/dad/proposals/'+item.proposal_id+'#decision-'+idShort:
             item.record_type==='project'&&item.project_id?'/projects/'+item.project_id:
