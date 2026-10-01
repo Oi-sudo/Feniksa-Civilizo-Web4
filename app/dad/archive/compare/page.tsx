@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { getLocale } from '@/lib/i18n';
 import { getGovernanceArchiveChangeDetails, getGovernanceArchiveSnapshot, listGovernanceArchiveSnapshots } from '@/lib/dad/data';
+import PassportPrintButton from '@/components/passport/PassportPrintButton';
 
 export default async function ArchiveComparePage({searchParams}:{searchParams:Promise<{from?:string;to?:string}>}){
   const [{from,to},locale,all]=await Promise.all([searchParams,getLocale(),listGovernanceArchiveSnapshots(120)]);
@@ -40,13 +41,20 @@ export default async function ArchiveComparePage({searchParams}:{searchParams:Pr
   const label=(r:(typeof rows)[number])=>eo?r.eo:en?r.en:r.zh;
   const sign=(n:number)=>n>0?'+'+n:String(n);
   const short=(id:string)=>id.replace(/-/g,'').slice(0,8);
+  const reportDate=new Date().toLocaleDateString(eo?'eo':en?'en-US':'zh-CN');
+  const reportRef=a&&b?`ARCHIVE-REPORT · ${a.snapshot_date} · ${b.snapshot_date}`:null;
+
 
   return <main>
+    {a&&b&&<header className="proposal-print-header">
+      <div><strong>{eo?'Feniksa DAD Regada Ŝanĝraporto':en?'Phoenix DAD Governance Change Report':'凤凰文明 DAD 治理变化报告'}</strong><span>Phoenix DAD Governance Change Report · Feniksa DAD Regada Ŝanĝraporto</span></div>
+      <div><span>{eo?'Raporta dato':en?'Report date':'报告日期'}：{reportDate}</span><span>{reportRef}</span></div>
+    </header>}
     <span className="badge">{eo?'DAD · Komparo de Arkivaj Momentbildoj':en?'DAD · Archive Snapshot Comparison':'DAD · 归档快照比较'}</span>
     <h1>{eo?'Komparu du regadajn momentbildojn':en?'Compare two governance snapshots':'比较两个公共治理快照'}</h1>
     <p className="lead">{eo?'La komparo montras la nombran diferencon kaj la konkretajn publikajn registrojn aldonitajn inter du konservitaj momentbildoj.':en?'The comparison shows both numerical differences and the concrete public records added between two preserved snapshots.':'本页同时显示两份已保存快照之间的数量变化，以及期间具体新增的公共治理记录。'}</p>
 
-    <section className="card">
+    <section className="card no-print">
       <form className="hero-actions" action="/dad/archive/compare" method="get">
         <label>{eo?'De':en?'From':'起始'} <select name="from" defaultValue={defaultFrom}>{all.map(s=><option key={s.id} value={s.snapshot_date}>{s.snapshot_date}</option>)}</select></label>
         <label>{eo?'Ĝis':en?'To':'结束'} <select name="to" defaultValue={defaultTo}>{all.map(s=><option key={s.id} value={s.snapshot_date}>{s.snapshot_date}</option>)}</select></label>
@@ -55,6 +63,12 @@ export default async function ArchiveComparePage({searchParams}:{searchParams:Pr
     </section>
 
     {a&&b?<>
+      <div className="hero-actions no-print"><PassportPrintButton label={eo?'Presi / konservi kiel PDF':en?'Print / save as PDF':'打印 / 存为 PDF'} /></div>
+      <section className="project-reference-strip">
+        <div><span>{eo?'Komenca momentbildo':en?'Starting snapshot':'起始快照'}</span><code>ARCHIVE-SNAPSHOT · {a.snapshot_date}</code></div>
+        <div><span>{eo?'Fina momentbildo':en?'Ending snapshot':'结束快照'}</span><code>ARCHIVE-SNAPSHOT · {b.snapshot_date}</code></div>
+        <div><span>{eo?'Raporta referenco':en?'Report reference':'报告引用号'}</span><code>{reportRef}</code></div>
+      </section>
       <section className="card">
         <div className="record-top"><div><small>ARCHIVE-SNAPSHOT · {a.snapshot_date}</small><h2>{a.snapshot_date} → {b.snapshot_date}</h2></div><small>ARCHIVE-SNAPSHOT · {b.snapshot_date}</small></div>
         <div className="record-list">
@@ -107,7 +121,9 @@ export default async function ArchiveComparePage({searchParams}:{searchParams:Pr
       <p>{eo?'Pozitiva aŭ negativa diferenco estas nur nombra ŝanĝo inter du datoj. La detaloj listigas publikajn fontregistrojn kreitajn aŭ kompletigitajn en la datintervalo; ili ne rekonstruas forigitajn aŭ private ŝanĝitajn datumojn kaj ne estas aŭtomata takso de sukceso, kvalito aŭ regada valoro.':en?'A positive or negative difference is only a numerical change between two dates. The detail list shows public source records created or completed in the date window; it does not reconstruct deleted or privately changed data and is not an automatic judgment of success, quality, or governance value.':'正数或负数只表示两个日期之间的数量变化。明细列出该日期区间内新建立或新完成的公共源记录；它不会重建已删除或私下修改的数据，也不自动代表成功、质量或治理价值。'}</p>
     </section>
 
-    <div className="hero-actions">
+    {a&&b&&<footer className="proposal-print-footer"><strong>{eo?'Arkiva noto':en?'Archive note':'归档说明'}</strong><p>{eo?'Ĉi tiu presaĵo aŭ PDF estas nurlegebla raporto derivita el du konservitaj ARCHIVE-SNAPSHOT-registroj. Ĝi resumas publikajn nombrojn kaj fontligojn sed ne anstataŭas la originajn regadajn dosierojn.':en?'This printout or PDF is a read-only report derived from two preserved ARCHIVE-SNAPSHOT records. It summarizes public counts and source links but does not replace the original governance dossiers.':'本打印件或 PDF 是由两份已保存 ARCHIVE-SNAPSHOT 记录生成的只读报告。它汇总公共数量与来源链接，但不能替代原始治理档案。'}</p></footer>}
+
+    <div className="hero-actions no-print">
       <Link className="button button-primary" href="/dad/archive/snapshots">{eo?'Reveni al momentbildoj':en?'Back to snapshots':'返回快照历史'}</Link>
       <Link className="button button-secondary" href="/dad/archive">{eo?'Reveni al arkivo':en?'Back to archive':'返回治理档案馆'}</Link>
     </div>
