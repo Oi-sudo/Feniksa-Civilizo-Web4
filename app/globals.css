@@ -367,3 +367,6 @@ main[id^="personal-project-passport-"]{scroll-margin-top:100px}
 
 .passport-project-ref{display:inline-block;width:max-content;margin-top:3px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.78rem;color:#bcb5a9;background:#0d1013;border:1px solid #343a40;border-radius:6px;padding:2px 5px}
 @media print{.passport-project-ref{color:#111!important;background:#fff!important;border-color:#bbb!important}}
+
+.citation-copy-button{margin-left:8px;border:1px solid #4a5057;border-radius:8px;background:transparent;color:#d7b46a;padding:4px 8px;font:inherit;font-size:.78rem;cursor:pointer}
+.citation-copy-button:hover{border-color:#7b6a43}
