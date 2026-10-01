@@ -186,3 +186,16 @@
 .timeline-citation{margin-top:4px!important;font-size:.82rem;color:#9f978a!important}
 .timeline-citation span{margin-right:4px}
 .timeline-citation code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:#d8cfbf;background:#0d1013;border:1px solid #343a40;border-radius:6px;padding:2px 5px;overflow-wrap:anywhere}
+
+@media print{
+  html,body{background:#fff!important;color:#111!important}
+  body{font-size:11pt}
+  .site-header,.site-footer,.no-print,.timeline-filters,.timeline-year-index,.timeline-source-actions{display:none!important}
+  main{max-width:none;padding:0!important}
+  .card,.stat-card,.yao-card,.passport-current,.passport-dimensions>div,.dual-record-grid>div,.timeline-summary>div{background:#fff!important;color:#111!important;border-color:#bbb!important;box-shadow:none!important;break-inside:avoid}
+  .badge,.eyebrow,.card-link,.track-code,.passport-overview-grid strong,.timeline-year>h3,.timeline-source-ref code,.timeline-citation code{color:#111!important}
+  .lead,.muted,.timeline-date,.timeline-source-type,.timeline-source-ref,.timeline-citation,.passport-overview-grid span{color:#333!important}
+  a{text-decoration:none!important;color:#111!important}
+  .passport-timeline-groups,.passport-timeline,.record-list{gap:8px!important}
+  .timeline-item{break-inside:avoid;border-color:#ccc!important}
+}
