@@ -4,6 +4,17 @@ import { getCurrentUser } from '@/lib/auth/session';
 import { getPassportOverview } from '@/lib/passport/data';
 import { getLocale,getMessages } from '@/lib/i18n';
 
+const learningZh:Record<string,string>={not_started:'尚未开始',in_progress:'学习中',completed:'已完成'};
+const learningEo:Record<string,string>={not_started:'Ne komencita',in_progress:'En lernado',completed:'Kompletigita'};
+const projectStatusZh:Record<string,string>={active:'进行中',completed:'已完成',paused:'已暂停',closed:'已结束'};
+const projectStatusEo:Record<string,string>={active:'Aktiva',completed:'Kompletigita',paused:'Paŭzita',closed:'Fermita'};
+const roleZh:Record<string,string>={member:'成员',manager:'负责人',observer:'观察员'};
+const roleEo:Record<string,string>={member:'Membro',manager:'Respondeculo',observer:'Observanto'};
+const workStatusZh:Record<string,string>={draft:'草稿',published:'已发布',archived:'已归档'};
+const workStatusEo:Record<string,string>={draft:'Malneto',published:'Publikigita',archived:'Arkivita'};
+const workTypeZh:Record<string,string>={translation:'翻译',article:'文章',lesson:'课程作品',museum:'博物馆资料'};
+const workTypeEo:Record<string,string>={translation:'Traduko',article:'Artikolo',lesson:'Kursa verko',museum:'Muzea materialo'};
+
 const yaoNames=[
   ['初爻 · 觉醒','Unua linio · Vekiĝo'],
   ['二爻 · 无我','Dua linio · Sen-memo'],
@@ -46,20 +57,20 @@ export default async function PassportPage(){
       <div className="yao-grid">
         {yaoNames.map(([zh,eo],i)=>{
           const row=six.get(i+1);
-          return <div className="yao-card" key={zh}><strong>{locale==='eo'?eo:zh}</strong>{locale!=='eo'&&<span>{eo}</span>}<small>{row?.learning_status||(locale==='eo'?'Ne komencita':'尚未开始')}</small></div>
+          return <div className="yao-card" key={zh}><strong>{locale==='eo'?eo:zh}</strong>{locale!=='eo'&&<span>{eo}</span>}<small>{row?((eo?learningEo:learningZh)[row.learning_status]||row.learning_status):(eo?'Ne komencita':'尚未开始')}</small></div>
         })}
       </div>
     </section>
 
     <section className="card">
       <h2>{m.passport_projects} · Projektoj</h2>
-      {d.projects.length?d.projects.map(p=><p key={p.id}>{p.title} · {p.role} · {p.status}</p>):<p>{m.no_projects_yet}</p>}
+      {d.projects.length?d.projects.map(p=><p key={p.id}>{p.title} · {(eo?roleEo:roleZh)[p.role]||p.role} · {(eo?projectStatusEo:projectStatusZh)[p.status]||p.status}</p>):<p>{m.no_projects_yet}</p>}
       <Link href="/projects">{eo?'Vidi projektan enirejon →':'查看项目入口 →'}</Link>
     </section>
 
     <section className="card">
       <h2>{eo?'Verkoj':'作品档案 · Verkoj'}</h2>
-      {d.works.length?d.works.map(w=><p key={w.id}>{w.url?<a href={w.url}>{w.title}</a>:w.title} · {w.work_type} · {w.status}</p>):<p>{m.no_works_yet}</p>}
+      {d.works.length?d.works.map(w=><p key={w.id}>{w.url?<a href={w.url}>{w.title}</a>:w.title} · {(eo?workTypeEo:workTypeZh)[w.work_type]||w.work_type} · {(eo?workStatusEo:workStatusZh)[w.status]||w.status}</p>):<p>{m.no_works_yet}</p>}
     </section>
 
     <section className="card">
