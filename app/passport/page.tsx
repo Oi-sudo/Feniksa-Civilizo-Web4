@@ -71,12 +71,18 @@ export default async function PassportPage(){
       <p className="muted">{eo?'La pasporto kunigas lernadon, publikan diskuton, projektan partoprenon, servoregistrojn kaj verkojn en unu persona kronologio. Ĝi estas vojo de partopreno, ne rango de homo.':en?'The passport brings learning, public discussion, project participation, service records and works together into one personal chronology. It is a participation path, not a ranking of the person.':'学习护照把学习、公共议事、项目参与、服务记录与作品档案汇成一条个人轨迹。它记录参与路径，不给人排序。'}</p>
       <div className="life-path-steps passport-life-path">
         <Link href="/courses"><span>01</span><strong>{eo?'Lerni':en?'Learn':'学习'}</strong><small>{eo?`${d.courses.completed} kompletigitaj`:en?`${d.courses.completed} completed`:`已完成 ${d.courses.completed} 门`}</small></Link>
-        <Link href="/dad"><span>02</span><strong>{eo?'Diskuti':en?'Discuss':'议事'}</strong><small>DAD</small></Link>
-        <Link href="/projects"><span>03</span><strong>{eo?'Partopreni projektojn':en?'Join projects':'参与项目'}</strong><small>{d.projects.length}</small></Link>
-        <Link href="/passport/bud"><span>04</span><strong>{eo?'Servi':en?'Serve':'服务'}</strong><small>BUD {d.bud.value} · {d.bud.hours}h</small></Link>
-        <Link href="/museum"><span>05</span><strong>{eo?'Konservi kulturon':en?'Preserve culture':'文化存录'}</strong><small>{eo?'Muzeo':en?'Museum':'博物馆'}</small></Link>
-        <Link href="/passport"><span>06</span><strong>{eo?'Reveni al mia pasporto':en?'Return to my passport':'回到个人护照'}</strong><small>{eo?'Unu persona kronologio':en?'One personal chronology':'个人总轨迹'}</small></Link>
+        <Link href="/passport/est"><span>02</span><strong>{eo?'Kontribui per scio':en?'Contribute knowledge':'知识贡献'}</strong><small>EST {d.est.value}</small></Link>
+        <Link href="/dad"><span>03</span><strong>{eo?'Diskuti':en?'Discuss':'议事'}</strong><small>DAD</small></Link>
+        <Link href="/projects"><span>04</span><strong>{eo?'Partopreni projektojn':en?'Join projects':'参与项目'}</strong><small>{d.projects.length}</small></Link>
+        <Link href="/passport/bud"><span>05</span><strong>{eo?'Servi':en?'Serve':'服务'}</strong><small>BUD {d.bud.value} · {d.bud.hours}h</small></Link>
+        <Link href="/museum"><span>06</span><strong>{eo?'Konservi kulturon':en?'Preserve culture':'文化存录'}</strong><small>{eo?'Muzeo':en?'Museum':'博物馆'}</small></Link>
+        <Link href="/passport"><span>07</span><strong>{eo?'Reveni al mia pasporto':en?'Return to my passport':'回到个人护照'}</strong><small>{eo?'Unu persona kronologio':en?'One personal chronology':'个人总轨迹'}</small></Link>
       </div>
+      <div className="dual-record-grid">
+        <div><strong>EST</strong><p>{eo?'Lernado, tradukado, instruado kaj sciaj kontribuoj.':en?'Learning, translation, teaching and knowledge contributions.':'学习、翻译、教学与知识贡献。'}</p></div>
+        <div><strong>BUD</strong><p>{eo?'Vola agado, volontula servo kaj publika servo.':en?'Vow-in-action, volunteer service and public service.':'愿行、志愿服务与公共服务。'}</p></div>
+      </div>
+      <p className="muted">{eo?'EST kaj BUD estas du malsamaj registrovojoj: unu por scia kaj lerna kontribuo, la alia por reala servo. Ili povas aperi kune en la pasporto, sed ne estas interŝanĝeblaj kaj ne difinas la valoron de homo.':en?'EST and BUD are two different record paths: one for learning and knowledge contribution, the other for real service. They can appear together in the passport, but they are not interchangeable and do not define a person’s value.':'EST 与 BUD 是两条不同的记录路径：一条记录学习与知识贡献，一条记录真实服务。它们可以共同进入护照，但彼此不可替代，也不定义一个人的价值。'}</p>
     </section>
 
     <section className="card">
