@@ -30,6 +30,14 @@ export default async function ProjectDetailPage({params}:{params:Promise<{id:str
  const milestoneCompleted=d.milestones.filter(x=>x.status==='completed').length;
  const outputsPublished=d.outputs.filter(x=>x.status==='published').length;
  const openRisks=d.risks.filter(x=>x.status==='open'||x.status==='mitigating').length;
+ const approvedBudget=Number(p.approved_budget||0);
+ const spent=Number(p.spent||0);
+ const budgetUsed=approvedBudget>0?Math.max(0,Math.min(999,(spent/approvedBudget)*100)):null;
+ const startMs=p.start_date?new Date(p.start_date+'T00:00:00').getTime():null;
+ const endMs=p.target_end_date?new Date(p.target_end_date+'T00:00:00').getTime():null;
+ const now=Date.now();
+ const scheduleProgress=startMs!==null&&endMs!==null&&endMs>startMs?Math.max(0,Math.min(100,((now-startMs)/(endMs-startMs))*100)):null;
+ const scheduleState=startMs===null||endMs===null?(eo?'Neniu plena tempofenestro':en?'No complete time window':'缺少完整时间窗'):now<startMs?(eo?'Ankoraŭ ne komencita':en?'Not started yet':'尚未到开始日期'):now>endMs?(eo?'Trans la cela findato':en?'Past target end date':'已超过目标结束日期'):(eo?'En la planita tempofenestro':en?'Within planned time window':'处于计划时间窗内');
  return <main>
   <span className="badge">DAD · Projects</span>
   <h1>{p.title}</h1>
@@ -40,6 +48,23 @@ export default async function ProjectDetailPage({params}:{params:Promise<{id:str
    <div><span>{eo?'Risko':en?'Risk':'风险'}</span><strong>{risk}</strong></div>
    <div><span>{eo?'Aprobita buĝeto':en?'Approved budget':'批准预算'}</span><strong>{p.approved_budget} {p.currency}</strong></div>
    <div><span>{eo?'Elspezita':en?'Spent':'已支出'}</span><strong>{p.spent} {p.currency}</strong></div>
+  </section>
+
+  <section className="card">
+   <h2>{eo?'Buĝeta kaj tempa travidebleco':en?'Budget and timeline transparency':'预算与时间透明度'}</h2>
+   <div className="project-progress-grid">
+    <div>
+     <span>{eo?'Buĝeta uzado':en?'Budget used':'预算使用比例'}</span>
+     <strong>{budgetUsed===null?'—':budgetUsed.toFixed(1)+'%'}</strong>
+     <small>{spent} / {approvedBudget} {p.currency}</small>
+    </div>
+    <div>
+     <span>{eo?'Tempa pozicio':en?'Timeline position':'时间进度'}</span>
+     <strong>{scheduleProgress===null?'—':scheduleProgress.toFixed(1)+'%'}</strong>
+     <small>{scheduleState}</small>
+    </div>
+   </div>
+   <p className="muted">{eo?'La du procentoj estas nur aritmetikaj referencoj bazitaj sur registritaj buĝeto, elspezo kaj datoj. Ili ne estas projekta poentaro kaj ne aŭtomate aprobas aŭ blokas elspezojn.':en?'These percentages are arithmetic references based only on recorded budget, spending and dates. They are not project scores and do not automatically approve or block spending.':'这两个百分比只是根据已登记预算、支出与日期计算出的算术参考，不是项目评分，也不会自动批准或阻止任何支出。'}</p>
   </section>
 
   <section className="card">
