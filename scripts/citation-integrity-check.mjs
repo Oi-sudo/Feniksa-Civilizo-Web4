@@ -8,6 +8,7 @@ const requiredFiles=[
   'app/dad/timeline/page.tsx',
   'app/dad/index/page.tsx',
   'app/dad/archive/page.tsx',
+  'app/dad/archive/snapshots/page.tsx',
   'app/passport/projects/[id]/page.tsx',
   'app/passport/page.tsx'
 ];
@@ -27,6 +28,9 @@ const requiredTokens={
   ],
   'app/dad/archive/page.tsx':[
     'PROPOSAL','DECISION','GOV-EVENT','PROJECT','MILESTONE','/dad/decisions','/dad/timeline','/dad/index'
+  ],
+  'app/dad/archive/snapshots/page.tsx':[
+    'Phoenix DAD Governance Archive','ARCHIVE-SNAPSHOT','CopyCitationButton','archive-snapshot-'
   ],
   'app/passport/projects/[id]/page.tsx':[
     'Phoenix Personal Project Passport','PERSONAL-PROJECT','MEMBERSHIP','MEMBERSHIP-END','EST','BUD','CopyCitationButton','slice(0,8)'
@@ -58,7 +62,7 @@ for(const [file,tokens] of Object.entries(requiredTokens)){
 }
 
 const spec=fs.existsSync('CITATION-SPEC.md')?fs.readFileSync('CITATION-SPEC.md','utf8'):'';
-for(const token of ['Phoenix Passport','Phoenix Project Dossier','Phoenix DAD Proposal Dossier','Phoenix DAD Governance Timeline','GOV-EVENT','Phoenix Personal Project Passport','CopyCitationButton']){
+for(const token of ['Phoenix Passport','Phoenix Project Dossier','Phoenix DAD Proposal Dossier','Phoenix DAD Governance Timeline','GOV-EVENT','Phoenix DAD Governance Archive','ARCHIVE-SNAPSHOT','Phoenix Personal Project Passport','CopyCitationButton']){
   if(spec && !spec.includes(token)) errors.push(`CITATION-SPEC.md: missing "${token}"`);
 }
 
