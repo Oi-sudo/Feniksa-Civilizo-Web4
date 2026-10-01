@@ -270,3 +270,5 @@ main[id^="project-"]{scroll-margin-top:100px}
 @media print{
   .subrecord-ref,.subrecord-ref code,.subrecord-ref a{color:#111!important}
 }
+
+[id^="status-event-"],[id^="budget-event-"]{scroll-margin-top:100px}
