@@ -29,16 +29,16 @@ export default async function AssetPage({params}:{params:Promise<{code:string}>}
     <section className="card">
       <h2>{eo?'Unu objekto, unu dosiero':en?'One object, one file':'一物一档 · Unu objekto, unu dosiero'}</h2>
       <div className="dossier-grid">
-        <p><strong>{eo?'Ĉefa halo':en?'Primary hall':'主馆籍'}</strong><span>{eo?(a.hall_eo||a.hall_zh):(a.hall_zh+' · '+(a.hall_eo||''))}</span></p>
-        <p><strong>{eo?'Kataloga kodo':en?'Catalog code':'分册编号'}</strong><span>{a.catalog_code||(eo?'Ne en fiksita volumo':'未编入冻结分册')}</span></p>
-        <p><strong>{eo?'Katalogo':en?'Catalog':'登记册'}</strong><span>{a.catalog_volume||(eo?'Memstara registro':'独立登记')}</span></p>
-        <p><strong>{eo?'Aro/volumo':en?'Batch/volume':'批次/册次'}</strong><span>{a.batch_code||(eo?'Ne aparte indikita':'未单列')}</span></p>
-        <p><strong>{eo?'Kategorio':en?'Category':'类别'}</strong><span>{a.category||(eo?'Ne aparte indikita':'未单列')}</span></p>
-        <p><strong>{eo?'Materialo':en?'Material':'材质'}</strong><span>{a.material||(eo?'Laŭ ekzistantaj kolektaj registroj':'依现有收藏记录')}</span></p>
-        <p><strong>{eo?'Periodo':en?'Period':'年代/时期'}</strong><span>{a.period_description||(eo?'Laŭ ekzistantaj kolektaj registroj':'依现有收藏记录')}</span></p>
-        <p><strong>{eo?'Dimensioj / pezo':en?'Dimensions / weight':'尺寸 / 重量'}</strong><span>{a.dimensions||(eo?'Ne aparte indikita':'未单列')} · {a.weight||(eo?'Ne aparte indikita':'未单列')}</span></p>
+        <p><strong>{eo?'Ĉefa halo':en?'Primary hall':'主馆籍'}</strong><span>{eo?(a.hall_eo||a.hall_zh):en?(a.hall_eo||a.hall_zh):(a.hall_zh+' · '+(a.hall_eo||''))}</span></p>
+        <p><strong>{eo?'Kataloga kodo':en?'Catalog code':'分册编号'}</strong><span>{a.catalog_code||(eo?'Ne en fiksita volumo':en?'Not in a fixed volume':'未编入冻结分册')}</span></p>
+        <p><strong>{eo?'Katalogo':en?'Catalog':'登记册'}</strong><span>{a.catalog_volume||(eo?'Memstara registro':en?'Standalone record':'独立登记')}</span></p>
+        <p><strong>{eo?'Aro/volumo':en?'Batch/volume':'批次/册次'}</strong><span>{a.batch_code||(eo?'Ne aparte indikita':en?'Not separately listed':'未单列')}</span></p>
+        <p><strong>{eo?'Kategorio':en?'Category':'类别'}</strong><span>{a.category||(eo?'Ne aparte indikita':en?'Not separately listed':'未单列')}</span></p>
+        <p><strong>{eo?'Materialo':en?'Material':'材质'}</strong><span>{a.material||(eo?'Laŭ ekzistantaj kolektaj registroj':en?'According to existing collection records':'依现有收藏记录')}</span></p>
+        <p><strong>{eo?'Periodo':en?'Period':'年代/时期'}</strong><span>{a.period_description||(eo?'Laŭ ekzistantaj kolektaj registroj':en?'According to existing collection records':'依现有收藏记录')}</span></p>
+        <p><strong>{eo?'Dimensioj / pezo':en?'Dimensions / weight':'尺寸 / 重量'}</strong><span>{a.dimensions||(eo?'Ne aparte indikita':en?'Not separately listed':'未单列')} · {a.weight||(eo?'Ne aparte indikita':en?'Not separately listed':'未单列')}</span></p>
       </div>
-      <p><strong>{eo?'Devena noto:':en?'Provenance note:':'来源记录：'}</strong>{a.provenance||(eo?'Laŭ ekzistantaj kolektaj registroj':'依现有收藏记录')}</p>
+      <p><strong>{eo?'Devena noto:':en?'Provenance note:':'来源记录：'}</strong>{a.provenance||(eo?'Laŭ ekzistantaj kolektaj registroj':en?'According to existing collection records':'依现有收藏记录')}</p>
     </section>
 
     <section className="card">
@@ -74,7 +74,7 @@ export default async function AssetPage({params}:{params:Promise<{code:string}>}
 
     <section className="card">
       <h2>{eo?'Principo de la dosiero':en?'Record principle':'档案原则 · Principo de dosiero'}</h2>
-      <p>{eo?'La muzeo celas personajn kolektaĵojn, kulturan memoron kaj ciferecan ĝuadon. Nomoj, periodoj, materialoj kaj devenaj notoj estas konservataj laŭ ekzistantaj kolektaj registroj, fotoj, filmetoj kaj dokumentoj. Ili ne estas profesia aŭtentigo, merkata takso aŭ komerca atesto. Cifereca montrado ne ŝanĝas posedrajton; malsamaj fontoj kaj esploraj opinioj povas kunekzisti kun konservita versiohistorio. Registri por serĉi veron, ne trudi finan konkludon.':'本馆以个人收藏、文化记忆与数字赏玩为定位。名称、年代、材质与来源等依据现有收藏记录、照片、视频及既有资料存录，不作为专业鉴定、市场估值或交易证明。数字展示不改变实物产权；不同资料与研究意见可以并存并留下版本记录。存录求真，不强定论。'}</p>
+      <p>{eo?'La muzeo celas personajn kolektaĵojn, kulturan memoron kaj ciferecan ĝuadon. Nomoj, periodoj, materialoj kaj devenaj notoj estas konservataj laŭ ekzistantaj kolektaj registroj, fotoj, filmetoj kaj dokumentoj. Ili ne estas profesia aŭtentigo, merkata takso aŭ komerca atesto. Cifereca montrado ne ŝanĝas posedrajton; malsamaj fontoj kaj esploraj opinioj povas kunekzisti kun konservita versiohistorio. Registri por serĉi veron, ne trudi finan konkludon.':en?'The museum focuses on personal collections, cultural memory and digital appreciation. Names, periods, materials and provenance notes are preserved according to existing collection records, photos, videos and documents. They are not professional authentication, market valuation or transaction certification. Digital display does not change ownership; different sources and research opinions may coexist with preserved version history. Record in pursuit of truth; do not force a final conclusion.':'本馆以个人收藏、文化记忆与数字赏玩为定位。名称、年代、材质与来源等依据现有收藏记录、照片、视频及既有资料存录，不作为专业鉴定、市场估值或交易证明。数字展示不改变实物产权；不同资料与研究意见可以并存并留下版本记录。存录求真，不强定论。'}</p>
     </section>
 
     <div className="hero-actions"><Link className="button button-secondary" href="/museum">{eo?'Reveni al la Cifereca Muzeo':en?'Back to the Digital Museum':'返回数字博物馆'}</Link><Link className="button button-secondary" href="/wfb">{eo?'Pri WFB':en?'About WFB':'WFB 五佛币说明'}</Link></div>
