@@ -167,9 +167,12 @@ export default async function PassportPage({searchParams}:{searchParams:Promise<
             {timelineByYear[year].map(item=>{
               const kindLabel=item.kind==='est'?'EST':item.kind==='bud'?'BUD':item.kind==='project'?(eo?'Projekto':en?'Project':'项目'):(eo?'Verko':en?'Work':'作品');
               const detail=item.kind==='project' ? ((eo?roleEo:en?roleEn:roleZh)[item.detail||'']||item.detail) : item.kind==='work' ? ((eo?workTypeEo:en?workTypeEn:workTypeZh)[item.detail||'']||item.detail) : item.detail;
+              const rawId=item.id.replace(/^(est|bud|project|work)-/,'');
+              const sourceHref=item.kind==='est'?`/passport/est#est-record-${rawId}`:item.kind==='bud'?`/passport/bud#bud-record-${rawId}`:item.kind==='project'?`/passport#project-record-${rawId}`:`/passport#work-record-${rawId}`;
+              const sourceLabel=eo?'Vidi fontan registron →':en?'View source record →':'查看来源记录 →';
               return <article className="timeline-item" key={item.id}>
                 <div className="timeline-date">{new Date(item.occurred_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN')}</div>
-                <div><span className="badge">{kindLabel}</span><h3>{item.title}</h3>{detail&&<p>{detail}</p>}</div>
+                <div><span className="badge">{kindLabel}</span><h3>{item.title}</h3>{detail&&<p>{detail}</p>}<Link className="timeline-source-link" href={sourceHref}>{sourceLabel}</Link></div>
               </article>;
             })}
           </div>
@@ -180,13 +183,13 @@ export default async function PassportPage({searchParams}:{searchParams:Promise<
 
     <section className="card">
       <h2>{m.passport_projects} · Projektoj</h2>
-      {d.projects.length?d.projects.map(p=><p key={p.id}>{p.title} · {(eo?roleEo:en?roleEn:roleZh)[p.role]||p.role} · {(eo?projectStatusEo:en?projectStatusEn:projectStatusZh)[p.status]||p.status}</p>):<p>{m.no_projects_yet}</p>}
+      {d.projects.length?d.projects.map(p=><p id={`project-record-${p.id}`} key={p.id}>{p.title} · {(eo?roleEo:en?roleEn:roleZh)[p.role]||p.role} · {(eo?projectStatusEo:en?projectStatusEn:projectStatusZh)[p.status]||p.status}</p>):<p>{m.no_projects_yet}</p>}
       <Link href="/projects">{eo?'Vidi projektan enirejon →':en?'View project entry →':'查看项目入口 →'}</Link>
     </section>
 
     <section className="card">
       <h2>{eo?'Verkoj':en?'Works':'作品档案 · Verkoj'}</h2>
-      {d.works.length?d.works.map(w=><p key={w.id}>{w.url?<a href={w.url}>{w.title}</a>:w.title} · {(eo?workTypeEo:en?workTypeEn:workTypeZh)[w.work_type]||w.work_type} · {(eo?workStatusEo:en?workStatusEn:workStatusZh)[w.status]||w.status}</p>):<p>{m.no_works_yet}</p>}
+      {d.works.length?d.works.map(w=><p id={`work-record-${w.id}`} key={w.id}>{w.url?<a href={w.url}>{w.title}</a>:w.title} · {(eo?workTypeEo:en?workTypeEn:workTypeZh)[w.work_type]||w.work_type} · {(eo?workStatusEo:en?workStatusEn:workStatusZh)[w.status]||w.status}</p>):<p>{m.no_works_yet}</p>}
     </section>
 
     <section className="card">
