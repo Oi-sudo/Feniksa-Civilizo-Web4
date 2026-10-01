@@ -145,3 +145,7 @@
 .timeline-item h3{margin:.45rem 0 .25rem;font-size:1rem}
 .timeline-item p{margin:0;color:#c8c1b5}
 @media(max-width:620px){.timeline-item{grid-template-columns:1fr;gap:7px}.timeline-date{padding-top:0}}
+
+.timeline-filters{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 18px}
+.timeline-filters a{padding:7px 11px;border:1px solid #353b41;border-radius:999px;background:#111418;font-size:.88rem}
+.timeline-filters a:hover,.timeline-filters a.active{border-color:#d7b46a;background:#211d16;color:#f0d89b}
