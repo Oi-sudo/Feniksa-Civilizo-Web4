@@ -74,6 +74,15 @@ export default async function ProjectDetailPage({params}:{params:Promise<{id:str
   </section>
 
   <section className="card">
+   <h2>{eo?'Regada origino':en?'Governance origin':'治理来源'}</h2>
+   {p.proposal_id?<div>
+    <p>{eo?'Ĉi tiu projekto estas ligita al DAD-propono. La propona dosiero montras la publikan proponon kaj agregitan finan decidon; ĝi ne publikigas individuajn voĉojn.':en?'This project is linked to a DAD proposal. The proposal dossier shows the public proposal and aggregated final decision; it does not publish individual votes.':'本项目关联一项 DAD 提案。提案档案展示公开提案与汇总后的最终决定，不公开个人逐票信息。'}</p>
+    <p><strong>{p.proposal_title||p.proposal_short_code||p.proposal_id.replace(/-/g,'').slice(0,8)}</strong></p>
+    <Link className="button button-secondary" href={'/dad/proposals/'+p.proposal_id}>{eo?'Vidi fontan DAD-proponon':en?'View source DAD proposal':'查看来源 DAD 提案'}</Link>
+   </div>:<p>{eo?'Neniu DAD-propono estas ligita al ĉi tiu projekta registro.':en?'No DAD proposal is linked to this project record.':'此项目记录目前没有关联 DAD 提案。'}</p>}
+  </section>
+
+  <section className="card">
    <h2>{eo?'Buĝeta kaj tempa travidebleco':en?'Budget and timeline transparency':'预算与时间透明度'}</h2>
    <div className="project-progress-grid">
     <div>
