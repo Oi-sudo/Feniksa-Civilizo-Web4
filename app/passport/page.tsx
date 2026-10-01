@@ -4,6 +4,13 @@ import { getCurrentUser } from '@/lib/auth/session';
 import { getPassportOverview } from '@/lib/passport/data';
 import { getLocale,getMessages } from '@/lib/i18n';
 
+const userRoleZh:Record<string,string>={learner:'学习者',admin:'管理员',curator:'馆藏整理员',museum_reviewer:'馆藏审核员'};
+const userRoleEo:Record<string,string>={learner:'Lernanto',admin:'Administranto',curator:'Muzea prizorganto',museum_reviewer:'Muzea kontrolanto'};
+const visibilityZh:Record<string,string>={private:'私密',members:'成员可见',public:'公开'};
+const visibilityEo:Record<string,string>={private:'Privata',members:'Videbla al membroj',public:'Publika'};
+const languageZh:Record<string,string>={zh:'中文',eo:'世界语',en:'英语'};
+const languageEo:Record<string,string>={zh:'Ĉina',eo:'Esperanto',en:'Angla'};
+
 const learningZh:Record<string,string>={not_started:'尚未开始',in_progress:'学习中',completed:'已完成'};
 const learningEo:Record<string,string>={not_started:'Ne komencita',in_progress:'En lernado',completed:'Kompletigita'};
 const projectStatusZh:Record<string,string>={active:'进行中',completed:'已完成',paused:'已暂停',closed:'已结束'};
@@ -40,9 +47,9 @@ export default async function PassportPage(){
       <h2>{eo?'Lerna identeco':'学习身份 · Lerna identeco'}</h2>
       <p><strong>{m.display_name_label}</strong> {user.display_name}</p>
       <p><strong>{m.email_label}</strong> {user.email}</p>
-      <p><strong>{m.preferred_language_label}</strong> {user.preferred_language.toUpperCase()}</p>
-      <p><strong>{m.current_roles}</strong> {user.roles.length?user.roles.join(', '):'learner'}</p>
-      <p><strong>{m.passport_privacy}</strong> {d.visibility}</p>
+      <p><strong>{m.preferred_language_label}</strong> {(eo?languageEo:languageZh)[user.preferred_language]||user.preferred_language.toUpperCase()}</p>
+      <p><strong>{m.current_roles}</strong> {(user.roles.length?user.roles:['learner']).map(r=>(eo?userRoleEo:userRoleZh)[r]||r).join(', ')}</p>
+      <p><strong>{m.passport_privacy}</strong> {(eo?visibilityEo:visibilityZh)[d.visibility]||d.visibility}</p>
     </section>
 
     <section className="stat-grid">
