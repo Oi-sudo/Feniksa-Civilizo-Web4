@@ -231,3 +231,9 @@
 .project-progress-grid strong{font-size:1.35rem;color:#f0d89b}
 .project-progress-grid small{color:#bdb6aa}
 @media(max-width:620px){.project-progress-grid{grid-template-columns:1fr}}
+
+.project-audit-list{display:grid;gap:10px}
+.project-audit-item{display:grid;grid-template-columns:120px 1fr;gap:16px;padding:13px 0;border-top:1px solid #30363b}
+.project-audit-item:first-child{border-top:0}
+.project-audit-item p{margin:.4rem 0}
+@media(max-width:620px){.project-audit-item{grid-template-columns:1fr;gap:6px}}
