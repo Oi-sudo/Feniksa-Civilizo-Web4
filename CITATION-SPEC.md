@@ -66,6 +66,18 @@ Stable date sources:
 
 Only aggregated decision data is public. Individual votes are not published.
 
+### DAD governance timeline
+Format:
+`Phoenix DAD Governance Timeline · GOV-EVENT · <SHORT_ID> · YYYY-MM-DD`
+
+Current type codes:
+- GOV-EVENT
+
+Stable date source:
+- GOV-EVENT: public governance event occurrence time, derived from the underlying proposal, decision, project-status, or milestone record.
+
+The visible GOV-EVENT short reference is deterministic for the underlying event and is used only as a public locator. It does not publish individual ballots, private membership data, or internal comments.
+
 ### Personal project passport
 Format:
 `Phoenix Personal Project Passport · <TYPE> · <SHORT_ID> · YYYY-MM-DD`
@@ -98,6 +110,7 @@ Current locator patterns include:
 - `proposal-<SHORT_ID>`
 - `decision-<SHORT_ID>`
 - `proposal-status-<SHORT_ID>`
+- `gov-event-<SHORT_ID>`
 - `personal-project-passport-<SHORT_ID>`
 - `personal-project-membership-<SHORT_ID>`
 - `personal-project-membership_end-<SHORT_ID>`
