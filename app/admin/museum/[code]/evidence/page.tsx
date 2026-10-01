@@ -6,6 +6,11 @@ import EvidenceLinkForm from '@/components/museum/EvidenceLinkForm';
 import EvidenceReviewActions from '@/components/museum/EvidenceReviewActions';
 import EvidenceVisibilityActions from '@/components/museum/EvidenceVisibilityActions';
 
+const evidenceZh:Record<string,string>={original:'原始收藏资料',publication_history:'传播史资料',comparison:'外部比对资料',research_reference:'研究参考'};
+const evidenceEo:Record<string,string>={original:'Origina kolekta materialo',publication_history:'Materialo pri disvastiga historio',comparison:'Ekstera kompara materialo',research_reference:'Esplora referenco'};
+const verifyZh:Record<string,string>={unverified:'待整理',source_confirmed:'来源已整理',reviewed:'资料已整理'};
+const verifyEo:Record<string,string>={unverified:'Por ordigo',source_confirmed:'Fonto ordigita',reviewed:'Materialo ordigita'};
+
 export default async function EvidenceAdminPage({params}:{params:Promise<{code:string}>}){
  const user=await requireAnyRole(['admin','curator','museum_reviewer']); const locale=await getLocale(); const eo=locale==='eo';
  const {code}=await params; const asset=await getMuseumAssetForEvidence(code); if(!asset)notFound();
@@ -16,7 +21,7 @@ export default async function EvidenceAdminPage({params}:{params:Promise<{code:s
   <section className="card"><EvidenceLinkForm assetId={asset.id} locale={locale}/></section>
   <section className="home-section"><h2>{eo?'Ligitaj materialoj':'已挂接资料'}</h2>
    {d.media.length?<div className="record-list">{d.media.map(m=><article className="card" key={m.id}>
-    <div className="record-top"><strong>{m.evidence_role}</strong><span>{m.visibility==='public'?(eo?'Publika montrado':'公开展示'):(eo?'Interna materialo':'内部资料')} · {m.verification_status}</span></div>
+    <div className="record-top"><strong>{(eo?evidenceEo:evidenceZh)[m.evidence_role]||m.evidence_role}</strong><span>{m.visibility==='public'?(eo?'Publika montrado':'公开展示'):(eo?'Interna materialo':'内部资料')} · {(eo?verifyEo:verifyZh)[m.verification_status]||m.verification_status}</span></div>
     <p>{m.caption}</p>{m.source_note&&<p className="muted">{m.source_note}</p>}
     {m.source_confirmed_at&&<p className="muted">{eo?'Fonto ordigita':'来源整理'}：{m.source_confirmed_by_name||(eo?'muzea kunlaboranto':'馆藏人员')} · {new Date(m.source_confirmed_at).toLocaleDateString(eo?'eo':'zh-CN')}</p>}
     {m.reviewed_at&&<p className="muted">{eo?'Materialo ordigita':'资料整理'}：{m.reviewed_by_name||(eo?'kontrolanto':'审核人员')} · {new Date(m.reviewed_at).toLocaleDateString(eo?'eo':'zh-CN')}</p>}
@@ -28,7 +33,7 @@ export default async function EvidenceAdminPage({params}:{params:Promise<{code:s
     <div className="timeline-dot" aria-hidden="true"></div>
     <div className="timeline-body">
       <div className="record-top"><strong>{e.caption||e.media_type}</strong><span>{new Date(e.created_at).toLocaleString(eo?'eo':'zh-CN')}</span></div>
-      <p><strong>{e.from_status||(eo?'Ne registrita':'未记录')}</strong> → <strong>{e.to_status}</strong></p>
+      <p><strong>{e.from_status?((eo?verifyEo:verifyZh)[e.from_status]||e.from_status):(eo?'Ne registrita':'未记录')}</strong> → <strong>{(eo?verifyEo:verifyZh)[e.to_status]||e.to_status}</strong></p>
       <p className="muted">{e.actor_name||(eo?'Sistemo / sen nomo':'系统/未署名')}{e.note ? ' · '+e.note : ''}</p>
     </div>
    </article>)}</div>:<div className="card"><p>{eo?'Ankoraŭ ne estas registro pri ŝanĝo de materiala stato.':'还没有资料整理状态变更记录。'}</p></div>}
