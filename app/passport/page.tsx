@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { getCurrentUser } from '@/lib/auth/session';
 import { getPassportOverview } from '@/lib/passport/data';
-import { getMessages } from '@/lib/i18n';
+import { getLocale,getMessages } from '@/lib/i18n';
 
 const yaoNames=[
   ['初爻 · 觉醒','Unua linio · Vekiĝo'],
@@ -16,7 +16,7 @@ const yaoNames=[
 export default async function PassportPage(){
   const user=await getCurrentUser();
   if(!user) redirect('/login');
-  const m=await getMessages();
+  const [locale,m]=await Promise.all([getLocale(),getMessages()]); const eo=locale==='eo';
   const d=await getPassportOverview(user.id);
   const six=new Map(d.sixYao.map(x=>[x.stage,x]));
 
@@ -26,7 +26,7 @@ export default async function PassportPage(){
     <p className="lead">{(m.passport_welcome||'欢迎回来，{name}。').replace('{name}',user.display_name)}</p>
 
     <section className="card">
-      <h2>学习身份 · Lerna identeco</h2>
+      <h2>{eo?'Lerna identeco':'学习身份 · Lerna identeco'}</h2>
       <p><strong>{m.display_name_label}</strong> {user.display_name}</p>
       <p><strong>{m.email_label}</strong> {user.email}</p>
       <p><strong>{m.preferred_language_label}</strong> {user.preferred_language.toUpperCase()}</p>
@@ -35,18 +35,18 @@ export default async function PassportPage(){
     </section>
 
     <section className="stat-grid">
-      <div className="stat-card"><strong>{d.courses.completed}</strong><span>完成课程 · Kursoj</span><small>学习中 {d.courses.active} · 有记录 {d.courses.total}</small></div>
-      <Link className="stat-card" href="/passport/est"><strong>{d.est.value}</strong><span>EST 世界语币</span><small>已审核记录 {d.est.approved} · 查看明细 →</small></Link>
-      <Link className="stat-card" href="/passport/bud"><strong>{d.bud.value}</strong><span>BUD 佛光币</span><small>已审核 {d.bud.approved} · 服务 {d.bud.hours} 小时 · 查看明细 →</small></Link>
+      <div className="stat-card"><strong>{d.courses.completed}</strong><span>{eo?'Kompletigitaj kursoj':'完成课程 · Kursoj'}</span><small>{eo?`Aktivaj ${d.courses.active} · Registritaj ${d.courses.total}`:`学习中 ${d.courses.active} · 有记录 ${d.courses.total}`}</small></div>
+      <Link className="stat-card" href="/passport/est"><strong>{d.est.value}</strong><span>{eo?'EST · Esperanta Kontribua Registro':'EST 世界语币'}</span><small>{eo?`Aprobitaj registroj ${d.est.approved} · Vidi detalojn →`:`已审核记录 ${d.est.approved} · 查看明细 →`}</small></Link>
+      <Link className="stat-card" href="/passport/bud"><strong>{d.bud.value}</strong><span>{eo?'BUD · Vola-Agada Registro':'BUD 佛光币'}</span><small>{eo?`Aprobitaj ${d.bud.approved} · Servo ${d.bud.hours} horoj · Vidi detalojn →`:`已审核 ${d.bud.approved} · 服务 ${d.bud.hours} 小时 · 查看明细 →`}</small></Link>
     </section>
 
     <section className="card">
-      <h2>六爻成长轨迹 · Ses-linia lernovojo</h2>
-      <p className="muted">记录学习与实践轨迹，不认证宗教修证境界，也不形成成员等级。</p>
+      <h2>{eo?'Ses-linia lernovojo':'六爻成长轨迹 · Ses-linia lernovojo'}</h2>
+      <p className="muted">{eo?'Ĝi registras lernadon kaj praktikon, sed ne atestas religian atingon kaj ne kreas membran rangon.':'记录学习与实践轨迹，不认证宗教修证境界，也不形成成员等级。'}</p>
       <div className="yao-grid">
         {yaoNames.map(([zh,eo],i)=>{
           const row=six.get(i+1);
-          return <div className="yao-card" key={zh}><strong>{zh}</strong><span>{eo}</span><small>{row?.learning_status||'尚未开始'}</small></div>
+          return <div className="yao-card" key={zh}><strong>{locale==='eo'?eo:zh}</strong>{locale!=='eo'&&<span>{eo}</span>}<small>{row?.learning_status||(locale==='eo'?'Ne komencita':'尚未开始')}</small></div>
         })}
       </div>
     </section>
@@ -54,17 +54,17 @@ export default async function PassportPage(){
     <section className="card">
       <h2>{m.passport_projects} · Projektoj</h2>
       {d.projects.length?d.projects.map(p=><p key={p.id}>{p.title} · {p.role} · {p.status}</p>):<p>{m.no_projects_yet}</p>}
-      <Link href="/projects">查看项目入口 →</Link>
+      <Link href="/projects">{eo?'Vidi projektan enirejon →':'查看项目入口 →'}</Link>
     </section>
 
     <section className="card">
-      <h2>作品档案 · Verkoj</h2>
+      <h2>{eo?'Verkoj':'作品档案 · Verkoj'}</h2>
       {d.works.length?d.works.map(w=><p key={w.id}>{w.url?<a href={w.url}>{w.title}</a>:w.title} · {w.work_type} · {w.status}</p>):<p>{m.no_works_yet}</p>}
     </section>
 
     <section className="card">
-      <h2>护照原则 · Principo</h2>
-      <p>护照记道路，不定义一个人的价值。EST、BUD、课程和项目都是可核查记录，不是人格排名，也不是宗教果位认证。</p>
+      <h2>{eo?'Principo de la pasporto':'护照原则 · Principo'}</h2>
+      <p>{eo?'La pasporto registras la vojon, sed ne difinas la valoron de homo. EST, BUD, kursoj kaj projektoj estas kontroleblaj registroj; ili ne estas rangigo de personeco nek atesto de religia atingo.':'护照记道路，不定义一个人的价值。EST、BUD、课程和项目都是可核查记录，不是人格排名，也不是宗教果位认证。'}</p>
     </section>
   </main>;
 }
