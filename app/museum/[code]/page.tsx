@@ -6,6 +6,8 @@ import { getAssetDossier,getPublishedAsset } from '@/lib/museum/data';
 const mediaLabelZh:Record<string,string>={image:'收藏图片',video:'收藏视频',document:'文献/文件',certificate:'证书','3d_model':'3D模型'};
 const mediaLabelEo:Record<string,string>={image:'Kolekta bildo',video:'Kolekta filmeto',document:'Dokumento',certificate:'Atestilo','3d_model':'3D-modelo'};
 const evidenceZh:Record<string,string>={original:'原始收藏资料',publication_history:'传播史资料',comparison:'外部比对资料',research_reference:'研究参考'};
+const researchZh:Record<string,string>={catalog_note:'编目说明',provenance_note:'来源说明',comparison_note:'比对说明',research_note:'研究意见',curatorial_note:'策展说明'};
+const researchEo:Record<string,string>={catalog_note:'Kataloga noto',provenance_note:'Devena noto',comparison_note:'Kompara noto',research_note:'Esplora noto',curatorial_note:'Kuratora noto'};
 const evidenceEo:Record<string,string>={original:'Origina kolekta materialo',publication_history:'Materialo pri disvastiga historio',comparison:'Ekstera kompara materialo',research_reference:'Esplora referenco'};
 
 export default async function AssetPage({params}:{params:Promise<{code:string}>}){
@@ -64,7 +66,7 @@ export default async function AssetPage({params}:{params:Promise<{code:string}>}
     <section className="home-section">
       <span className="eyebrow">Research · Esploro</span>
       <h2>{eo?'Esploraj notoj':'研究意见'}</h2>
-      {d.research.length?<div className="record-list">{d.research.map(x=><article className="card" key={x.id}><div className="record-top"><strong>{x.note_type}</strong><span>{new Date(x.created_at).toLocaleDateString(eo?'eo':'zh-CN')}</span></div><p>{x.content}</p>{x.source_reference&&<p className="muted">{eo?'Fonto: ':'来源：'}{x.source_reference}</p>}</article>)}</div>:<div className="card"><p>{eo?'Nun ne estas aparte publikigitaj esploraj notoj; la registrita nomo servas ĉefe al persona kolektado, kultura memoro kaj cifereca ĝuado.':'目前没有另外发布的研究说明；馆藏名称主要用于个人收藏、文化记忆与数字赏玩存录。'}</p></div>}
+      {d.research.length?<div className="record-list">{d.research.map(x=><article className="card" key={x.id}><div className="record-top"><strong>{(eo?researchEo:researchZh)[x.note_type]||x.note_type}</strong><span>{new Date(x.created_at).toLocaleDateString(eo?'eo':'zh-CN')}</span></div><p>{x.content}</p>{x.source_reference&&<p className="muted">{eo?'Fonto: ':'来源：'}{x.source_reference}</p>}</article>)}</div>:<div className="card"><p>{eo?'Nun ne estas aparte publikigitaj esploraj notoj; la registrita nomo servas ĉefe al persona kolektado, kultura memoro kaj cifereca ĝuado.':'目前没有另外发布的研究说明；馆藏名称主要用于个人收藏、文化记忆与数字赏玩存录。'}</p></div>}
     </section>
 
     <section className="card">
