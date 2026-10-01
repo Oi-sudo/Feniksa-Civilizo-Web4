@@ -199,3 +199,12 @@
   .passport-timeline-groups,.passport-timeline,.record-list{gap:8px!important}
   .timeline-item{break-inside:avoid;border-color:#ccc!important}
 }
+
+.passport-print-header{display:none}
+@media print{
+  .passport-print-header{display:flex!important;justify-content:space-between;gap:24px;align-items:flex-end;margin:0 0 22px;padding:0 0 14px;border-bottom:2px solid #222}
+  .passport-print-header>div{display:grid;gap:4px}
+  .passport-print-header>div:last-child{text-align:right;font-size:9.5pt}
+  .passport-print-header strong{font-size:16pt}
+  .passport-print-header span{color:#333!important}
+}
