@@ -32,6 +32,6 @@ export default async function HallPage({params}:{params:Promise<{code:string}>})
     </Link>)}</div>:<div className="card"><p>本馆目前还没有公开馆藏。没有数据不等于没有实物；只表示尚未完成公开登记。</p></div>}
   </section>
   <section className="card"><h2>主馆籍原则</h2><p>每件藏品只设一个主馆籍，避免九馆重复计数；关联展示可以跨馆，但主档案仍只归一馆。</p><p className="muted">本馆以个人收藏、文化记忆与数字赏玩为定位，资料可随学习与整理继续丰富。</p></section>
-  <div className="hero-actions"><Link className="button button-primary" href="/museum">返回九馆总览</Link><Link className="button button-secondary" href="/wfb/intake">登记新藏品</Link></div>
+  <div className="hero-actions"><Link className="button button-primary" href="/museum">返回九馆总览</Link><Link className="button button-secondary" href="/museum/about">收藏与赏玩说明</Link><Link className="button button-secondary" href="/wfb/intake">登记新藏品</Link></div>
  </main>;
 }

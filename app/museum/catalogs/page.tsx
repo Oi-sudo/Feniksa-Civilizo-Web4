@@ -10,6 +10,6 @@ export default async function CatalogsPage(){
   {volumes.length?<div className="card-grid">{volumes.map(v=><Link className="card" href={`/museum/catalogs/${encodeURIComponent(v.catalog_volume)}`} key={v.catalog_volume}>
     <span className="eyebrow">CATALOG</span><h2>{v.catalog_volume}</h2><strong>{v.asset_count} 件</strong><span className="card-link">打开登记册 →</span>
   </Link>)}</div>:<div className="card"><p>暂无已接入的分册登记。</p></div>}
-  <div className="hero-actions"><Link className="button button-secondary" href="/museum">返回九馆总览</Link></div>
+  <div className="hero-actions"><Link className="button button-secondary" href="/museum/about">收藏与赏玩说明</Link><Link className="button button-secondary" href="/museum">返回九馆总览</Link></div>
  </main>;
 }
