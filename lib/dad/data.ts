@@ -281,6 +281,32 @@ export async function createGovernanceArchiveSnapshot(snapshotDate?:string){
   return r.rows[0]||null;
 }
 
+
+export type GovernanceArchiveReport={
+  id:string;from_snapshot_date:string;to_snapshot_date:string;created_at:string;created_by:string|null;
+};
+
+export async function listGovernanceArchiveReports(limit=120){
+  const r=await query<GovernanceArchiveReport>(`SELECT r.id,r.from_snapshot_date::text,r.to_snapshot_date::text,r.created_at::text,
+      u.display_name AS created_by
+    FROM governance_archive_reports r
+    LEFT JOIN users u ON u.id=r.created_by
+    ORDER BY r.created_at DESC
+    LIMIT $1`,[limit]);
+  return r.rows;
+}
+
+export async function archiveGovernanceChangeReport(fromDate:string,toDate:string,userId:string){
+  const from=fromDate<=toDate?fromDate:toDate;
+  const to=fromDate<=toDate?toDate:fromDate;
+  if(from===to) return null;
+  const r=await query<GovernanceArchiveReport>(`INSERT INTO governance_archive_reports(from_snapshot_date,to_snapshot_date,created_by)
+    VALUES($1::date,$2::date,$3)
+    ON CONFLICT (from_snapshot_date,to_snapshot_date) DO NOTHING
+    RETURNING id,from_snapshot_date::text,to_snapshot_date::text,created_at::text,NULL::text AS created_by`,[from,to,userId]);
+  return r.rows[0]||null;
+}
+
 export async function getPublicProposal(id:string){
   const p=await query<PublicProposal>(`SELECT id,short_code,title,problem_statement,proposed_solution,budget_requested::text,currency,
       public_value,risk_description,status::text,created_at::text,updated_at::text,final_outcome,decision_finalized_at::text
