@@ -3,9 +3,12 @@ import { getLocale } from '@/lib/i18n';
 import TaohuayuanZoneNav from '@/components/taohuayuan/ZoneNav';
 import { listVisibleProjects } from '@/lib/projects/data';
 
-export default async function ProjectsPage(){
-  const locale=await getLocale(); const eo=locale==='eo'; const en=locale==='en';
+export default async function ProjectsPage({searchParams}:{searchParams:Promise<{status?:string}>}){
+  const [locale,params]=await Promise.all([getLocale(),searchParams]); const eo=locale==='eo'; const en=locale==='en';
   const projects=await listVisibleProjects();
+  const allowedStatuses=['all','approved','active','paused','completed','terminated','archived'];
+  const statusFilter=allowedStatuses.includes(params.status||'')?(params.status||'all'):'all';
+  const visibleProjects=statusFilter==='all'?projects:projects.filter(p=>p.status===statusFilter);
   const statusZh:Record<string,string>={approved:'已批准',active:'进行中',paused:'已暂停',completed:'已完成',terminated:'已终止',archived:'已归档'};
   const statusEo:Record<string,string>={approved:'Aprobita',active:'Aktiva',paused:'Paŭzita',completed:'Kompletigita',terminated:'Ĉesigita',archived:'Arkivita'};
   const statusEn:Record<string,string>={approved:'Approved',active:'Active',paused:'Paused',completed:'Completed',terminated:'Terminated',archived:'Archived'};
@@ -22,8 +25,24 @@ export default async function ProjectsPage(){
     <section className="home-section">
       <h2>{eo?'Projekta registro':en?'Project register':'项目总台账'}</h2>
       <p className="muted">{eo?'Ĉi tie aperas nur projektoj jam en aprobita aŭ posta stato. La registro estas nurlegebla publika plenumvidaĵo; ĝi ne faras aŭtomatajn pagojn.':en?'Only projects at approved or later stages appear here. This is a read-only execution view and does not make automatic payments.':'这里只显示已批准或之后阶段的项目。这是只读执行视图，不执行自动付款。'}</p>
-      {projects.length?<div className="card-grid">
-        {projects.map(p=><Link className="card project-card" href={`/projects/${p.id}`} key={p.id}>
+      <div className="timeline-filters" aria-label={eo?'Filtri projektojn laŭ stato':en?'Filter projects by status':'按状态筛选项目'}>
+        {[
+          ['all',eo?'Ĉiuj':en?'All':'全部'],
+          ['approved',(eo?statusEo:en?statusEn:statusZh).approved],
+          ['active',(eo?statusEo:en?statusEn:statusZh).active],
+          ['paused',(eo?statusEo:en?statusEn:statusZh).paused],
+          ['completed',(eo?statusEo:en?statusEn:statusZh).completed],
+          ['terminated',(eo?statusEo:en?statusEn:statusZh).terminated],
+          ['archived',(eo?statusEo:en?statusEn:statusZh).archived]
+        ].map(([key,label])=><Link key={key} href={key==='all'?'/projects':`/projects?status=${key}`} className={statusFilter===key?'active':''}>{label}</Link>)}
+      </div>
+      <div className="timeline-summary">
+        <div><span>{eo?'Ĉiuj projektoj':en?'All projects':'全部项目'}</span><strong>{projects.length}</strong></div>
+        <div><span>{eo?'Nun montrataj':en?'Currently shown':'当前显示'}</span><strong>{visibleProjects.length}</strong></div>
+        <div><span>{eo?'Filtrilo':en?'Filter':'筛选状态'}</span><strong>{statusFilter==='all'?(eo?'Ĉiuj':en?'All':'全部'):((eo?statusEo:en?statusEn:statusZh)[statusFilter]||statusFilter)}</strong></div>
+      </div>
+      {visibleProjects.length?<div className="card-grid">
+        {visibleProjects.map(p=><Link className="card project-card" href={`/projects/${p.id}`} key={p.id}>
           <div className="record-top"><span>{(eo?statusEo:en?statusEn:statusZh)[p.status]||p.status}</span><span>{eo?'Risko':en?'Risk':'风险'}：{(eo?riskEo:en?riskEn:riskZh)[p.risk_level]||p.risk_level}</span></div>
           <h3>{p.title}</h3>
           {p.description&&<p>{p.description}</p>}
@@ -31,7 +50,7 @@ export default async function ProjectsPage(){
           {p.manager_name&&<small>{eo?'Respondeculo':en?'Manager':'负责人'}：{p.manager_name}</small>}
           <span className="card-link">{eo?'Vidi projektan dosieron →':en?'View project dossier →':'查看项目档案 →'}</span>
         </Link>)}
-      </div>:<div className="card"><p>{eo?'Nun ne estas projektoj en aprobita aŭ posta stato.':en?'There are currently no projects at approved or later stages.':'目前还没有进入已批准或之后阶段的项目。'}</p></div>}
+      </div>:<div className="card"><p>{statusFilter==='all'?(eo?'Nun ne estas projektoj en aprobita aŭ posta stato.':en?'There are currently no projects at approved or later stages.':'目前还没有进入已批准或之后阶段的项目。'):(eo?'Ne estas projektoj en ĉi tiu stato.':en?'There are no projects in this status.':'当前状态下没有项目。')}</p></div>}
     </section>
     <section className="card life-path">
       <h2>{eo?'Viva vojo de la komunumo':en?'Community life path':'社区生活路径'}</h2>
