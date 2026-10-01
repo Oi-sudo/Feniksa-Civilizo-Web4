@@ -343,3 +343,5 @@ main[id^="project-"]{scroll-margin-top:100px}
 .membership-facts span{font-size:.78rem;color:#bcb5a9}
 @media(max-width:620px){.membership-facts{grid-template-columns:1fr}}
 @media print{.membership-facts p{background:#fff!important;border-color:#bbb!important;color:#111!important}}
+
+[id^="personal-project-membership_end-"]{scroll-margin-top:100px}
