@@ -5,7 +5,7 @@ export type PassportOverview = {
   courses: { total: number; completed: number; active: number };
   est: { approved: number; value: number };
   bud: { approved: number; value: number; hours: number };
-  projects: Array<{ id: string; title: string; role: string; status: string }>;
+  projects: Array<{ id: string; title: string; role: string; status: string; joined_at: string }>;
   works: Array<{ id: string; title: string; work_type: string; url: string | null; visibility: string; status: string }>;
   sixYao: Array<{ stage: number; learning_status: string; practice_status: string | null }>;
   timeline: Array<{ id: string; kind: 'est' | 'bud' | 'project' | 'work'; title: string; detail: string | null; occurred_at: string }>;
@@ -59,8 +59,8 @@ export async function getPassportOverview(userId: string): Promise<PassportOverv
               COALESCE(SUM(hours),0)::text AS hours
          FROM bud_records WHERE user_id = $1 AND review_status = 'approved'`, [userId]
     ),
-    query<{ id: string; title: string; role: string; status: string }>(
-      `SELECT p.id, p.title, pm.participation_role AS role, p.status
+    query<{ id: string; title: string; role: string; status: string; joined_at: string }>(
+      `SELECT p.id, p.title, pm.participation_role AS role, p.status, pm.joined_at::text AS joined_at
          FROM project_members pm JOIN projects p ON p.id = pm.project_id
         WHERE pm.user_id = $1 AND pm.status <> 'withdrawn'
         ORDER BY pm.joined_at DESC LIMIT 8`, [userId]
