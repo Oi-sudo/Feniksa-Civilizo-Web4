@@ -25,11 +25,12 @@ let stderr='';
 server.stderr.on('data',d=>{stderr+=String(d);});
 
 const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
+const fetchWithTimeout=(url,ms=10000)=>fetch(url,{redirect:'manual',signal:AbortSignal.timeout(ms)});
 
 async function waitForServer(){
   for(let i=0;i<40;i++){
     try{
-      const res=await fetch(base+'/api/health',{redirect:'manual'});
+      const res=await fetchWithTimeout(base+'/api/health',3000);
       if(res.status<500) return;
     }catch{}
     await sleep(500);
@@ -42,7 +43,7 @@ try{
   const failures=[];
   for(const route of routes){
     try{
-      const res=await fetch(base+route,{redirect:'manual'});
+      const res=await fetchWithTimeout(base+route,10000);
       if(res.status<200||res.status>=400) failures.push(`${route} -> HTTP ${res.status}`);
       else console.log(`runtime route ok: ${route} -> ${res.status}`);
     }catch(e){
