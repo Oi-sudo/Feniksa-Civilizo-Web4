@@ -33,7 +33,6 @@ export async function getPersonalProjectPassport(userId:string,projectId:string)
         JOIN projects p ON p.id=pm.project_id
        WHERE pm.user_id=$1 AND pm.project_id=$2
       UNION ALL
-      UNION ALL
       SELECT ('membership_end-' || pm.project_id::text) AS id,
              'membership_end'::text AS kind,
              p.title AS title,
