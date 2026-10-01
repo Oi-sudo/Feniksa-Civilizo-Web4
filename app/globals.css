@@ -334,3 +334,6 @@ main[id^="project-"]{scroll-margin-top:100px}
 .passport-project-row small{color:#bcb5a9}
 .passport-project-actions{display:flex;flex-wrap:wrap;gap:12px}
 .passport-project-actions a{color:#d7b46a}
+
+.personal-project-source-link{margin:.55rem 0 0}
+.personal-project-source-link a{color:#d7b46a}
