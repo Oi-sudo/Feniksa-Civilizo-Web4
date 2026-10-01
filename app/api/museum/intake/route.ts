@@ -2,13 +2,15 @@ import { NextRequest,NextResponse } from 'next/server';
 import { randomBytes } from 'node:crypto';
 import { getCurrentUser } from '@/lib/auth/session';
 import { withTransaction } from '@/lib/db';
+import { getLocale } from '@/lib/i18n';
 
 export async function POST(req:NextRequest){
- const user=await getCurrentUser(); if(!user)return NextResponse.json({error:'请先登录。'},{status:401});
+ const eo=(await getLocale())==='eo';
+ const user=await getCurrentUser(); if(!user)return NextResponse.json({error:eo?'Bonvolu unue ensaluti.':'请先登录。'},{status:401});
  try{
   const b=await req.json(); const title=String(b.titleZh||'').trim();
-  if(title.length<2||title.length>200)return NextResponse.json({error:'请填写有效的藏品登记名称。'},{status:400});
-  if(!b.hallId)return NextResponse.json({error:'请选择主馆籍。'},{status:400});
+  if(title.length<2||title.length>200)return NextResponse.json({error:eo?'Bonvolu enigi validan registran nomon por la kolektaĵo.':'请填写有效的藏品登记名称。'},{status:400});
+  if(!b.hallId)return NextResponse.json({error:eo?'Bonvolu elekti ĉefan halon.':'请选择主馆籍。'},{status:400});
   const permanentCode=`FC-WFB-${new Date().toISOString().slice(0,10).replaceAll('-','')}-${randomBytes(3).toString('hex').toUpperCase()}`;
   await withTransaction(async client=>{
     const hall=await client.query(`SELECT 1 FROM museum_halls WHERE id=$1`,[b.hallId]); if(!hall.rowCount)throw new Error('BAD_HALL');
@@ -29,7 +31,7 @@ export async function POST(req:NextRequest){
   });
   return NextResponse.json({ok:true,permanentCode});
  }catch(e){
-  if(e instanceof Error&&e.message==='BAD_HALL')return NextResponse.json({error:'主馆籍无效。'},{status:400});
-  console.error(e);return NextResponse.json({error:'暂时无法建立馆藏档案。'},{status:500});
+  if(e instanceof Error&&e.message==='BAD_HALL')return NextResponse.json({error:eo?'La elektita ĉefa halo estas nevalida.':'主馆籍无效。'},{status:400});
+  console.error(e);return NextResponse.json({error:eo?'Provizore ne eblas krei la kolektan dosieron.':'暂时无法建立馆藏档案。'},{status:500});
  }
 }
