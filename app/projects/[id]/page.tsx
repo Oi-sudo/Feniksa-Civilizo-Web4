@@ -114,11 +114,13 @@ export default async function ProjectDetailPage({params}:{params:Promise<{id:str
      <span>EST · {eo?'Scia / lerna kontribuo':en?'Knowledge / learning contribution':'知识 / 学习贡献'}</span>
      <strong>{d.contributions.est_value}</strong>
      <small>{eo?'Aprobitaj registroj':en?'Approved records':'已批准记录'}：{d.contributions.est_count}</small>
+     <Link href={'/passport/est?project='+p.id}>{eo?'Vidi miajn EST-registrojn en ĉi tiu projekto →':en?'View my EST records in this project →':'查看我在本项目的 EST 记录 →'}</Link>
     </div>
     <div>
      <span>BUD · {eo?'Servo / vola ago':en?'Service / vow-based action':'服务 / 愿行贡献'}</span>
      <strong>{d.contributions.bud_value}</strong>
      <small>{eo?'Aprobitaj registroj':en?'Approved records':'已批准记录'}：{d.contributions.bud_count} · {eo?'Horoj':en?'Hours':'小时'}：{d.contributions.bud_hours}</small>
+     <Link href={'/passport/bud?project='+p.id}>{eo?'Vidi miajn BUD-registrojn en ĉi tiu projekto →':en?'View my BUD records in this project →':'查看我在本项目的 BUD 记录 →'}</Link>
     </div>
    </div>
    <p className="muted">{eo?'EST kaj BUD estas du malsamaj registraj dimensioj. Ili ne estas interŝanĝeblaj, ne estas projekta poentaro kaj ne aŭtomate donas regrajton.':en?'EST and BUD are separate record dimensions. They are not interchangeable, are not project scores, and do not automatically grant governance rights.':'EST 与 BUD 是两个不同的记录维度，不能互相换算，不是项目评分，也不会自动产生治理权。'}</p>
