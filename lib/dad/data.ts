@@ -348,6 +348,56 @@ export async function getGovernanceArchiveYear(year:number){
   return {snapshots:snapshots.rows,reports:reports.rows};
 }
 
+
+export type GovernanceMonthlySummary={
+  month:string;proposal_count:number;decision_count:number;governance_event_count:number;project_count:number;
+  milestone_count:number;archived_report_count:number;
+};
+
+export async function getGovernanceMonthlySummary(year:number,month:number){
+  const start=`${year}-${String(month).padStart(2,'0')}-01`;
+  const r=await query<GovernanceMonthlySummary>(`
+    WITH bounds AS (
+      SELECT $1::date AS start_date,($1::date + INTERVAL '1 month') AS end_date
+    )
+    SELECT
+      TO_CHAR((SELECT start_date FROM bounds),'YYYY-MM') AS month,
+      (SELECT COUNT(*)::int FROM proposals p,bounds b
+        WHERE p.status::text = ANY($2::text[]) AND p.created_at>=b.start_date AND p.created_at<b.end_date) AS proposal_count,
+      (SELECT COUNT(*)::int FROM proposal_decisions d JOIN proposals p ON p.id=d.proposal_id,bounds b
+        WHERE p.status::text = ANY($2::text[]) AND d.finalized_at>=b.start_date AND d.finalized_at<b.end_date) AS decision_count,
+      (
+        (SELECT COUNT(*)::int FROM proposals p,bounds b
+          WHERE p.status::text = ANY($2::text[]) AND p.created_at>=b.start_date AND p.created_at<b.end_date)
+        +(SELECT COUNT(*)::int FROM proposal_status_events e JOIN proposals p ON p.id=e.proposal_id,bounds b
+          WHERE p.status::text = ANY($2::text[]) AND e.created_at>=b.start_date AND e.created_at<b.end_date)
+        +(SELECT COUNT(*)::int FROM proposal_decisions d JOIN proposals p ON p.id=d.proposal_id,bounds b
+          WHERE p.status::text = ANY($2::text[]) AND d.finalized_at>=b.start_date AND d.finalized_at<b.end_date)
+        +(SELECT COUNT(*)::int FROM projects prj JOIN proposals p ON p.id=prj.proposal_id,bounds b
+          WHERE p.status::text = ANY($2::text[]) AND prj.status IN ('approved','active','paused','completed','terminated','archived')
+            AND prj.created_at>=b.start_date AND prj.created_at<b.end_date)
+        +(SELECT COUNT(*)::int FROM project_status_events e JOIN projects prj ON prj.id=e.project_id
+          JOIN proposals p ON p.id=prj.proposal_id,bounds b
+          WHERE p.status::text = ANY($2::text[]) AND prj.status IN ('approved','active','paused','completed','terminated','archived')
+            AND e.created_at>=b.start_date AND e.created_at<b.end_date)
+        +(SELECT COUNT(*)::int FROM project_milestones m JOIN projects prj ON prj.id=m.project_id
+          JOIN proposals p ON p.id=prj.proposal_id,bounds b
+          WHERE p.status::text = ANY($2::text[]) AND prj.status IN ('approved','active','paused','completed','terminated','archived')
+            AND m.status='completed' AND COALESCE(m.completed_at,m.updated_at)>=b.start_date AND COALESCE(m.completed_at,m.updated_at)<b.end_date)
+      )::int AS governance_event_count,
+      (SELECT COUNT(*)::int FROM projects prj JOIN proposals p ON p.id=prj.proposal_id,bounds b
+        WHERE p.status::text = ANY($2::text[]) AND prj.status IN ('approved','active','paused','completed','terminated','archived')
+          AND prj.created_at>=b.start_date AND prj.created_at<b.end_date) AS project_count,
+      (SELECT COUNT(*)::int FROM project_milestones m JOIN projects prj ON prj.id=m.project_id
+        JOIN proposals p ON p.id=prj.proposal_id,bounds b
+        WHERE p.status::text = ANY($2::text[]) AND prj.status IN ('approved','active','paused','completed','terminated','archived')
+          AND m.status='completed' AND COALESCE(m.completed_at,m.updated_at)>=b.start_date AND COALESCE(m.completed_at,m.updated_at)<b.end_date) AS milestone_count,
+      (SELECT COUNT(*)::int FROM governance_archive_reports r,bounds b
+        WHERE r.created_at>=b.start_date AND r.created_at<b.end_date) AS archived_report_count
+  `,[start,publicStatuses]);
+  return r.rows[0];
+}
+
 export async function getPublicProposal(id:string){
   const p=await query<PublicProposal>(`SELECT id,short_code,title,problem_statement,proposed_solution,budget_requested::text,currency,
       public_value,risk_description,status::text,created_at::text,updated_at::text,final_outcome,decision_finalized_at::text
