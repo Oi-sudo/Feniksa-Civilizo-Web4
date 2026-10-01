@@ -6,7 +6,7 @@ export type PublicProposal={
   status:string;created_at:string;updated_at:string;final_outcome:string|null;decision_finalized_at:string|null;
 };
 export type ProposalDecision={
-  decision_rule:string;eligible_count:number;participation_count:number;approve_count:number;reject_count:number;
+  id:string;decision_rule:string;eligible_count:number;participation_count:number;approve_count:number;reject_count:number;
   abstain_count:number;revise_count:number;decision_vote_count:number;approvals_required:number;outcome:string;finalized_at:string;
 };
 export type ProposalStatusEvent={id:string;from_status:string|null;to_status:string;note:string|null;created_at:string};
@@ -20,7 +20,7 @@ export async function getPublicProposal(id:string){
     FROM proposals WHERE id=$1 AND status::text = ANY($2::text[]) LIMIT 1`,[id,publicStatuses]);
   if(!p.rows[0]) return null;
   const [decision,events,projects]=await Promise.all([
-    query<ProposalDecision>(`SELECT decision_rule,eligible_count,participation_count,approve_count,reject_count,abstain_count,
+    query<ProposalDecision>(`SELECT id,decision_rule,eligible_count,participation_count,approve_count,reject_count,abstain_count,
         revise_count,decision_vote_count,approvals_required,outcome,finalized_at::text
       FROM proposal_decisions WHERE proposal_id=$1 LIMIT 1`,[id]),
     query<ProposalStatusEvent>(`SELECT id,from_status::text,to_status::text,note,created_at::text
