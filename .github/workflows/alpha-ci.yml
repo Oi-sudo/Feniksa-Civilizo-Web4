@@ -59,6 +59,9 @@ jobs:
       - name: Locale branch integrity
         run: npm run locale:check
 
+      - name: Raw enum leak integrity
+        run: npm run enum:check
+
       - name: Smoke check
         run: npm run test:smoke
 
