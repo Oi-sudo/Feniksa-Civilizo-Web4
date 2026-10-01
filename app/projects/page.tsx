@@ -1,15 +1,38 @@
 import Link from 'next/link';
 import { getLocale } from '@/lib/i18n';
 import TaohuayuanZoneNav from '@/components/taohuayuan/ZoneNav';
+import { listVisibleProjects } from '@/lib/projects/data';
 
 export default async function ProjectsPage(){
   const locale=await getLocale(); const eo=locale==='eo'; const en=locale==='en';
+  const projects=await listVisibleProjects();
+  const statusZh:Record<string,string>={approved:'已批准',active:'进行中',paused:'已暂停',completed:'已完成',terminated:'已终止',archived:'已归档'};
+  const statusEo:Record<string,string>={approved:'Aprobita',active:'Aktiva',paused:'Paŭzita',completed:'Kompletigita',terminated:'Ĉesigita',archived:'Arkivita'};
+  const statusEn:Record<string,string>={approved:'Approved',active:'Active',paused:'Paused',completed:'Completed',terminated:'Terminated',archived:'Archived'};
+  const riskZh:Record<string,string>={green:'绿色',yellow:'黄色',orange:'橙色',red:'红色'};
+  const riskEo:Record<string,string>={green:'Verda',yellow:'Flava',orange:'Oranĝa',red:'Ruĝa'};
+  const riskEn:Record<string,string>={green:'Green',yellow:'Yellow',orange:'Orange',red:'Red'};
   const flow=eo?['Respondeculo','Aprobita buĝeto','Mejloŝtonoj','Rezultoj','Riskoj','Fini / paŭzi / ĉesigi','Revizia arkivo']:en?['Owner','Approved budget','Milestones','Results','Risks','Complete / pause / terminate','Audit archive']:['负责人','批准预算','里程碑','成果','风险','完成 / 暂停 / 终止','审计归档'];
   return <main>
     <span className="badge">DAD · Projects</span>
     <h1>{eo?'Projekta plenumado':en?'Project execution':'项目执行'}</h1>
     <p className="lead">{eo?'Ĉi tiu spaco ricevas jam aprobitajn DAD-decidojn kaj realigas la principon: diskuti kun decido, decidi kun agado, agi kun kontroleblo.':en?'This space receives approved DAD decisions and applies the principle: discussion leads to decisions, decisions lead to action, and action remains auditable.':'这里承接已经通过的 DAD 决议，落实“议而有决，决而能行，行而可查”。'}</p>
     <div className="card-grid">{flow.map((x,i)=><div className="card" key={x}><span className="eyebrow">{String(i+1).padStart(2,'0')}</span><h2>{x}</h2></div>)}</div>
+
+    <section className="home-section">
+      <h2>{eo?'Projekta registro':en?'Project register':'项目总台账'}</h2>
+      <p className="muted">{eo?'Ĉi tie aperas nur projektoj jam en aprobita aŭ posta stato. La registro estas nurlegebla publika plenumvidaĵo; ĝi ne faras aŭtomatajn pagojn.':en?'Only projects at approved or later stages appear here. This is a read-only execution view and does not make automatic payments.':'这里只显示已批准或之后阶段的项目。这是只读执行视图，不执行自动付款。'}</p>
+      {projects.length?<div className="card-grid">
+        {projects.map(p=><Link className="card project-card" href={`/projects/${p.id}`} key={p.id}>
+          <div className="record-top"><span>{(eo?statusEo:en?statusEn:statusZh)[p.status]||p.status}</span><span>{eo?'Risko':en?'Risk':'风险'}：{(eo?riskEo:en?riskEn:riskZh)[p.risk_level]||p.risk_level}</span></div>
+          <h3>{p.title}</h3>
+          {p.description&&<p>{p.description}</p>}
+          <p><strong>{eo?'Buĝeto':en?'Budget':'预算'}：</strong>{p.approved_budget} {p.currency} · <strong>{eo?'Elspezita':en?'Spent':'已支出'}：</strong>{p.spent} {p.currency}</p>
+          {p.manager_name&&<small>{eo?'Respondeculo':en?'Manager':'负责人'}：{p.manager_name}</small>}
+          <span className="card-link">{eo?'Vidi projektan dosieron →':en?'View project dossier →':'查看项目档案 →'}</span>
+        </Link>)}
+      </div>:<div className="card"><p>{eo?'Nun ne estas projektoj en aprobita aŭ posta stato.':en?'There are currently no projects at approved or later stages.':'目前还没有进入已批准或之后阶段的项目。'}</p></div>}
+    </section>
     <section className="card life-path">
       <h2>{eo?'Viva vojo de la komunumo':en?'Community life path':'社区生活路径'}</h2>
       <div className="life-path-steps">
