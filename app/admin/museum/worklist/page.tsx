@@ -11,11 +11,14 @@ export default async function MuseumWorklistPage({searchParams}:{searchParams:Pr
  const volume=(p.volume||'').trim()||null; const hall=(p.hall||'').trim()||null;
  const [assets,halls]=await Promise.all([listAdminMuseumAssets(500,evidence,volume,hall),listMuseumHalls()]);
  const selectedHall=halls.find(h=>h.code===hall); const hallName=eo?(selectedHall?.title_eo||selectedHall?.title_zh||'Ĉiuj haloj'):(selectedHall?.title_zh||'全部馆籍');
+ const evidenceZh:Record<string,string>={all:'全部',missing:'资料可续补',unverified:'来源资料整理中',source_confirmed:'来源已整理',reviewed:'资料已整理'};
+ const evidenceEo:Record<string,string>={all:'ĉiuj',missing:'materialoj aldoneblaj',unverified:'fontmaterialoj ordigataj',source_confirmed:'fonto ordigita',reviewed:'materialo ordigita'};
+ const evidenceLabel=(eo?evidenceEo:evidenceZh)[evidence]||evidence;
  const s=new URLSearchParams(); if(evidence!=='all')s.set('evidence',evidence); if(volume)s.set('volume',volume); if(hall)s.set('hall',hall);
  const qs=s.toString();
  return <main className="museum-worklist">
   <span className="badge">Museum · Worklist</span><h1>{eo?'Laborlisto por ordigo de muzeaj materialoj':'馆藏资料整理清单'}</h1>
-  <p className="lead">{eo?`Nunaj kondiĉoj: materialo ${evidence}; volumo ${volume||'ĉiuj'}; halo ${hallName}. Entute ${assets.length} eroj.`:`当前条件：资料 ${evidence}；分册 ${volume||'全部'}；馆籍 ${hallName}。共 ${assets.length} 件。`}</p>
+  <p className="lead">{eo?`Nunaj kondiĉoj: materialo ${evidenceLabel}; volumo ${volume||'ĉiuj'}; halo ${hallName}. Entute ${assets.length} eroj.`:`当前条件：资料 ${evidenceLabel}；分册 ${volume||'全部'}；馆籍 ${hallName}。共 ${assets.length} 件。`}</p>
   <p className="muted">{eo?'Ĉi tiu laborlisto servas al paŝo-post-paŝa ordigo de personaj kolektaĵoj, kultura memoro kaj cifereca ĝuado. Ĝi ne estas aŭtentiga rezulto nek valor-rangigo.':'本清单用于逐步整理个人收藏、文化记忆与数字赏玩资料，不是鉴定结果或价值排序。'}</p>
   <div className="hero-actions no-print">
    <Link className="button button-secondary" href={qs?`/admin/museum?${qs}`:'/admin/museum'}>{eo?'Reveni al filtrila paĝo':'返回筛选页'}</Link>
