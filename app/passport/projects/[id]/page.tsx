@@ -23,6 +23,10 @@ export default async function PersonalProjectPassportPage({params,searchParams}:
  const eo=locale==='eo'; const en=locale==='en';
  const label=(eo?kindEo:en?kindEn:kindZh); const status=(eo?statusEo:en?statusEn:statusZh);
  const archiveDate=new Date().toLocaleDateString(eo?'eo':en?'en-US':'zh-CN');
+ const shortProjectRef=id.replace(/-/g,'').slice(0,8);
+ const personalProjectRef=`PERSONAL-PROJECT · ${shortProjectRef}`;
+ const personalProjectAnchor=`personal-project-passport-${shortProjectRef}`;
+ const personalProjectCitation=`Phoenix Personal Project Passport · PERSONAL-PROJECT · ${shortProjectRef} · ${new Date(d.context.joined_at).toISOString().slice(0,10)}`;
  const allowedTimeline=['all','membership','est','bud'];
  const timelineFilter=allowedTimeline.includes(queryParams.timeline||'')?(queryParams.timeline||'all'):'all';
  const visibleEvents=timelineFilter==='all'?d.events:d.events.filter(e=>timelineFilter==='membership'?(e.kind==='membership'||e.kind==='membership_end'):e.kind===timelineFilter);
@@ -36,14 +40,20 @@ export default async function PersonalProjectPassportPage({params,searchParams}:
  const projectStatus=(eo?projectStatusEo:en?projectStatusEn:projectStatusZh)[d.context.project_status]||d.context.project_status;
  const memberStatus=status[d.context.member_status]||d.context.member_status;
  const participationState=d.context.left_at?(eo?'Partopreno finiĝis':en?'Participation ended':'参与已结束'):(d.context.member_status==='active'?(eo?'Nun partoprenanta':en?'Currently participating':'当前参与中'):(eo?'Partopreno registrita':en?'Participation recorded':'已有参与记录'));
- return <main>
+ return <main id={personalProjectAnchor}>
   <header className="personal-project-print-header">
    <div><strong>{eo?'Persona Projekta Pasporto':en?'Personal Project Passport':'个人项目护照'}</strong><span>Phoenix Passport · Personal Project</span></div>
-   <div><span>{eo?'Projekto':en?'Project':'项目'}：{d.context.title}</span><span>{eo?'Arkiva dato':en?'Archive date':'归档日期'}：{archiveDate}</span><span>{eo?'Tempolinia amplekso':en?'Timeline scope':'时间线范围'}：{timelineScopeLabel}</span></div>
+   <div><span>{eo?'Projekto':en?'Project':'项目'}：{d.context.title}</span><span>{eo?'Arkiva dato':en?'Archive date':'归档日期'}：{archiveDate}</span><span>{eo?'Tempolinia amplekso':en?'Timeline scope':'时间线范围'}：{timelineScopeLabel}</span><span>{personalProjectRef}</span></div>
   </header>
   <span className="badge">Passport · Project</span>
   <h1>{eo?'Mia projekta pasporto':en?'My project passport':'我的项目护照'}</h1>
   <p className="lead">{d.context.title}</p>
+  <section className="project-reference-strip personal-project-reference">
+   <div><span>{eo?'Persona projekta referenco':en?'Personal project reference':'个人项目护照引用号'}</span><code>{personalProjectRef}</code></div>
+   <div><span>{eo?'Konstanta loko':en?'Permanent locator':'永久定位'}</span><a href={'#'+personalProjectAnchor}>#{personalProjectAnchor}</a></div>
+   <div className="project-citation"><span>{eo?'Citformo':en?'Citation format':'引用格式'}</span><code>{personalProjectCitation}</code></div>
+  </section>
+  <p className="muted personal-project-private-note">{eo?'Ĉi tiu estas persona, ensalut-postula dosiero; la loko estas stabila ene de via propra pasporto, sed ĝi ne estas publika registra URL.':en?'This is a personal, sign-in-required dossier; the locator is stable within your own passport, but it is not a public record URL.':'这是登录后本人可访问的个人档案；永久定位在您的个人护照内稳定有效，但不是公开记录网址。'}</p>
   <div className="hero-actions no-print"><PassportPrintButton label={eo?'Presi / konservi kiel PDF':en?'Print / save as PDF':'打印 / 存为 PDF'} /></div>
   <section className="passport-project-context">
    <p><span>{eo?'Rolo':en?'Role':'我的角色'}：</span><strong>{d.context.participation_role}</strong></p>
