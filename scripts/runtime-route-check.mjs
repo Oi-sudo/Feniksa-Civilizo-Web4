@@ -16,7 +16,7 @@ const routes=[
   '/dad/archive/years/2026/summary'
 ];
 
-const server=spawn(process.platform==='win32'?'npm.cmd':'npm',['run','start','--','-p',String(port)],{
+const server=spawn(process.execPath,['node_modules/next/dist/bin/next','start','-p',String(port)],{
   stdio:['ignore','pipe','pipe'],
   env:{...process.env,PORT:String(port)}
 });
@@ -56,5 +56,9 @@ try{
     console.log(`Runtime route verification passed: ${routes.length} routes.`);
   }
 } finally {
-  server.kill('SIGTERM');
+  if(!server.killed) server.kill('SIGTERM');
+  await Promise.race([
+    new Promise(resolve=>server.once('exit',resolve)),
+    sleep(2000)
+  ]);
 }
