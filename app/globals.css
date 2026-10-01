@@ -98,3 +98,13 @@
 .zone-nav-links{display:flex;flex-wrap:wrap;gap:8px}
 .zone-nav-links a{padding:8px 11px;border:1px solid #363c42;border-radius:999px;background:#111418;font-size:.9rem}
 .zone-nav-links a:hover,.zone-nav-links a.active{border-color:#d7b46a;background:#211d16;color:#f0d89b}
+
+.node-projects{right:26%;bottom:4%}
+.life-path{margin-top:30px}
+.life-path-steps{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:16px 0}
+.life-path-steps a{display:grid;gap:6px;padding:14px;border:1px solid #383d42;border-radius:14px;background:rgba(255,255,255,.02)}
+.life-path-steps a:hover{border-color:#d7b46a;background:#191713}
+.life-path-steps span{color:#d7b46a;font-size:.78rem;letter-spacing:.1em}
+.life-path-steps small{opacity:.72;line-height:1.5}
+@media(max-width:900px){.life-path-steps{grid-template-columns:1fr 1fr}.node-projects{position:static}}
+@media(max-width:560px){.life-path-steps{grid-template-columns:1fr}}
