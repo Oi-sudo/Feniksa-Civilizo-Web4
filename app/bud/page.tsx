@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { getLocale } from '@/lib/i18n';
+import TaohuayuanZoneNav from '@/components/taohuayuan/ZoneNav';
 
 export default async function BudPage(){
   const locale=await getLocale(); const eo=locale==='eo'; const en=locale==='en';
@@ -14,6 +15,11 @@ export default async function BudPage(){
       <div className="card"><h2>{eo?'Dosiero de vola agado':en?'Vow-and-action record':'愿行档案 · Vola agado'}</h2><p>{eo?'Registri agojn sen interpreti nombrojn kiel homan valoron aŭ budhisman atingon.':en?'Record actions without interpreting numbers as human value or Buddhist attainment.':'记录行动，不把数字解释为人格价值或佛法修证等级。'}</p></div>
     </div>
     <section className="card"><h2>{eo?'0.1 kontrola vojo':en?'0.1 review flow':'0.1 审核链'}</h2><p>{eo?'Servo okazas → faktoj kaj materialoj estas senditaj → projekta konfirmo (se aplikebla) → administra kontrolo → la servilo kalkulas BUD laŭ la reguloj → la registro eniras la lernan pasporton.':en?'Service occurs → facts and materials are submitted → project confirmation when applicable → administrative review → the server calculates BUD under the rules → the record enters the learning passport.':'服务发生 → 提交事实与证据 → 项目确认（如适用）→ 管理审核 → 服务器按规则计算 BUD → 写入学习护照。'}</p><p>{eo?'Uzantoj ne povas mem enigi BUD-valoron; projektgvidanto ne povas konfirmi sian propran servoregistron.':en?'Users cannot enter their own BUD value, and a project lead cannot confirm their own service record.':'用户不能自行填写 BUD 数值；项目负责人不能确认自己的服务记录。'}</p></section>
+    <section className="card">
+      <h2>{eo?'Serva tavolo de Persikflora Lando':en?'Peach Blossom Land service layer':'桃花源服务层'}</h2>
+      <p>{eo?'BUD ne estas aparta urba distrikto. Ĝi estas komuna registra tavolo, kiu povas ligi servojn en kursoj, projektoj, muzeo, komunumo kaj prizorgo por maljunuloj.':en?'BUD is not a separate city district. It is a shared record layer connecting service across courses, projects, the museum, community work and elder care.':'BUD不是另一座独立“城市建筑”，而是贯穿课程、项目、博物馆、社区与长者康养的公共服务记录层。'}</p>
+    </section>
+    <TaohuayuanZoneNav locale={locale} />
     <section className="card"><h2>{eo?'Limoj de 0.1':en?'0.1 boundaries':'0.1 边界'}</h2><p>{eo?'BUD ne estas aĉetebla aŭ vendebla, ne povas esti elpagita, ne estas kvantigo de merito, ne atestas religian atingon kaj ne aŭtomate donas regrajton.':en?'BUD cannot be bought, sold or cashed out; it is not a quantification of merit, does not certify religious attainment, and does not automatically grant governance rights.':'BUD 不可买卖、不能提现、不等于功德定量，不认证宗教果位，也不自动产生治理权。'}</p></section>
     <div className="hero-actions"><Link className="button button-primary" href="/bud/submit">{eo?'Sendi servoregistron':en?'Submit service record':'提交服务记录'}</Link><Link className="button button-secondary" href="/passport/bud">{eo?'Vidi mian BUD':en?'View my BUD':'查看我的 BUD'}</Link><Link className="button button-secondary" href="/projects">{eo?'Vidi projektan plenumadon':en?'View project execution':'查看项目执行'}</Link></div>
   </main>;
