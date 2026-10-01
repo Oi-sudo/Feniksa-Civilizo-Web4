@@ -34,7 +34,8 @@ const requiredTokens={
     'Phoenix DAD Governance Archive','ARCHIVE-SNAPSHOT','CopyCitationButton','archive-snapshot-'
   ],
   'app/dad/archive/compare/page.tsx':[
-    'ARCHIVE-SNAPSHOT','/dad/archive/snapshots','proposal_count','decision_count','governance_event_count','project_count','milestone_count'
+    'ARCHIVE-SNAPSHOT','/dad/archive/snapshots','proposal_count','decision_count','governance_event_count','project_count','milestone_count',
+    'PROPOSAL','DECISION','PROJECT','MILESTONE','getGovernanceArchiveChangeDetails'
   ],
   'app/passport/projects/[id]/page.tsx':[
     'Phoenix Personal Project Passport','PERSONAL-PROJECT','MEMBERSHIP','MEMBERSHIP-END','EST','BUD','CopyCitationButton','slice(0,8)'
