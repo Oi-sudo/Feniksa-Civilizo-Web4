@@ -30,6 +30,13 @@ export default async function ArchiveComparePage({searchParams}:{searchParams:Pr
     en?{proposal:'New proposal',decision:'New final decision',project:'New public project',milestone:'New completed milestone'}:
     {proposal:'新增提案',decision:'新增最终决定',project:'新增公开项目',milestone:'新完成里程碑'};
 
+  const categoryOrder=['proposal','decision','project','milestone'] as const;
+  const categoryStats=categoryOrder.map(type=>{
+    const count=changes.filter(item=>item.record_type===type).length;
+    const percent=changes.length?Math.round((count/changes.length)*1000)/10:0;
+    return {type,count,percent};
+  });
+
   const label=(r:(typeof rows)[number])=>eo?r.eo:en?r.en:r.zh;
   const sign=(n:number)=>n>0?'+'+n:String(n);
   const short=(id:string)=>id.replace(/-/g,'').slice(0,8);
@@ -63,6 +70,14 @@ export default async function ArchiveComparePage({searchParams}:{searchParams:Pr
             </article>;
           })}
         </div>
+      </section>
+
+      <section className="card">
+        <div className="record-top"><div><span className="eyebrow">{eo?'KLASIFIKA RESUMO':en?'CATEGORY SUMMARY':'分类统计'}</span><h2>{eo?'Distribuo de novaj publikaj registroj':en?'Distribution of new public records':'新增公共记录分类分布'}</h2></div><strong>{changes.length}</strong></div>
+        <div className="project-summary-grid">
+          {categoryStats.map(stat=><div key={stat.type}><span>{typeLabels[stat.type]||stat.type}</span><strong>{stat.count}</strong><small>{stat.percent.toFixed(1)}%</small></div>)}
+        </div>
+        <p className="muted">{eo?'La procentoj uzas la nombron de ĉiuj novaj publikaj fontregistroj en la elektita periodo kiel denominatoron.':en?'Percentages use all new public source records in the selected period as the denominator.':'比例以所选期间全部新增公共源记录为分母计算。'}</p>
       </section>
 
       <section className="card">
