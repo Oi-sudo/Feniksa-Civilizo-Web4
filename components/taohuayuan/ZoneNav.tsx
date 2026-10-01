@@ -3,15 +3,16 @@ import Link from 'next/link';
 type Props={locale:'zh'|'eo'|'en';current?:string};
 
 const labels={
- zh:{title:'桃花源跨区导航',city:'城市与交通',school:'世界语文明大学',dad:'DAD议事区',museum:'数字博物馆',elder:'长者康养',buddhist:'佛法修学'},
- eo:{title:'Trans-zona navigado de Persikflora Lando',city:'Urbo kaj transporto',school:'Esperanta Civiliza Universitato',dad:'DAD-konsilia zono',museum:'Cifereca Muzeo',elder:'Prizorgo por maljunuloj',buddhist:'Budhisma studzono'},
- en:{title:'Peach Blossom Land cross-district navigation',city:'City & transport',school:'Esperanto Civilization University',dad:'DAD council district',museum:'Digital Museum',elder:'Elder care',buddhist:'Buddhist study'}
+ zh:{title:'桃花源跨区导航',city:'城市与交通',school:'世界语文明大学',dad:'DAD议事区',projects:'项目执行区',museum:'数字博物馆',elder:'长者康养',buddhist:'佛法修学'},
+ eo:{title:'Trans-zona navigado de Persikflora Lando',city:'Urbo kaj transporto',school:'Esperanta Civiliza Universitato',dad:'DAD-konsilia zono',projects:'Projekta plenumzono',museum:'Cifereca Muzeo',elder:'Prizorgo por maljunuloj',buddhist:'Budhisma studzono'},
+ en:{title:'Peach Blossom Land cross-district navigation',city:'City & transport',school:'Esperanto Civilization University',dad:'DAD council district',projects:'Project execution district',museum:'Digital Museum',elder:'Elder care',buddhist:'Buddhist study'}
 };
 
 const zones=[
  ['city','/taohuayuan/city'],
  ['school','/courses'],
  ['dad','/dad'],
+ ['projects','/projects'],
  ['museum','/museum'],
  ['elder','/taohuayuan/eldercare'],
  ['buddhist','/taohuayuan/buddhist-study']
