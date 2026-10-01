@@ -165,3 +165,20 @@ export async function listAdminMuseumAssets(limit=200){
     LIMIT $1`,[limit]);
   return r.rows;
 }
+
+
+export type EvidenceReviewEvent={
+  id:string;media_id:string;asset_id:string;from_status:string|null;to_status:string;
+  note:string|null;created_at:string;actor_name:string|null;caption:string|null;media_type:string;
+};
+export async function listEvidenceReviewEvents(assetId:string){
+  const r=await query<EvidenceReviewEvent>(`
+    SELECT e.id,e.media_id,e.asset_id,e.from_status,e.to_status,e.note,e.created_at::text,
+           u.display_name AS actor_name,m.caption,m.media_type::text
+      FROM asset_media_review_events e
+      JOIN asset_media m ON m.id=e.media_id
+      LEFT JOIN users u ON u.id=e.actor_id
+     WHERE e.asset_id=$1
+     ORDER BY e.created_at DESC`,[assetId]);
+  return r.rows;
+}
