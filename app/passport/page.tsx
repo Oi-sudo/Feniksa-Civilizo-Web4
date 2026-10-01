@@ -46,6 +46,12 @@ export default async function PassportPage({searchParams}:{searchParams:Promise<
   const timelineFilter=['all','est','bud','project','work'].includes(p.timeline||'')?(p.timeline||'all'):'all';
   const d=await getPassportOverview(user.id);
   const filteredTimeline=timelineFilter==='all'?d.timeline:d.timeline.filter(x=>x.kind===timelineFilter);
+  const timelineByYear=filteredTimeline.reduce<Record<string,typeof filteredTimeline>>((acc,item)=>{
+    const year=String(new Date(item.occurred_at).getFullYear());
+    (acc[year]??=[]).push(item);
+    return acc;
+  },{});
+  const timelineYears=Object.keys(timelineByYear).sort((a,b)=>Number(b)-Number(a));
   const six=new Map(d.sixYao.map(x=>[x.stage,x]));
   const activeYao=[...d.sixYao]
     .filter(x=>x.learning_status==='in_progress'||x.learning_status==='completed')
@@ -144,15 +150,20 @@ export default async function PassportPage({searchParams}:{searchParams:Promise<
           ['work',eo?'Verkoj':en?'Works':'作品']
         ].map(([key,label])=><Link key={key} href={key==='all'?'/passport':`/passport?timeline=${key}`} className={timelineFilter===key?'active':''}>{label}</Link>)}
       </div>
-      {filteredTimeline.length?<div className="passport-timeline">
-        {filteredTimeline.map(item=>{
-          const kindLabel=item.kind==='est'?'EST':item.kind==='bud'?'BUD':item.kind==='project'?(eo?'Projekto':en?'Project':'项目'):(eo?'Verko':en?'Work':'作品');
-          const detail=item.kind==='project' ? ((eo?roleEo:en?roleEn:roleZh)[item.detail||'']||item.detail) : item.kind==='work' ? ((eo?workTypeEo:en?workTypeEn:workTypeZh)[item.detail||'']||item.detail) : item.detail;
-          return <article className="timeline-item" key={item.id}>
-            <div className="timeline-date">{new Date(item.occurred_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN')}</div>
-            <div><span className="badge">{kindLabel}</span><h3>{item.title}</h3>{detail&&<p>{detail}</p>}</div>
-          </article>;
-        })}
+      {filteredTimeline.length?<div className="passport-timeline-groups">
+        {timelineYears.map(year=><section className="timeline-year" key={year}>
+          <h3>{year}</h3>
+          <div className="passport-timeline">
+            {timelineByYear[year].map(item=>{
+              const kindLabel=item.kind==='est'?'EST':item.kind==='bud'?'BUD':item.kind==='project'?(eo?'Projekto':en?'Project':'项目'):(eo?'Verko':en?'Work':'作品');
+              const detail=item.kind==='project' ? ((eo?roleEo:en?roleEn:roleZh)[item.detail||'']||item.detail) : item.kind==='work' ? ((eo?workTypeEo:en?workTypeEn:workTypeZh)[item.detail||'']||item.detail) : item.detail;
+              return <article className="timeline-item" key={item.id}>
+                <div className="timeline-date">{new Date(item.occurred_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN')}</div>
+                <div><span className="badge">{kindLabel}</span><h3>{item.title}</h3>{detail&&<p>{detail}</p>}</div>
+              </article>;
+            })}
+          </div>
+        </section>)}
       </div>:<p>{timelineFilter==='all'?(eo?'Ankoraŭ ne estas datitaj registroj por la tempolinio.':en?'There are no dated records for the timeline yet.':'目前还没有可按日期排列的记录。'):(eo?'Ne estas registroj en ĉi tiu filtrilo.':en?'There are no records in this filter.':'当前筛选下没有记录。')}</p>}
     </section>
 
