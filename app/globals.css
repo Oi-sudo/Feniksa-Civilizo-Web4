@@ -113,3 +113,9 @@
 .passport-life-path{grid-template-columns:repeat(3,1fr)}
 @media(max-width:760px){.passport-life-path{grid-template-columns:1fr 1fr}}
 @media(max-width:520px){.passport-life-path{grid-template-columns:1fr}}
+
+.dual-record-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+.dual-record-grid>div{padding:16px;border:1px solid #3a4046;border-radius:16px;background:rgba(255,255,255,.02)}
+.dual-record-grid strong{display:block;color:#d7b46a;margin-bottom:6px}
+.dual-record-grid p{margin:0;line-height:1.6}
+@media(max-width:640px){.dual-record-grid{grid-template-columns:1fr}}
