@@ -29,6 +29,9 @@ export default async function PersonalProjectPassportPage({params,searchParams}:
  const timelineScopeLabel=timelineFilter==='all'?(eo?'Ĉiuj eventoj':en?'All events':'全部事件'):timelineFilter==='membership'?(eo?'Membraj eventoj':en?'Membership events':'成员事件'):timelineFilter.toUpperCase();
  const eventsByYear=visibleEvents.reduce<Record<string,typeof visibleEvents>>((acc,item)=>{const year=String(new Date(item.occurred_at).getFullYear());(acc[year]??=[]).push(item);return acc;},{});
  const eventYears=Object.keys(eventsByYear).sort((a,b)=>Number(a)-Number(b));
+ const membershipEventCount=d.events.filter(e=>e.kind==='membership'||e.kind==='membership_end').length;
+ const estEventCount=d.events.filter(e=>e.kind==='est').length;
+ const budEventCount=d.events.filter(e=>e.kind==='bud').length;
  const projectStatus=(eo?projectStatusEo:en?projectStatusEn:projectStatusZh)[d.context.project_status]||d.context.project_status;
  const memberStatus=status[d.context.member_status]||d.context.member_status;
  const participationState=d.context.left_at?(eo?'Partopreno finiĝis':en?'Participation ended':'参与已结束'):(d.context.member_status==='active'?(eo?'Nun partoprenanta':en?'Currently participating':'当前参与中'):(eo?'Partopreno registrita':en?'Participation recorded':'已有参与记录'));
@@ -74,7 +77,14 @@ export default async function PersonalProjectPassportPage({params,searchParams}:
    <div className="timeline-filters no-print" aria-label={eo?'Filtri personan projektan tempolinion':en?'Filter personal project timeline':'筛选个人项目时间线'}>
     {[["all",eo?'Ĉiuj':en?'All':'全部'],["membership",eo?'Membraj eventoj':en?'Membership':'成员事件'],["est",'EST'],["bud",'BUD']].map(([key,label])=><Link key={key} href={key==='all'?'/passport/projects/'+id:'/passport/projects/'+id+'?timeline='+key} className={timelineFilter===key?'active':''}>{label}</Link>)}
    </div>
-   <div className="timeline-summary"><div><span>{eo?'Ĉiuj eventoj':en?'All events':'全部事件'}</span><strong>{d.events.length}</strong></div><div><span>{eo?'Nun montrataj':en?'Currently shown':'当前显示'}</span><strong>{visibleEvents.length}</strong></div><div><span>{eo?'Filtrilo':en?'Filter':'筛选条件'}</span><strong>{timelineScopeLabel}</strong></div></div>
+   <div className="timeline-summary">
+    <div><span>{eo?'Ĉiuj eventoj':en?'All events':'全部事件'}</span><strong>{d.events.length}</strong></div>
+    <div><span>{eo?'Membraj eventoj':en?'Membership events':'成员事件'}</span><strong>{membershipEventCount}</strong></div>
+    <div><span>EST</span><strong>{estEventCount}</strong></div>
+    <div><span>BUD</span><strong>{budEventCount}</strong></div>
+    <div><span>{eo?'Nun montrataj':en?'Currently shown':'当前显示'}</span><strong>{visibleEvents.length}</strong></div>
+    <div><span>{eo?'Filtrilo':en?'Filter':'筛选条件'}</span><strong>{timelineScopeLabel}</strong></div>
+   </div>
    {visibleEvents.length?<div>
     <nav className="timeline-year-index no-print" aria-label={eo?'Jarindekso':en?'Year index':'年份索引'}><span>{eo?'Jaroj':en?'Years':'年份'}</span><div>{eventYears.map(year=><a key={year} href={'#personal-project-year-'+year}>{year}</a>)}</div></nav>
     <div className="passport-timeline-groups">{eventYears.map(year=><section className="timeline-year" id={'personal-project-year-'+year} key={year}><h3>{year}</h3><div className="project-audit-list">{eventsByYear[year].map(e=>{const raw=e.id.replace(/^(membership_end|membership|est|bud)-/,'').replace(/-/g,'').slice(0,8);const anchor='personal-project-'+e.kind+'-'+raw;const type=e.kind==='membership'?'MEMBERSHIP':e.kind==='membership_end'?'MEMBERSHIP-END':e.kind.toUpperCase();const ref=type+' · '+raw;const citation='Phoenix Personal Project Passport · '+type+' · '+raw+' · '+new Date(e.occurred_at).toISOString().slice(0,10);return <article id={anchor} className="project-audit-item" key={e.id}>
