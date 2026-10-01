@@ -154,7 +154,8 @@ export type AdminMuseumAsset={
   workflow_status:string;public_status:string;hall_zh:string|null;evidence_count:string;
   evidence_unverified:string;evidence_source_confirmed:string;evidence_reviewed:string;
 };
-export async function listAdminMuseumAssets(limit=200){
+export type MuseumEvidenceFilter='all'|'missing'|'unverified'|'source_confirmed'|'reviewed';
+export async function listAdminMuseumAssets(limit=200,filter:MuseumEvidenceFilter='all'){
   const r=await query<AdminMuseumAsset>(`SELECT a.id,a.permanent_code,a.catalog_code,a.catalog_volume,a.title_zh,
       a.workflow_status,a.public_status,h.title_zh AS hall_zh,
       COUNT(m.id)::text AS evidence_count,
@@ -166,8 +167,21 @@ export async function listAdminMuseumAssets(limit=200){
     LEFT JOIN asset_media m ON m.asset_id=a.id
     WHERE a.deleted_at IS NULL
     GROUP BY a.id,a.permanent_code,a.catalog_code,a.catalog_volume,a.title_zh,a.workflow_status,a.public_status,h.title_zh
-    ORDER BY COALESCE(a.catalog_volume,''),COALESCE(a.catalog_code,a.permanent_code),a.created_at DESC
-    LIMIT $1`,[limit]);
+    HAVING (
+      $2='all'
+      OR ($2='missing' AND COUNT(m.id)=0)
+      OR ($2='unverified' AND COUNT(m.id) FILTER(WHERE m.verification_status='unverified')>0)
+      OR ($2='source_confirmed' AND COUNT(m.id) FILTER(WHERE m.verification_status='source_confirmed')>0)
+      OR ($2='reviewed' AND COUNT(m.id) FILTER(WHERE m.verification_status='reviewed')>0)
+    )
+    ORDER BY
+      CASE WHEN COUNT(m.id)=0 THEN 0
+           WHEN COUNT(m.id) FILTER(WHERE m.verification_status='reviewed')=0
+            AND COUNT(m.id) FILTER(WHERE m.verification_status='source_confirmed')=0 THEN 1
+           WHEN COUNT(m.id) FILTER(WHERE m.verification_status='reviewed')=0 THEN 2
+           ELSE 3 END,
+      COALESCE(a.catalog_volume,''),COALESCE(a.catalog_code,a.permanent_code),a.created_at DESC
+    LIMIT $1`,[limit,filter]);
   return r.rows;
 }
 

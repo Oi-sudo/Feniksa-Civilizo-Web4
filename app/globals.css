@@ -64,3 +64,7 @@
 .stat-number{display:block;font-size:1.75rem;margin-top:8px}
 .evidence-counts{font-size:.9rem;margin:.35rem 0}
 .weak-evidence{font-weight:600;border-left:3px solid currentColor;padding-left:10px;margin:.45rem 0}
+
+.filter-bar{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.filter-chip{display:inline-flex;align-items:center;padding:8px 12px;border:1px solid rgba(127,127,127,.45);border-radius:999px;text-decoration:none}
+.filter-chip.active{font-weight:700;border-width:2px}

@@ -1,11 +1,14 @@
 import Link from 'next/link';
 import { requireAnyRole } from '@/lib/permissions/rbac';
-import { getMuseumEvidenceOverview,listAdminMuseumAssets,listMuseumReviewQueue } from '@/lib/museum/data';
+import { getMuseumEvidenceOverview,listAdminMuseumAssets,listMuseumReviewQueue,type MuseumEvidenceFilter } from '@/lib/museum/data';
 import MuseumReviewActions from '@/components/museum/MuseumReviewActions';
 
-export default async function MuseumReviewPage(){
+export default async function MuseumReviewPage({searchParams}:{searchParams:Promise<{evidence?:string}>}){
  await requireAnyRole(['admin','curator','museum_reviewer']);
- const [rows,assets,overview]=await Promise.all([listMuseumReviewQueue(),listAdminMuseumAssets(),getMuseumEvidenceOverview()]);
+ const p=await searchParams;
+ const allowed=new Set<MuseumEvidenceFilter>(['all','missing','unverified','source_confirmed','reviewed']);
+ const evidenceFilter=allowed.has((p.evidence||'all') as MuseumEvidenceFilter)?(p.evidence||'all') as MuseumEvidenceFilter:'all';
+ const [rows,assets,overview]=await Promise.all([listMuseumReviewQueue(),listAdminMuseumAssets(200,evidenceFilter),getMuseumEvidenceOverview()]);
  return <main>
   <span className="badge">Museum · Review</span><h1>馆藏审核与证据管理</h1>
   <p className="lead">审核档案是否达到公开登记条件；证据管理与鉴定结论分开。登记名称不会因为上传附件而自动升级为权威鉴定。</p>
@@ -39,6 +42,15 @@ export default async function MuseumReviewPage(){
   <section className="home-section">
    <h2>全部馆藏档案 · 证据入口</h2>
    <p className="muted">这里包括已经公开的初编、第二批第一册、第三册及后续新登记档案。可直接进入某件档案补充图片、视频、证书、传播史截图或研究参考。</p>
+   <nav className="filter-bar" aria-label="证据筛选">
+    <Link className={`filter-chip ${evidenceFilter==='all'?'active':''}`} href="/admin/museum?evidence=all">全部</Link>
+    <Link className={`filter-chip ${evidenceFilter==='missing'?'active':''}`} href="/admin/museum?evidence=missing">先补无证据</Link>
+    <Link className={`filter-chip ${evidenceFilter==='unverified'?'active':''}`} href="/admin/museum?evidence=unverified">先审未核附件</Link>
+    <Link className={`filter-chip ${evidenceFilter==='source_confirmed'?'active':''}`} href="/admin/museum?evidence=source_confirmed">来源已确认</Link>
+    <Link className={`filter-chip ${evidenceFilter==='reviewed'?'active':''}`} href="/admin/museum?evidence=reviewed">已有已审阅</Link>
+   </nav>
+   <p className="muted">当前筛选：{evidenceFilter==='all'?'全部馆藏':evidenceFilter==='missing'?'尚无证据':evidenceFilter==='unverified'?'含未核附件':evidenceFilter==='source_confirmed'?'含来源已确认附件':'含已审阅附件'}。列表默认把证据链最薄弱的记录排在前面。</p>
+
    {assets.length?<div className="record-list">{assets.map(a=><article className="card museum-admin-row" key={a.id}>
     <div>
       <span className="eyebrow">{a.catalog_code||a.permanent_code} · {a.catalog_volume||'独立登记'}</span>
