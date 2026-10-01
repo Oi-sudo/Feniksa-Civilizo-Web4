@@ -13,6 +13,8 @@ const activityZh:Record<string,string>={
 };
 const statusZh:Record<string,string>={pending:'待审核',approved:'已通过',rejected:'已驳回'};
 const statusEo:Record<string,string>={pending:'Atendas kontrolon',approved:'Aprobita',rejected:'Malakceptita'};
+const statusEn:Record<string,string>={pending:'Pending review',approved:'Approved',rejected:'Rejected'};
+const activityEn:Record<string,string>={course_completion:'Course completion',translation:'Translation',proofreading:'Proofreading',teaching:'Teaching',knowledge_contribution:'Knowledge contribution'};
 const activityEo:Record<string,string>={
   course_completion:'Kursfino',
   translation:'Tradukado',
@@ -24,30 +26,30 @@ const activityEo:Record<string,string>={
 export default async function EstPassportPage(){
   const [user,locale]=await Promise.all([getCurrentUser(),getLocale()]);
   if(!user) redirect('/login');
-  const eo=locale==='eo';
+  const eo=locale==='eo'; const en=locale==='en';
   const rows=await listEstRecords(user.id);
   const approved=rows.filter(x=>x.review_status==='approved');
   const total=approved.reduce((s,x)=>s+Number(x.est_value||0),0);
 
   return <main>
-    <span className="badge">EST · {eo?'Mia registro':'我的记录'}</span>
-    <h1>{eo?'Miaj EST-registroj':'我的 EST 世界语币记录'}</h1>
-    <p className="lead">{eo?'Ĉi tie aperas viaj registroj pri Esperanto-lernado, tradukado, instruado, provlegado kaj sciaj kontribuoj. Nur aprobitaj registroj estas inkluzivitaj en la supra sumo.':'这里显示您的世界语学习、翻译、教学、校对和知识贡献记录。只有审核通过的记录计入上方总值。'}</p>
+    <span className="badge">EST · {eo?'Mia registro':en?'My records':'我的记录'}</span>
+    <h1>{eo?'Miaj EST-registroj':en?'My EST records':'我的 EST 世界语币记录'}</h1>
+    <p className="lead">{eo?'Ĉi tie aperas viaj registroj pri Esperanto-lernado, tradukado, instruado, provlegado kaj sciaj kontribuoj. Nur aprobitaj registroj estas inkluzivitaj en la supra sumo.':en?'This page shows your Esperanto learning, translation, teaching, proofreading and knowledge-contribution records. Only approved records are included in the total above.':'这里显示您的世界语学习、翻译、教学、校对和知识贡献记录。只有审核通过的记录计入上方总值。'}</p>
     <section className="stat-grid">
-      <div className="stat-card"><strong>{total}</strong><span>{eo?'Konfirmita EST':'已确认 EST'}</span></div>
-      <div className="stat-card"><strong>{approved.length}</strong><span>{eo?'Aprobitaj registroj':'已审核记录'}</span></div>
-      <div className="stat-card"><strong>{rows.length}</strong><span>{eo?'Ĉiuj registroj':'全部记录'}</span></div>
+      <div className="stat-card"><strong>{total}</strong><span>{eo?'Konfirmita EST':en?'Confirmed EST':'已确认 EST'}</span></div>
+      <div className="stat-card"><strong>{approved.length}</strong><span>{eo?'Aprobitaj registroj':en?'Approved records':'已审核记录'}</span></div>
+      <div className="stat-card"><strong>{rows.length}</strong><span>{eo?'Ĉiuj registroj':en?'All records':'全部记录'}</span></div>
     </section>
     {rows.length? <div className="record-list">{rows.map(r=><article className="card" key={r.id}>
-      <div className="record-top"><strong>{(eo?activityEo:activityZh)[r.activity_type]||r.activity_type}</strong><span>{(eo?statusEo:statusZh)[r.review_status]||r.review_status}</span></div>
+      <div className="record-top"><strong>{(eo?activityEo:en?activityEn:activityZh)[r.activity_type]||r.activity_type}</strong><span>{(eo?statusEo:en?statusEn:statusZh)[r.review_status]||r.review_status}</span></div>
       <p>{r.description}</p>
-      {r.course_title&&<p><small>{eo?'Kurso':'课程'}：{r.course_title}</small></p>}
-      {r.project_title&&<p><small>{eo?'Projekto':'项目'}：{r.project_title}</small></p>}
+      {r.course_title&&<p><small>{eo?'Kurso':en?'Course':'课程'}：{r.course_title}</small></p>}
+      {r.project_title&&<p><small>{eo?'Projekto':en?'Project':'项目'}：{r.project_title}</small></p>}
       <p><strong>EST {r.est_value}</strong> · {r.rule_version}</p>
-      <small>{new Date(r.created_at).toLocaleDateString(eo?'eo':'zh-CN')}</small>
-      {r.evidence_url&&<p><a href={r.evidence_url} target="_blank" rel="noreferrer">{eo?'Vidi pruvon →':'查看证据 →'}</a></p>}
-    </article>)}</div>:<section className="card"><h2>{eo?'Ankoraŭ neniu EST-registro':'还没有 EST 记录'}</h2><p>{eo?'Post kurskompletigo aŭ aprobita Esperanto-kontribuo, la registro aperos ĉi tie.':'完成课程或产生经审核的世界语贡献后，记录会出现在这里。'}</p></section>}
-    <div className="hero-actions"><Link className="button button-primary" href="/courses">{eo?'Eniri la kursojn':'进入课程'}</Link><Link className="button button-secondary" href="/passport">{eo?'Reveni al la lernopasporto':'返回学习护照'}</Link></div>
-    <p className="muted">{eo?'EST estas netradablebla registro pri lernado kaj sciaj kontribuoj; ĝi ne reprezentas investvaloron nek regrajton.':'EST 是非交易学习与知识贡献记录，不代表投资价值或治理权。'}</p>
+      <small>{new Date(r.created_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN')}</small>
+      {r.evidence_url&&<p><a href={r.evidence_url} target="_blank" rel="noreferrer">{eo?'Vidi pruvon →':en?'View evidence →':'查看证据 →'}</a></p>}
+    </article>)}</div>:<section className="card"><h2>{eo?'Ankoraŭ neniu EST-registro':en?'No EST records yet':'还没有 EST 记录'}</h2><p>{eo?'Post kurskompletigo aŭ aprobita Esperanto-kontribuo, la registro aperos ĉi tie.':en?'After course completion or an approved Esperanto contribution, the record will appear here.':'完成课程或产生经审核的世界语贡献后，记录会出现在这里。'}</p></section>}
+    <div className="hero-actions"><Link className="button button-primary" href="/courses">{eo?'Eniri la kursojn':en?'Enter courses':'进入课程'}</Link><Link className="button button-secondary" href="/passport">{eo?'Reveni al la lernopasporto':en?'Back to learning passport':'返回学习护照'}</Link></div>
+    <p className="muted">{eo?'EST estas netradablebla registro pri lernado kaj sciaj kontribuoj; ĝi ne reprezentas investvaloron nek regrajton.':en?'EST is a non-tradable record of learning and knowledge contributions; it does not represent investment value or governance rights.':'EST 是非交易学习与知识贡献记录，不代表投资价值或治理权。'}</p>
   </main>;
 }
