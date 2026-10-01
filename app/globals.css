@@ -215,3 +215,12 @@
   .passport-print-footer strong{font-size:10.5pt}
   .passport-print-footer p{margin:.35rem 0 0;color:#333!important;font-size:9.5pt;line-height:1.55}
 }
+
+.project-summary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:22px 0}
+.project-summary-grid>div{display:grid;gap:6px;padding:16px;border:1px solid #3b4147;border-radius:16px;background:rgba(255,255,255,.02)}
+.project-summary-grid span{font-size:.82rem;color:#bcb5a9}
+.project-summary-grid strong{color:#f0d89b;font-size:1.05rem}
+.project-subrecord{padding:14px;border:1px solid #343a40;border-radius:14px;background:rgba(255,255,255,.02)}
+.project-card p{line-height:1.6}
+@media(max-width:760px){.project-summary-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.project-summary-grid{grid-template-columns:1fr}}
