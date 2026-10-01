@@ -50,6 +50,6 @@ export default async function GovernanceArchiveYearPage({params}:{params:Promise
         </div>}
       </section>;
     }):<section className="card"><p>{eo?'Neniu arkivregistro troviĝis por ĉi tiu jaro.':en?'No archive records were found for this year.':'该年度尚无归档记录。'}</p></section>}
-    <div className="hero-actions"><Link className="button button-primary" href="/dad/archive/years">{eo?'Reveni al jaroj':en?'Back to years':'返回年度索引'}</Link><Link className="button button-secondary" href="/dad/archive">{eo?'Reveni al arkivo':en?'Back to archive':'返回治理档案馆'}</Link></div>
+    <div className="hero-actions"><Link className="button button-primary" href={'/dad/archive/years/'+year+'/summary'}>{eo?'Jara regada resumo':en?'Annual governance summary':'年度治理摘要'}</Link><Link className="button button-secondary" href="/dad/archive/years">{eo?'Reveni al jaroj':en?'Back to years':'返回年度索引'}</Link><Link className="button button-secondary" href="/dad/archive">{eo?'Reveni al arkivo':en?'Back to archive':'返回治理档案馆'}</Link></div>
   </main>;
 }
