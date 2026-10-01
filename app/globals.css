@@ -108,3 +108,8 @@
 .life-path-steps small{opacity:.72;line-height:1.5}
 @media(max-width:900px){.life-path-steps{grid-template-columns:1fr 1fr}.node-projects{position:static}}
 @media(max-width:560px){.life-path-steps{grid-template-columns:1fr}}
+
+.passport-path{margin-top:24px}
+.passport-life-path{grid-template-columns:repeat(3,1fr)}
+@media(max-width:760px){.passport-life-path{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.passport-life-path{grid-template-columns:1fr}}
