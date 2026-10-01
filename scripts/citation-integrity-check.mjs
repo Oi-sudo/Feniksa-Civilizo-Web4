@@ -56,7 +56,8 @@ const requiredTokens={
     'GOVERNANCE-MONTH','getGovernanceMonthlySummary','proposal_count','decision_count','governance_event_count','project_count','milestone_count','archived_report_count','ARCHIVE-REPORT'
   ],
   'app/dad/archive/years/[year]/summary/page.tsx':[
-    'GOVERNANCE-YEAR','getGovernanceAnnualSummary','proposal_count','decision_count','governance_event_count','project_count','milestone_count','archived_report_count','Monthly summary'
+    'GOVERNANCE-YEAR','Phoenix DAD Annual Governance Report','PassportPrintButton','proposal-print-header','proposal-print-footer',
+    'getGovernanceAnnualSummary','proposal_count','decision_count','governance_event_count','project_count','milestone_count','archived_report_count','Monthly summary'
   ],
   'app/passport/projects/[id]/page.tsx':[
     'Phoenix Personal Project Passport','PERSONAL-PROJECT','MEMBERSHIP','MEMBERSHIP-END','EST','BUD','CopyCitationButton','slice(0,8)'
@@ -88,7 +89,7 @@ for(const [file,tokens] of Object.entries(requiredTokens)){
 }
 
 const spec=fs.existsSync('CITATION-SPEC.md')?fs.readFileSync('CITATION-SPEC.md','utf8'):'';
-for(const token of ['Phoenix Passport','Phoenix Project Dossier','Phoenix DAD Proposal Dossier','Phoenix DAD Governance Timeline','GOV-EVENT','Phoenix DAD Governance Archive','ARCHIVE-SNAPSHOT','Phoenix DAD Governance Change Report','ARCHIVE-REPORT','Phoenix Personal Project Passport','CopyCitationButton']){
+for(const token of ['Phoenix Passport','Phoenix Project Dossier','Phoenix DAD Proposal Dossier','Phoenix DAD Governance Timeline','GOV-EVENT','Phoenix DAD Governance Archive','ARCHIVE-SNAPSHOT','Phoenix DAD Governance Change Report','ARCHIVE-REPORT','Phoenix DAD Annual Governance Report','GOVERNANCE-YEAR','Phoenix Personal Project Passport','CopyCitationButton']){
   if(spec && !spec.includes(token)) errors.push(`CITATION-SPEC.md: missing "${token}"`);
 }
 
