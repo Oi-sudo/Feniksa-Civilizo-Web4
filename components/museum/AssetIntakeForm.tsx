@@ -10,7 +10,7 @@ export default function AssetIntakeForm({halls}:{halls:Array<{id:string;title_zh
     const r=await fetch('/api/museum/intake',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(payload)});
     const data=await r.json(); setBusy(false);
     if(!r.ok){setMessage(data.error||'提交失败');return;}
-    setMessage(`登记已建立：${data.permanentCode}，等待馆藏审核。`); e.currentTarget.reset();
+    setMessage(`登记已建立：${data.permanentCode}，资料已建立，可继续整理。`); e.currentTarget.reset();
   }
   return <form className="auth-form" onSubmit={submit}>
     <label>藏品登记名称<input name="titleZh" required minLength={2} maxLength={200}/></label>
@@ -24,9 +24,9 @@ export default function AssetIntakeForm({halls}:{halls:Array<{id:string;title_zh
     <label>尺寸<input name="dimensions"/></label>
     <label>重量<input name="weight"/></label>
     <label>来源备注<textarea name="provenance" rows={4}/></label>
-    <label>原始证据链接（可选）<input name="evidenceUrl" type="url" placeholder="https://..."/></label>
+    <label>收藏资料链接（可选）<input name="evidenceUrl" type="url" placeholder="https://..."/></label>
     <button className="button button-primary" disabled={busy}>{busy?'正在登记…':'建立一物一档'}</button>
     {message&&<p className="form-message">{message}</p>}
-    <p className="muted">新登记默认鉴定状态 E（研究中）、未估值、权属待确认、数字展示授权待确认。登记名称不等于鉴定结论。</p>
+    <p className="muted">新登记会先建立基础收藏记录，后续可继续补充来源、图片、视频、证书与其他文化资料。登记本身不要求专业鉴定，也不构成市场估值。</p>
   </form>;
 }
