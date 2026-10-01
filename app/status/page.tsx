@@ -2,13 +2,13 @@ import Link from 'next/link';
 import { getLocale } from '@/lib/i18n';
 
 const routesZh=[
-  ['首页','/'],['世界语文明大学','/courses'],['3D桃花源','/taohuayuan'],['数字博物馆','/museum'],
+  ['首页','/'],['世界语文明大学','/courses'],['3D桃花源','/taohuayuan'],['城市与交通','/taohuayuan/city'],['长者康养','/taohuayuan/eldercare'],['佛法修学','/taohuayuan/buddhist-study'],['数字博物馆','/museum'],
   ['DAD议事厅','/dad'],['学习护照','/passport'],['EST世界语币','/est'],['BUD佛光币','/bud'],
   ['WFB五佛币','/wfb'],['项目执行','/projects'],['双翼说明','/dual-wing'],['健康检查','/api/health']
 ];
-const routesEn=[['Home','/'],['Esperanto Civilization University','/courses'],['3D Peach Blossom Land','/taohuayuan'],['Digital Museum','/museum'],['DAD Council','/dad'],['Learning Passport','/passport'],['EST record','/est'],['BUD record','/bud'],['WFB record','/wfb'],['Project execution','/projects'],['Dual-wing explanation','/dual-wing'],['Health check','/api/health']];
+const routesEn=[['Home','/'],['Esperanto Civilization University','/courses'],['3D Peach Blossom Land','/taohuayuan'],['City & transport','/taohuayuan/city'],['Elder care','/taohuayuan/eldercare'],['Buddhist study','/taohuayuan/buddhist-study'],['Digital Museum','/museum'],['DAD Council','/dad'],['Learning Passport','/passport'],['EST record','/est'],['BUD record','/bud'],['WFB record','/wfb'],['Project execution','/projects'],['Dual-wing explanation','/dual-wing'],['Health check','/api/health']];
 const routesEo=[
-  ['Ĉefpaĝo','/'],['Esperanta Civiliza Universitato','/courses'],['3D Persikflora Lando','/taohuayuan'],['Cifereca Muzeo','/museum'],
+  ['Ĉefpaĝo','/'],['Esperanta Civiliza Universitato','/courses'],['3D Persikflora Lando','/taohuayuan'],['Urbo kaj transporto','/taohuayuan/city'],['Prizorgo por maljunuloj','/taohuayuan/eldercare'],['Budhisma studado','/taohuayuan/buddhist-study'],['Cifereca Muzeo','/museum'],
   ['DAD-Konsilio','/dad'],['Lernopasporto','/passport'],['EST-registro','/est'],['BUD-registro','/bud'],
   ['WFB-registro','/wfb'],['Projekta plenumado','/projects'],['Du-flugila klarigo','/dual-wing'],['Sankontrolo','/api/health']
 ];
