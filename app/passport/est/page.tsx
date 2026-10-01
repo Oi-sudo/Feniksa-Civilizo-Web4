@@ -39,9 +39,9 @@ export default async function EstPassportPage({searchParams}:{searchParams:Promi
     {projectId&&<section className="passport-project-context"><p><span>{eo?'Nuna projekto':en?'Current project':'当前项目'}：</span><strong>{projectContext?.project.title||projectId.slice(0,8)}</strong></p>{projectContext&&<Link href={'/projects/'+projectId}>{eo?'Reveni al la projekta dosiero →':en?'Back to project dossier →':'返回项目档案 →'}</Link>}</section>}
     <p className="lead">{eo?'Ĉi tie aperas viaj registroj pri Esperanto-lernado, tradukado, instruado, provlegado kaj sciaj kontribuoj. Nur aprobitaj registroj estas inkluzivitaj en la supra sumo.':en?'This page shows your Esperanto learning, translation, teaching, proofreading and knowledge-contribution records. Only approved records are included in the total above.':'这里显示您的世界语学习、翻译、教学、校对和知识贡献记录。只有审核通过的记录计入上方总值。'}</p>
     <section className="stat-grid">
-      <div className="stat-card"><strong>{total}</strong><span>{eo?'Konfirmita EST':en?'Confirmed EST':'已确认 EST'}</span></div>
-      <div className="stat-card"><strong>{approved.length}</strong><span>{eo?'Aprobitaj registroj':en?'Approved records':'已审核记录'}</span></div>
-      <div className="stat-card"><strong>{rows.length}</strong><span>{eo?'Ĉiuj registroj':en?'All records':'全部记录'}</span></div>
+      <div className="stat-card"><strong>{total}</strong><span>{projectId?(eo?'EST en ĉi tiu projekto':en?'EST in this project':'本项目 EST 总值'):(eo?'Konfirmita EST':en?'Confirmed EST':'已确认 EST')}</span></div>
+      <div className="stat-card"><strong>{approved.length}</strong><span>{projectId?(eo?'Aprobitaj registroj en la projekto':en?'Approved project records':'本项目已批准记录'):(eo?'Aprobitaj registroj':en?'Approved records':'已审核记录')}</span></div>
+      <div className="stat-card"><strong>{rows.length}</strong><span>{projectId?(eo?'Ĉiuj miaj registroj en la projekto':en?'All my project records':'我在本项目的全部记录'):(eo?'Ĉiuj registroj':en?'All records':'全部记录')}</span></div>
     </section>
     {rows.length? <div className="record-list">{rows.map(r=><article className="card" id={`est-record-${r.id}`} key={r.id}>
       <div className="record-top"><strong>{(eo?activityEo:en?activityEn:activityZh)[r.activity_type]||r.activity_type}</strong><span>{(eo?statusEo:en?statusEn:statusZh)[r.review_status]||r.review_status}</span></div>
