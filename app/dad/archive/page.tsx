@@ -76,7 +76,7 @@ export default async function GovernanceArchivePage(){
 
     <div className="hero-actions">
       <Link className="button button-primary" href="/dad">{eo?'DAD-Konsilio':en?'DAD Council':'DAD 议事厅'}</Link>
-      <Link className="button button-secondary" href="/dad/index">{eo?'Regada ĉenindekso':en?'Governance chain index':'治理链总索引'}</Link><Link className="button button-secondary" href="/dad/archive/snapshots">{eo?'Arkivaj momentbildoj':en?'Archive snapshots':'归档版本快照'}</Link><Link className="button button-secondary" href="/dad/archive/reports">{eo?'Arkivitaj ŝanĝraportoj':en?'Archived change reports':'治理变化报告总目录'}</Link>
+      <Link className="button button-secondary" href="/dad/index">{eo?'Regada ĉenindekso':en?'Governance chain index':'治理链总索引'}</Link><Link className="button button-secondary" href="/dad/archive/snapshots">{eo?'Arkivaj momentbildoj':en?'Archive snapshots':'归档版本快照'}</Link><Link className="button button-secondary" href="/dad/archive/reports">{eo?'Arkivitaj ŝanĝraportoj':en?'Archived change reports':'治理变化报告总目录'}</Link><Link className="button button-secondary" href="/dad/archive/years">{eo?'Jaraj arkivoj':en?'Yearly archives':'治理档案年度索引'}</Link>
       <Link className="button button-secondary" href="/projects">{eo?'Publikaj projektoj':en?'Public projects':'公开项目'}</Link>
     </div>
   </main>;
