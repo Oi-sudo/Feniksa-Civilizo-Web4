@@ -31,11 +31,11 @@ export default async function AssetPage({params}:{params:Promise<{code:string}>}
         <p><strong>主馆籍</strong><span>{a.hall_zh} · {a.hall_eo}</span></p>
         <p><strong>分册编号</strong><span>{a.catalog_code||'未编入冻结分册'}</span></p>
         <p><strong>登记册</strong><span>{a.catalog_volume||'独立登记'}</span></p>
-        <p><strong>批次/册次</strong><span>{a.batch_code||'待登记'}</span></p>
-        <p><strong>类别</strong><span>{a.category||'待登记'}</span></p>
-        <p><strong>材质</strong><span>{a.material||'待登记'}</span></p>
+        <p><strong>批次/册次</strong><span>{a.batch_code||'未单列'}</span></p>
+        <p><strong>类别</strong><span>{a.category||'未单列'}</span></p>
+        <p><strong>材质</strong><span>{a.material||'依现有收藏记录'}</span></p>
         <p><strong>年代/时期</strong><span>{a.period_description||'依现有收藏记录'}</span></p>
-        <p><strong>尺寸 / 重量</strong><span>{a.dimensions||'待登记'} · {a.weight||'待登记'}</span></p>
+        <p><strong>尺寸 / 重量</strong><span>{a.dimensions||'未单列'} · {a.weight||'未单列'}</span></p>
       </div>
       <p><strong>来源记录：</strong>{a.provenance||'依现有收藏记录'}</p>
       {a.catalog_source_note&&<p className="muted"><strong>书册来源说明：</strong>{a.catalog_source_note}</p>}
@@ -44,14 +44,9 @@ export default async function AssetPage({params}:{params:Promise<{code:string}>}
     </section>
 
     <section className="card">
-      <h2>收藏与档案说明 · Kolekta dosiero</h2>
-      <div className="status-grid">
-        <div><span>收藏记录级别</span><strong>{a.authentication_level}</strong></div>
-        <div><span>权属状态</span><strong>{a.ownership_status}</strong></div>
-        <div><span>估值状态</span><strong>{a.valuation_status}</strong></div>
-        <div><span>数字展示权</span><strong>{a.digital_rights_status}</strong></div>
-      </div>
-      <p className="muted">收藏记录、权属、估值记录和数字展示权分别保存；这些字段用于数字档案管理，不要求以专业鉴定作为赏玩与学习展示的前提。</p>
+      <h2>收藏与赏玩说明 · Kolekta dosiero</h2>
+      <p>本页以个人收藏、文化记忆、文明学习与数字赏玩方式呈现。现有名称与说明依据收藏记录、照片、视频和既有资料保存，便于阅读、欣赏与长期存录。</p>
+      <p className="muted">专业鉴定、市场估值与交易证明不属于本页的展示目的；如未来另有专业资料，可作为新的档案版本补充。</p>
     </section>
 
     <section className="home-section">
@@ -71,7 +66,7 @@ export default async function AssetPage({params}:{params:Promise<{code:string}>}
         <div className="record-top"><strong>{localeLabel[x.locale]||x.locale}</strong><span>v{x.version}</span></div>
         {x.short_label&&<h3>{x.short_label}</h3>}
         <p>{x.exhibition_text}</p>
-      </article>)}</div>:<div className="card"><p>正式三语展签尚待审校发布。</p></div>}
+      </article>)}</div>:<div className="card"><p>三语展签可随资料整理继续补充。</p></div>}
     </section>
 
     <section className="home-section">
@@ -90,7 +85,7 @@ export default async function AssetPage({params}:{params:Promise<{code:string}>}
       <h2>版本历史</h2>
       {d.versions.length?<div className="timeline">{d.versions.map(x=><div className="timeline-item" key={x.id}>
         <strong>v{x.version_number}</strong><div><p>{x.change_summary}</p><small>{new Date(x.created_at).toLocaleDateString('zh-CN')}{x.changed_by_name?` · ${x.changed_by_name}`:''}</small></div>
-      </div>)}</div>:<div className="card"><p>尚无公开版本记录。</p></div>}
+      </div>)}</div>:<div className="card"><p>当前没有另外的公开版本记录。</p></div>}
     </section>
 
     <section className="card">

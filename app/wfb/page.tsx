@@ -10,8 +10,8 @@ export default function WfbPage(){
    <div className="card"><h2>数字博物馆</h2><p>Cifereca muzeo</p><p>整理后的档案进入九馆公开目录，并保留版本历史。</p></div>
    <div className="card"><h2>公共支持</h2><p>Publika subteno</p><p>公共文化支持可以登记，但不自动变成投资、股权或收益权。</p></div>
   </div>
-  <section className="card"><h2>0.1 登记链</h2><p>实物/文献 → 建立一物一档 → 原始证据 → 主馆籍 → 馆藏审核 → 资料分层 → 公开展陈 → 版本留痕。</p></section>
+  <section className="card"><h2>0.1 登记链</h2><p>实物/文献 → 建立一物一档 → 收藏资料 → 主馆籍 → 资料整理 → 公开展陈 → 版本留痕。</p></section>
   <section className="card"><h2>0.1 边界</h2><p>不发行 Token，不建立钱包，不提供兑换，不承诺升值，不自动连接 NFT / RWA 市场。未来如进入 RWA，必须另行完成权属、专业鉴定、估值、托管、保险与法律审查；这些要求不作为当前数字赏玩展示的前提。</p></section>
-  <div className="hero-actions"><Link className="button button-primary" href="/wfb/intake">登记文化资产</Link><Link className="button button-secondary" href="/museum">进入数字博物馆</Link><Link className="button button-secondary" href="/museum/about">收藏与赏玩说明</Link><Link className="button button-secondary" href="/dual-wing">查看双翼架构</Link></div>
+  <div className="hero-actions"><Link className="button button-primary" href="/wfb/intake">登记收藏资料</Link><Link className="button button-secondary" href="/museum">进入数字博物馆</Link><Link className="button button-secondary" href="/museum/about">收藏与赏玩说明</Link><Link className="button button-secondary" href="/dual-wing">查看双翼架构</Link></div>
  </main>;
 }

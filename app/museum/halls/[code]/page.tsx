@@ -28,8 +28,8 @@ export default async function HallPage({params}:{params:Promise<{code:string}>})
     <h2>本馆藏品 · Kolektaĵoj en ĉi tiu halo</h2>
     {assets.length?<div className="card-grid">{assets.map(a=><Link className="card" href={`/museum/${a.permanent_code}`} key={a.id}>
       <span className="eyebrow">{a.permanent_code}{a.batch_code?` · ${a.batch_code}`:''}</span>
-      <h3>{a.title_zh}</h3><p>{a.title_eo}</p><small>{a.category||'待分类'} · 收藏记录 {a.authentication_level}</small><span className="card-link">查看一物一档 →</span>
-    </Link>)}</div>:<div className="card"><p>本馆目前还没有公开馆藏。没有数据不等于没有实物；只表示尚未完成公开登记。</p></div>}
+      <h3>{a.title_zh}</h3><p>{a.title_eo}</p><small>{a.category||'未单列类别'}</small><span className="card-link">查看一物一档 →</span>
+    </Link>)}</div>:<div className="card"><p>本馆当前没有公开条目；后续可随收藏资料与文化记忆的整理继续丰富。</p></div>}
   </section>
   <section className="card"><h2>主馆籍原则</h2><p>每件藏品只设一个主馆籍，避免九馆重复计数；关联展示可以跨馆，但主档案仍只归一馆。</p><p className="muted">本馆以个人收藏、文化记忆与数字赏玩为定位，资料可随学习与整理继续丰富。</p></section>
   <div className="hero-actions"><Link className="button button-primary" href="/museum">返回九馆总览</Link><Link className="button button-secondary" href="/museum/about">收藏与赏玩说明</Link><Link className="button button-secondary" href="/wfb/intake">登记新藏品</Link></div>
