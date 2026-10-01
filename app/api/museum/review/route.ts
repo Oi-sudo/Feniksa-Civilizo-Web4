@@ -8,9 +8,11 @@ export async function POST(req:NextRequest){
  try{
   const b=await req.json(); if(!['approve','changes'].includes(b.action))return NextResponse.json({error:'操作无效。'},{status:400});
   const message=await withTransaction(async client=>{
-    const r=await client.query<{id:string}>(`SELECT id FROM cultural_assets WHERE id=$1 AND workflow_status='review' FOR UPDATE`,[b.id]);
+    const r=await client.query<{id:string;submitted_for_review_by:string|null}>(`SELECT id,submitted_for_review_by::text FROM cultural_assets WHERE id=$1 AND workflow_status='review' FOR UPDATE`,[b.id]);
     if(!r.rowCount)throw new Error('NOT_FOUND');
     if(b.action==='approve'){
+      if(!hasAnyRole(user,['admin','museum_reviewer']))throw new Error('PUBLISH_PERMISSION');
+      if(r.rows[0].submitted_for_review_by===user.id)throw new Error('SELF_PUBLISH');
       await client.query(`UPDATE cultural_assets SET workflow_status='published',public_status='published',reviewed_at=NOW(),reviewed_by=$1,published_at=NOW(),published_by=$1,review_note='Alpha collection archive publication' WHERE id=$2`,[user.id,b.id]);
       await client.query(`INSERT INTO asset_review_events(asset_id,event_type,actor_id,note) VALUES($1,'approved',$2,'Collection archive ready for public display')`,[b.id,user.id]);
       await client.query(`INSERT INTO asset_review_events(asset_id,event_type,actor_id,note) VALUES($1,'published',$2,'Published in WFB collection archive')`,[b.id,user.id]);
@@ -31,6 +33,8 @@ export async function POST(req:NextRequest){
   return NextResponse.json({ok:true,message});
  }catch(e){
   if(e instanceof Error&&e.message==='NOT_FOUND')return NextResponse.json({error:'找不到待整理馆藏。'},{status:404});
+  if(e instanceof Error&&e.message==='PUBLISH_PERMISSION')return NextResponse.json({error:'公开展示需要管理员或馆藏审核员权限。'},{status:403});
+  if(e instanceof Error&&e.message==='SELF_PUBLISH')return NextResponse.json({error:'提交者不能自行完成公开展示确认，请由另一位管理员或馆藏审核员处理。'},{status:409});
   console.error(e);return NextResponse.json({error:'暂时无法完成馆藏资料整理。'},{status:500});
  }
 }
