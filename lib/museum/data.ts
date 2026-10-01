@@ -155,7 +155,7 @@ export type AdminMuseumAsset={
   evidence_unverified:string;evidence_source_confirmed:string;evidence_reviewed:string;
 };
 export type MuseumEvidenceFilter='all'|'missing'|'unverified'|'source_confirmed'|'reviewed';
-export async function listAdminMuseumAssets(limit=200,filter:MuseumEvidenceFilter='all'){
+export async function listAdminMuseumAssets(limit=200,filter:MuseumEvidenceFilter='all',catalogVolume:string|null=null,hallCode:string|null=null){
   const r=await query<AdminMuseumAsset>(`SELECT a.id,a.permanent_code,a.catalog_code,a.catalog_volume,a.title_zh,
       a.workflow_status,a.public_status,h.title_zh AS hall_zh,
       COUNT(m.id)::text AS evidence_count,
@@ -166,6 +166,8 @@ export async function listAdminMuseumAssets(limit=200,filter:MuseumEvidenceFilte
     LEFT JOIN museum_halls h ON h.id=a.primary_hall_id
     LEFT JOIN asset_media m ON m.asset_id=a.id
     WHERE a.deleted_at IS NULL
+      AND ($3::text IS NULL OR a.catalog_volume=$3)
+      AND ($4::text IS NULL OR h.code=$4)
     GROUP BY a.id,a.permanent_code,a.catalog_code,a.catalog_volume,a.title_zh,a.workflow_status,a.public_status,h.title_zh
     HAVING (
       $2='all'
@@ -181,7 +183,7 @@ export async function listAdminMuseumAssets(limit=200,filter:MuseumEvidenceFilte
            WHEN COUNT(m.id) FILTER(WHERE m.verification_status='reviewed')=0 THEN 2
            ELSE 3 END,
       COALESCE(a.catalog_volume,''),COALESCE(a.catalog_code,a.permanent_code),a.created_at DESC
-    LIMIT $1`,[limit,filter]);
+    LIMIT $1`,[limit,filter,catalogVolume,hallCode]);
   return r.rows;
 }
 
@@ -229,4 +231,15 @@ export async function getMuseumEvidenceOverview(){
            COUNT(*) FILTER(WHERE evidence_count>0 AND source_confirmed_count=0 AND reviewed_count=0)::text AS assets_only_unverified
       FROM per_asset`);
   return r.rows[0];
+}
+
+
+export async function listAdminCatalogVolumes(){
+  const r=await query<{catalog_volume:string;asset_count:string}>(`
+    SELECT catalog_volume,COUNT(*)::text AS asset_count
+      FROM cultural_assets
+     WHERE deleted_at IS NULL AND catalog_volume IS NOT NULL
+     GROUP BY catalog_volume
+     ORDER BY MIN(created_at)`);
+  return r.rows;
 }

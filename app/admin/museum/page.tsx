@@ -1,14 +1,26 @@
 import Link from 'next/link';
 import { requireAnyRole } from '@/lib/permissions/rbac';
-import { getMuseumEvidenceOverview,listAdminMuseumAssets,listMuseumReviewQueue,type MuseumEvidenceFilter } from '@/lib/museum/data';
+import { getMuseumEvidenceOverview,listAdminCatalogVolumes,listAdminMuseumAssets,listMuseumHalls,listMuseumReviewQueue,type MuseumEvidenceFilter } from '@/lib/museum/data';
 import MuseumReviewActions from '@/components/museum/MuseumReviewActions';
 
-export default async function MuseumReviewPage({searchParams}:{searchParams:Promise<{evidence?:string}>}){
+export default async function MuseumReviewPage({searchParams}:{searchParams:Promise<{evidence?:string;volume?:string;hall?:string}>}){
  await requireAnyRole(['admin','curator','museum_reviewer']);
  const p=await searchParams;
  const allowed=new Set<MuseumEvidenceFilter>(['all','missing','unverified','source_confirmed','reviewed']);
  const evidenceFilter=allowed.has((p.evidence||'all') as MuseumEvidenceFilter)?(p.evidence||'all') as MuseumEvidenceFilter:'all';
- const [rows,assets,overview]=await Promise.all([listMuseumReviewQueue(),listAdminMuseumAssets(200,evidenceFilter),getMuseumEvidenceOverview()]);
+ const volumeFilter=(p.volume||'').trim()||null;
+ const hallFilter=(p.hall||'').trim()||null;
+ const [rows,assets,overview,volumes,halls]=await Promise.all([
+  listMuseumReviewQueue(),listAdminMuseumAssets(200,evidenceFilter,volumeFilter,hallFilter),getMuseumEvidenceOverview(),listAdminCatalogVolumes(),listMuseumHalls()
+ ]);
+ const q=(next:{evidence?:string;volume?:string;hall?:string})=>{
+  const s=new URLSearchParams();
+  const evidence=next.evidence??evidenceFilter, volume=next.volume===undefined?(volumeFilter||''):next.volume, hall=next.hall===undefined?(hallFilter||''):next.hall;
+  if(evidence&&evidence!=='all')s.set('evidence',evidence);
+  if(volume)s.set('volume',volume);
+  if(hall)s.set('hall',hall);
+  const qs=s.toString(); return qs?`/admin/museum?${qs}`:'/admin/museum';
+ };
  return <main>
   <span className="badge">Museum · Review</span><h1>馆藏审核与证据管理</h1>
   <p className="lead">审核档案是否达到公开登记条件；证据管理与鉴定结论分开。登记名称不会因为上传附件而自动升级为权威鉴定。</p>
@@ -42,14 +54,26 @@ export default async function MuseumReviewPage({searchParams}:{searchParams:Prom
   <section className="home-section">
    <h2>全部馆藏档案 · 证据入口</h2>
    <p className="muted">这里包括已经公开的初编、第二批第一册、第三册及后续新登记档案。可直接进入某件档案补充图片、视频、证书、传播史截图或研究参考。</p>
+   <h3>证据状态</h3>
    <nav className="filter-bar" aria-label="证据筛选">
-    <Link className={`filter-chip ${evidenceFilter==='all'?'active':''}`} href="/admin/museum?evidence=all">全部</Link>
-    <Link className={`filter-chip ${evidenceFilter==='missing'?'active':''}`} href="/admin/museum?evidence=missing">先补无证据</Link>
-    <Link className={`filter-chip ${evidenceFilter==='unverified'?'active':''}`} href="/admin/museum?evidence=unverified">先审未核附件</Link>
-    <Link className={`filter-chip ${evidenceFilter==='source_confirmed'?'active':''}`} href="/admin/museum?evidence=source_confirmed">来源已确认</Link>
-    <Link className={`filter-chip ${evidenceFilter==='reviewed'?'active':''}`} href="/admin/museum?evidence=reviewed">已有已审阅</Link>
+    <Link className={`filter-chip ${evidenceFilter==='all'?'active':''}`} href={q({evidence:'all'})}>全部</Link>
+    <Link className={`filter-chip ${evidenceFilter==='missing'?'active':''}`} href={q({evidence:'missing'})}>先补无证据</Link>
+    <Link className={`filter-chip ${evidenceFilter==='unverified'?'active':''}`} href={q({evidence:'unverified'})}>先审未核附件</Link>
+    <Link className={`filter-chip ${evidenceFilter==='source_confirmed'?'active':''}`} href={q({evidence:'source_confirmed'})}>来源已确认</Link>
+    <Link className={`filter-chip ${evidenceFilter==='reviewed'?'active':''}`} href={q({evidence:'reviewed'})}>已有已审阅</Link>
    </nav>
-   <p className="muted">当前筛选：{evidenceFilter==='all'?'全部馆藏':evidenceFilter==='missing'?'尚无证据':evidenceFilter==='unverified'?'含未核附件':evidenceFilter==='source_confirmed'?'含来源已确认附件':'含已审阅附件'}。列表默认把证据链最薄弱的记录排在前面。</p>
+   <h3>分册</h3>
+   <nav className="filter-bar" aria-label="分册筛选">
+    <Link className={`filter-chip ${!volumeFilter?'active':''}`} href={q({volume:''})}>全部分册</Link>
+    {volumes.map(v=><Link key={v.catalog_volume} className={`filter-chip ${volumeFilter===v.catalog_volume?'active':''}`} href={q({volume:v.catalog_volume})}>{v.catalog_volume} · {v.asset_count}</Link>)}
+   </nav>
+   <h3>九宫馆籍</h3>
+   <nav className="filter-bar" aria-label="馆籍筛选">
+    <Link className={`filter-chip ${!hallFilter?'active':''}`} href={q({hall:''})}>全部馆籍</Link>
+    {halls.map(h=><Link key={h.code} className={`filter-chip ${hallFilter===h.code?'active':''}`} href={q({hall:h.code})}>{h.title_zh}</Link>)}
+   </nav>
+   <p className="muted">当前组合筛选：证据 {evidenceFilter==='all'?'全部':evidenceFilter==='missing'?'无证据':evidenceFilter==='unverified'?'未核':evidenceFilter==='source_confirmed'?'来源已确认':'已审阅'}；分册 {volumeFilter||'全部'}；馆籍 {halls.find(h=>h.code===hallFilter)?.title_zh||'全部'}。列表仍按证据链最薄弱优先排序。</p>
+   {(evidenceFilter!=='all'||volumeFilter||hallFilter)&&<Link className="button button-secondary" href="/admin/museum">清除全部筛选</Link>}
 
    {assets.length?<div className="record-list">{assets.map(a=><article className="card museum-admin-row" key={a.id}>
     <div>
