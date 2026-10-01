@@ -4,6 +4,7 @@ import { getCurrentUser } from '@/lib/auth/session';
 import { getPassportOverview } from '@/lib/passport/data';
 import { getLocale,getMessages } from '@/lib/i18n';
 import PassportPrintButton from '@/components/passport/PassportPrintButton';
+import CopyCitationButton from '@/components/archive/CopyCitationButton';
 
 const userRoleZh:Record<string,string>={learner:'学习者',admin:'管理员',curator:'馆藏整理员',museum_reviewer:'馆藏审核员'};
 const userRoleEo:Record<string,string>={learner:'Lernanto',admin:'Administranto',curator:'Muzea prizorganto',museum_reviewer:'Muzea kontrolanto'};
@@ -197,7 +198,7 @@ export default async function PassportPage({searchParams}:{searchParams:Promise<
               const citationText=`Phoenix Passport · ${citationType} · ${shortId} · ${citationDate}`;
               return <article className="timeline-item" id={locatorId} key={item.id}>
                 <div className="timeline-date">{new Date(item.occurred_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN')}</div>
-                <div><span className="badge">{kindLabel}</span><h3>{item.title}</h3>{detail&&<p>{detail}</p>}<p className="timeline-source-type">{eo?'Fonttipo:':en?'Source type:':'来源类型：'} {sourceType}</p><p className="timeline-source-ref">{eo?'Referenco:':en?'Reference:':'记录标识：'} <code>{shortRef}</code></p><p className="timeline-citation"><span>{eo?'Citformo:':en?'Citation format:':'引用格式：'}</span> <code>{citationText}</code></p><div className="timeline-source-actions no-print"><Link className="timeline-source-link" href={sourceHref}>{sourceLabel}</Link><Link className="timeline-locator-link" href={locatorHref}>{eo?'Konstanta loko →':en?'Permanent locator →':'永久定位链接 →'}</Link>{item.kind==='project'&&<><Link href={'/passport/projects/'+rawId}>{eo?'Mia projekta pasporto →':en?'My project passport →':'我的项目护照 →'}</Link><Link href={'/projects/'+rawId}>{eo?'Publika projekta dosiero →':en?'Public project dossier →':'公共项目档案 →'}</Link></>}</div></div>
+                <div><span className="badge">{kindLabel}</span><h3>{item.title}</h3>{detail&&<p>{detail}</p>}<p className="timeline-source-type">{eo?'Fonttipo:':en?'Source type:':'来源类型：'} {sourceType}</p><p className="timeline-source-ref">{eo?'Referenco:':en?'Reference:':'记录标识：'} <code>{shortRef}</code></p><p className="timeline-citation"><span>{eo?'Citformo:':en?'Citation format:':'引用格式：'}</span> <code>{citationText}</code><CopyCitationButton text={citationText} label={eo?'Kopii citon':en?'Copy citation':'复制引用'} copiedLabel={eo?'Kopiita':en?'Copied':'已复制'} /></p><div className="timeline-source-actions no-print"><Link className="timeline-source-link" href={sourceHref}>{sourceLabel}</Link><Link className="timeline-locator-link" href={locatorHref}>{eo?'Konstanta loko →':en?'Permanent locator →':'永久定位链接 →'}</Link>{item.kind==='project'&&<><Link href={'/passport/projects/'+rawId}>{eo?'Mia projekta pasporto →':en?'My project passport →':'我的项目护照 →'}</Link><Link href={'/projects/'+rawId}>{eo?'Publika projekta dosiero →':en?'Public project dossier →':'公共项目档案 →'}</Link></>}</div></div>
               </article>;
             })}
           </div>
@@ -209,7 +210,7 @@ export default async function PassportPage({searchParams}:{searchParams:Promise<
     <section className="card">
       <h2>{m.passport_projects} · Projektoj</h2>
       {d.projects.length?<div className="passport-project-list">{d.projects.map(p=>{const short=p.id.replace(/-/g,'').slice(0,8);const personalRef='PERSONAL-PROJECT · '+short;const joinedDate=new Date(p.joined_at);const citation='Phoenix Passport · PROJECT · '+short+' · '+joinedDate.toISOString().slice(0,10);return <article className="passport-project-row" id={`project-record-${p.id}`} key={p.id}>
-        <div><strong>{p.title}</strong><small>{(eo?roleEo:en?roleEn:roleZh)[p.role]||p.role} · {(eo?projectStatusEo:en?projectStatusEn:projectStatusZh)[p.status]||p.status} · {eo?'Aliĝis':en?'Joined':'加入'} {joinedDate.toLocaleDateString(eo?'eo':en?'en-US':'zh-CN')}</small><code className="passport-project-ref">{personalRef}</code><span className="citation-format">{eo?'Citformo':en?'Citation format':'引用格式'}：{citation}</span></div>
+        <div><strong>{p.title}</strong><small>{(eo?roleEo:en?roleEn:roleZh)[p.role]||p.role} · {(eo?projectStatusEo:en?projectStatusEn:projectStatusZh)[p.status]||p.status} · {eo?'Aliĝis':en?'Joined':'加入'} {joinedDate.toLocaleDateString(eo?'eo':en?'en-US':'zh-CN')}</small><code className="passport-project-ref">{personalRef}</code><span className="citation-format">{eo?'Citformo':en?'Citation format':'引用格式'}：{citation}<CopyCitationButton text={citation} label={eo?'Kopii citon':en?'Copy citation':'复制引用'} copiedLabel={eo?'Kopiita':en?'Copied':'已复制'} /></span></div>
         <div className="passport-project-actions no-print"><Link href={`/passport/projects/${p.id}`}>{eo?'Mia projekta pasporto':en?'My project passport':'我的项目护照'}</Link><Link href={`/projects/${p.id}`}>{eo?'Publika projekta dosiero':en?'Public project dossier':'公共项目档案'}</Link></div>
       </article>})}</div>:<p>{m.no_projects_yet}</p>}
       <Link className="no-print" href="/projects">{eo?'Vidi projektan enirejon →':en?'View project entry →':'查看项目入口 →'}</Link>
