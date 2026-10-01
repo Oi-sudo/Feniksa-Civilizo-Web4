@@ -130,26 +130,28 @@ export default async function ProjectDetailPage({params}:{params:Promise<{id:str
 
   <section className="card">
    <h2>{eo?'Historio de projekta stato':en?'Project status history':'项目状态历史'}</h2>
-   {d.statusEvents.length?<div className="project-audit-list">{d.statusEvents.map(e=><article className="project-audit-item" key={e.id}>
+   {d.statusEvents.length?<div className="project-audit-list">{d.statusEvents.map(e=>{const ref='STATUS · '+e.id.replace(/-/g,'').slice(0,8);const anchor='status-event-'+e.id.replace(/-/g,'').slice(0,8);return <article id={anchor} className="project-audit-item" key={e.id}>
     <div className="timeline-date">{new Date(e.created_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN')}</div>
     <div>
      <strong>{e.from_status?((eo?statusEo:en?statusEn:statusZh)[e.from_status]||e.from_status)+' → ':''}{(eo?statusEo:en?statusEn:statusZh)[e.to_status]||e.to_status}</strong>
      {e.note&&<p>{e.note}</p>}
      {e.actor_name&&<small>{eo?'Aganto':en?'Actor':'操作人'}：{e.actor_name}</small>}
+     <p className="subrecord-ref"><code>{ref}</code> · <a href={'#'+anchor}>{eo?'Konstanta loko':en?'Permanent locator':'永久定位'}</a></p>
     </div>
-   </article>)}</div>:<p>{eo?'Ankoraŭ neniu projekta statŝanĝa evento registrita.':en?'No project status-change events recorded yet.':'尚未登记项目状态变更事件。'}</p>}
+   </article>})}</div>:<p>{eo?'Ankoraŭ neniu projekta statŝanĝa evento registrita.':en?'No project status-change events recorded yet.':'尚未登记项目状态变更事件。'}</p>}
   </section>
 
   <section className="card">
    <h2>{eo?'Historio de buĝetaj eventoj':en?'Budget event history':'预算事件历史'}</h2>
-   {d.budgetEvents.length?<div className="project-audit-list">{d.budgetEvents.map(e=><article className="project-audit-item" key={e.id}>
+   {d.budgetEvents.length?<div className="project-audit-list">{d.budgetEvents.map(e=>{const ref='BUDGET · '+e.id.replace(/-/g,'').slice(0,8);const anchor='budget-event-'+e.id.replace(/-/g,'').slice(0,8);return <article id={anchor} className="project-audit-item" key={e.id}>
     <div className="timeline-date">{new Date(e.created_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN')}</div>
     <div>
      <div className="record-top"><strong>{(eo?budgetEventEo:en?budgetEventEn:budgetEventZh)[e.event_type]||e.event_type} · {e.amount} {e.currency}</strong><span>{(eo?budgetStatusEo:en?budgetStatusEn:budgetStatusZh)[e.status]||e.status}</span></div>
      {e.note&&<p>{e.note}</p>}
      {(e.requested_by_name||e.approved_by_name)&&<small>{e.requested_by_name&&(eo?'Petanto':en?'Requested by':'申请人')+'：'+e.requested_by_name}{e.requested_by_name&&e.approved_by_name?' · ':''}{e.approved_by_name&&(eo?'Aprobinto':en?'Approved by':'批准人')+'：'+e.approved_by_name}</small>}
+     <p className="subrecord-ref"><code>{ref}</code> · <a href={'#'+anchor}>{eo?'Konstanta loko':en?'Permanent locator':'永久定位'}</a></p>
     </div>
-   </article>)}</div>:<p>{eo?'Ankoraŭ neniu buĝeta evento registrita.':en?'No budget events recorded yet.':'尚未登记预算事件。'}</p>}
+   </article>})}</div>:<p>{eo?'Ankoraŭ neniu buĝeta evento registrita.':en?'No budget events recorded yet.':'尚未登记预算事件。'}</p>}
   </section>
 
   <section className="card">
