@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { getLocale,getMessages } from '@/lib/i18n';
 import { listPublishedCourses } from '@/lib/courses/data';
+import TaohuayuanZoneNav from '@/components/taohuayuan/ZoneNav';
 
 const categoryZh:Record<string,string>={
   esperanto:'世界语 · Esperanto',buddhist_study:'佛法与翻译',six_yao:'六爻',
@@ -28,6 +29,7 @@ export default async function CoursesPage(){
       </Link>)}
     </div>
     <p className="muted">{eo?'Nur kurso markita kiel “kompleta” povas, post fino de ĉiuj publikigitaj lecionoj, aŭtomate formi EST-registron pri kurskompletigo. Katalogo aŭ enkonduko ne estas prezentata kiel kompleta kurso.':en?'Only a course marked “complete” can automatically create an EST course-completion record after all published lessons are finished. A catalog or introduction is not presented as a complete course.':'只有标记为“完整”的课程，在全部已发布章节完成后才会自动形成 EST 课程完成记录；目录或导言不冒充完整课程。'}</p>
+    <TaohuayuanZoneNav locale={locale} current="school" />
     <Link className="button button-secondary" href="/dual-wing">{eo?'Vidi la klarigon pri la du-flugila strukturo':en?'View dual-wing explanation':'查看双翼说明'}</Link>
   </main>;
 }
