@@ -4,6 +4,7 @@ import { getCurrentUser } from '@/lib/auth/session';
 import { getLocale } from '@/lib/i18n';
 import { getPersonalProjectPassport } from '@/lib/passport/project';
 import PassportPrintButton from '@/components/passport/PassportPrintButton';
+import CopyCitationButton from '@/components/archive/CopyCitationButton';
 
 const kindZh:Record<string,string>={membership:'加入项目',membership_end:'退出项目',est:'EST 知识贡献',bud:'BUD 服务贡献'};
 const kindEo:Record<string,string>={membership:'Aliĝo al projekto',membership_end:'Fino de partopreno',est:'EST-scia kontribuo',bud:'BUD-serva kontribuo'};
@@ -51,7 +52,7 @@ export default async function PersonalProjectPassportPage({params,searchParams}:
   <section className="project-reference-strip personal-project-reference">
    <div><span>{eo?'Persona projekta referenco':en?'Personal project reference':'个人项目护照引用号'}</span><code>{personalProjectRef}</code></div>
    <div><span>{eo?'Konstanta loko':en?'Permanent locator':'永久定位'}</span><a href={'#'+personalProjectAnchor}>#{personalProjectAnchor}</a></div>
-   <div className="project-citation"><span>{eo?'Citformo':en?'Citation format':'引用格式'}</span><code>{personalProjectCitation}</code></div>
+   <div className="project-citation"><span>{eo?'Citformo':en?'Citation format':'引用格式'}</span><code>{personalProjectCitation}</code><CopyCitationButton text={personalProjectCitation} label={eo?'Kopii citon':en?'Copy citation':'复制引用'} copiedLabel={eo?'Kopiita':en?'Copied':'已复制'} /></div>
   </section>
   <p className="muted personal-project-private-note">{eo?'Ĉi tiu estas persona, ensalut-postula dosiero; la loko estas stabila ene de via propra pasporto, sed ĝi ne estas publika registra URL.':en?'This is a personal, sign-in-required dossier; the locator is stable within your own passport, but it is not a public record URL.':'这是登录后本人可访问的个人档案；永久定位在您的个人护照内稳定有效，但不是公开记录网址。'}</p>
   <div className="hero-actions no-print"><PassportPrintButton label={eo?'Presi / konservi kiel PDF':en?'Print / save as PDF':'打印 / 存为 PDF'} /></div>
