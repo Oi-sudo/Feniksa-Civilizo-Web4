@@ -74,3 +74,16 @@
 .worklist-table th{font-weight:700}
 @media(max-width:760px){.worklist-table{display:block;overflow-x:auto;white-space:nowrap}}
 @media print{.no-print,.site-header,.site-footer{display:none!important}.museum-worklist{max-width:none}.worklist-table{font-size:10pt}.worklist-table th,.worklist-table td{padding:5px}}
+
+
+.taohuayuan-map{position:relative;min-height:560px;margin:34px 0 10px;border:1px solid #4c4334;border-radius:30px;background:radial-gradient(circle at center,rgba(215,180,106,.16),rgba(17,20,24,.94) 38%,rgba(11,13,15,.98) 72%);overflow:hidden}
+.taohuayuan-map:before,.taohuayuan-map:after{content:"";position:absolute;inset:12%;border:1px solid rgba(215,180,106,.22);border-radius:50%}
+.taohuayuan-map:after{inset:28%;border-style:dashed}
+.taohuayuan-core{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:108px;height:108px;border-radius:50%;display:grid;place-items:center;border:1px solid #8a7751;background:#15120e;color:#d7b46a;font-size:3rem;box-shadow:0 0 50px rgba(215,180,106,.15)}
+.taohuayuan-node{position:absolute;width:min(230px,34%);padding:16px;border:1px solid #4b5055;border-radius:18px;background:rgba(17,20,24,.92);display:grid;gap:5px;transition:.2s transform,.2s border-color,.2s background}
+.taohuayuan-node:hover{transform:translateY(-4px);border-color:#d7b46a;background:rgba(29,27,22,.96)}
+.taohuayuan-node span{font-size:.75rem;letter-spacing:.12em;color:#d7b46a}.taohuayuan-node small{opacity:.7}
+.node-city{left:5%;top:10%}.node-school{right:5%;top:10%}.node-dad{right:3%;top:43%}.node-elder{right:8%;bottom:8%}.node-buddhist{left:8%;bottom:8%}.node-museum{left:3%;top:43%}
+.city-route{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:28px 0}
+.city-stop{border:1px solid #3f454b;border-radius:18px;padding:18px;display:grid;gap:8px;background:#111418;transition:.2s transform,.2s border-color}.city-stop:hover{transform:translateY(-3px);border-color:#d7b46a}.city-stop span{color:#d7b46a;font-size:.8rem;letter-spacing:.12em}
+@media(max-width:760px){.taohuayuan-map{min-height:auto;display:grid;gap:12px;padding:18px}.taohuayuan-map:before,.taohuayuan-map:after,.taohuayuan-core{display:none}.taohuayuan-node{position:static;width:100%}.city-route{grid-template-columns:1fr}}
