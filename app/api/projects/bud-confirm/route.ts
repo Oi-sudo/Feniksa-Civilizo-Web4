@@ -5,11 +5,11 @@ import { withTransaction } from '@/lib/db';
 import { getLocale } from '@/lib/i18n';
 
 export async function POST(req:NextRequest){
-  const eo=(await getLocale())==='eo';
-  const user=await getCurrentUser(); if(!user)return NextResponse.json({error:eo?'Bonvolu unue ensaluti.':'请先登录。'},{status:401});
+  const locale=await getLocale(); const eo=locale==='eo'; const en=locale==='en';
+  const user=await getCurrentUser(); if(!user)return NextResponse.json({error:eo?'Bonvolu unue ensaluti.':en?'Please log in first.':'请先登录。'},{status:401});
   try{
     const body=await req.json(); const action=body.action;
-    if(!['confirm','reject'].includes(action))return NextResponse.json({error:eo?'La ago estas nevalida.':'操作无效。'},{status:400});
+    if(!['confirm','reject'].includes(action))return NextResponse.json({error:eo?'La ago estas nevalida.':en?'The action is invalid.':'操作无效。'},{status:400});
     const message=await withTransaction(async client=>{
       const r=await client.query<{user_id:string;manager_id:string|null;project_id:string}>(
         `SELECT b.user_id,p.manager_id,b.project_id FROM bud_records b JOIN projects p ON p.id=b.project_id
@@ -24,13 +24,13 @@ export async function POST(req:NextRequest){
         [status,user.id,body.id]);
       await client.query(`INSERT INTO audit_logs(user_id,action,entity_type,entity_id,new_value) VALUES($1,$2,'bud_record',$3,$4::jsonb)`,
         [user.id,`bud.project_${status}`,body.id,JSON.stringify({projectConfirmationStatus:status})]);
-      return status==='confirmed'?(eo?'La projekta servofakto estas konfirmita kaj atendas administran revizion.':'项目服务事实已确认，等待管理审核。'):(eo?'La projekta servoregistro estas malakceptita.':'该项目服务记录已驳回。');
+      return status==='confirmed'?(eo?'La projekta servofakto estas konfirmita kaj atendas administran revizion.':en?'The project service fact is confirmed and awaits administrative review.':'项目服务事实已确认，等待管理审核。'):(eo?'La projekta servoregistro estas malakceptita.':en?'The project service record has been rejected.':'该项目服务记录已驳回。');
     });
     return NextResponse.json({ok:true,message});
   }catch(e){
-    if(e instanceof Error&&e.message==='SELF_CONFIRM')return NextResponse.json({error:eo?'Projektrespondeculo ne povas konfirmi sian propran BUD-servoregistron.':'项目负责人不能确认自己的 BUD 服务记录。'},{status:403});
-    if(e instanceof Error&&e.message==='FORBIDDEN')return NextResponse.json({error:eo?'Vi ne havas permeson konfirmi ĉi tiun projektan registron.':'您没有确认该项目记录的权限。'},{status:403});
-    if(e instanceof Error&&e.message==='NOT_FOUND')return NextResponse.json({error:eo?'La atendanta konfirma registro ne estis trovita.':'找不到待确认记录。'},{status:404});
-    console.error(e);return NextResponse.json({error:eo?'Provizore ne eblas prilabori la konfirmon.':'暂时无法处理确认。'},{status:500});
+    if(e instanceof Error&&e.message==='SELF_CONFIRM')return NextResponse.json({error:eo?'Projektrespondeculo ne povas konfirmi sian propran BUD-servoregistron.':en?'A project lead cannot confirm their own BUD service record.':'项目负责人不能确认自己的 BUD 服务记录。'},{status:403});
+    if(e instanceof Error&&e.message==='FORBIDDEN')return NextResponse.json({error:eo?'Vi ne havas permeson konfirmi ĉi tiun projektan registron.':en?'You do not have permission to confirm this project record.':'您没有确认该项目记录的权限。'},{status:403});
+    if(e instanceof Error&&e.message==='NOT_FOUND')return NextResponse.json({error:eo?'La atendanta konfirma registro ne estis trovita.':en?'The record awaiting confirmation was not found.':'找不到待确认记录。'},{status:404});
+    console.error(e);return NextResponse.json({error:eo?'Provizore ne eblas prilabori la konfirmon.':en?'The confirmation cannot be processed right now.':'暂时无法处理确认。'},{status:500});
   }
 }
