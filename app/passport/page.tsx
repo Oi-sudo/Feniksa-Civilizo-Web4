@@ -86,6 +86,16 @@ export default async function PassportPage(){
     </section>
 
     <section className="card">
+      <h2>{eo?'Tri apartaj dimensioj de la pasporto':en?'Three separate passport dimensions':'护照的三个独立维度'}</h2>
+      <div className="passport-dimensions">
+        <div><strong>{eo?'Lerna etapo':en?'Learning stage':'学习阶段'}</strong><p>{eo?'Ses-linia lernovojo registras la nunan studan kaj praktikan etapon.':en?'The six-line learning journey records the current study and practice stage.':'六爻成长轨迹记录当前学习与实践阶段。'}</p></div>
+        <div><strong>EST</strong><p>{eo?'Registras lernadon, tradukadon, instruadon kaj sciajn kontribuojn.':en?'Records learning, translation, teaching and knowledge contributions.':'记录学习、翻译、教学与知识贡献。'}</p></div>
+        <div><strong>BUD</strong><p>{eo?'Registras volan agadon, volontulan servon kaj publikan servon.':en?'Records vow-in-action, volunteer service and public service.':'记录愿行、志愿服务与公共服务。'}</p></div>
+      </div>
+      <p className="muted">{eo?'La tri dimensioj povas rilati unu al alia, sed neniu aŭtomate determinas la alian. Ili ne estas religia rango, persona poentaro aŭ regrajto.':en?'The three dimensions may relate to one another, but none automatically determines another. They are not religious rank, a personal score or governance rights.':'三个维度可以彼此关联，但任何一项都不会自动决定另一项。它们不是宗教等级、人格分数或治理权。'}</p>
+    </section>
+
+    <section className="card">
       <h2>{eo?'Ses-linia lernovojo':en?'Six-line learning journey':'六爻成长轨迹 · Ses-linia lernovojo'}</h2>
       <p className="muted">{eo?'Ĝi registras lernadon kaj praktikon, sed ne atestas religian atingon kaj ne kreas membran rangon.':en?'It records learning and practice, but does not certify religious attainment or create member rank.':'记录学习与实践轨迹，不认证宗教修证境界，也不形成成员等级。'}</p>
       <div className="yao-grid">
