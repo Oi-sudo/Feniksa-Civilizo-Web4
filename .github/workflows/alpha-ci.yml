@@ -62,6 +62,9 @@ jobs:
       - name: Raw enum leak integrity
         run: npm run enum:check
 
+      - name: Citation integrity
+        run: npm run citation:check
+
       - name: Smoke check
         run: npm run test:smoke
 
