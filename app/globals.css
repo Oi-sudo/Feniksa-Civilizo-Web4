@@ -161,3 +161,9 @@
 .timeline-year-index a{padding:6px 10px;border:1px solid #3a4046;border-radius:999px;color:#f0d89b}
 .timeline-year-index a:hover{border-color:#d7b46a;background:#211d16}
 .timeline-year{scroll-margin-top:100px}
+
+.timeline-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.timeline-summary>div{display:grid;gap:5px;padding:12px 14px;border:1px solid #353b41;border-radius:14px;background:rgba(255,255,255,.02)}
+.timeline-summary span{font-size:.82rem;color:#bcb5a9}
+.timeline-summary strong{font-size:1.2rem;color:#f0d89b}
+@media(max-width:640px){.timeline-summary{grid-template-columns:1fr}}
