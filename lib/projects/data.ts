@@ -1,0 +1,43 @@
+import { query } from '@/lib/db';
+
+export type ProjectListItem={
+  id:string; title:string; description:string|null; status:string; risk_level:string;
+  approved_budget:string; spent:string; currency:string; start_date:string|null;
+  target_end_date:string|null; updated_at:string; manager_name:string|null;
+};
+
+export type ProjectDetail=ProjectListItem & {
+  actual_end_date:string|null; completed_summary:string|null; terminated_reason:string|null;
+};
+
+export type ProjectMilestone={id:string;title:string;description:string|null;due_date:string|null;status:string;completed_at:string|null};
+export type ProjectOutput={id:string;output_type:string;title:string;url:string|null;status:string;description:string|null;created_at:string};
+export type ProjectRisk={id:string;risk_level:string;description:string;mitigation:string|null;status:string;created_at:string;resolved_at:string|null};
+
+export async function listVisibleProjects(limit=50){
+  const r=await query<ProjectListItem>(`SELECT p.id,p.title,p.description,p.status,p.risk_level::text,
+      p.approved_budget::text,p.spent::text,p.currency,p.start_date::text,p.target_end_date::text,p.updated_at::text,
+      u.display_name AS manager_name
+    FROM projects p
+    LEFT JOIN users u ON u.id=p.manager_id
+    WHERE p.status IN ('approved','active','paused','completed','terminated','archived')
+    ORDER BY CASE p.status WHEN 'active' THEN 1 WHEN 'approved' THEN 2 WHEN 'paused' THEN 3 WHEN 'completed' THEN 4 WHEN 'terminated' THEN 5 ELSE 6 END,
+             p.updated_at DESC
+    LIMIT $1`,[limit]);
+  return r.rows;
+}
+
+export async function getVisibleProject(id:string){
+  const p=await query<ProjectDetail>(`SELECT p.id,p.title,p.description,p.status,p.risk_level::text,
+      p.approved_budget::text,p.spent::text,p.currency,p.start_date::text,p.target_end_date::text,p.actual_end_date::text,
+      p.completed_summary,p.terminated_reason,p.updated_at::text,u.display_name AS manager_name
+    FROM projects p LEFT JOIN users u ON u.id=p.manager_id
+    WHERE p.id=$1 AND p.status IN ('approved','active','paused','completed','terminated','archived') LIMIT 1`,[id]);
+  if(!p.rows[0]) return null;
+  const [milestones,outputs,risks]=await Promise.all([
+    query<ProjectMilestone>(`SELECT id,title,description,due_date::text,status,completed_at::text FROM project_milestones WHERE project_id=$1 ORDER BY due_date ASC NULLS LAST,title`,[id]),
+    query<ProjectOutput>(`SELECT id,output_type,title,url,status::text,description,created_at::text FROM project_outputs WHERE project_id=$1 ORDER BY created_at DESC`,[id]),
+    query<ProjectRisk>(`SELECT id,risk_level::text,description,mitigation,status,created_at::text,resolved_at::text FROM project_risks WHERE project_id=$1 ORDER BY CASE risk_level WHEN 'red' THEN 1 WHEN 'orange' THEN 2 WHEN 'yellow' THEN 3 ELSE 4 END,created_at DESC`,[id])
+  ]);
+  return {project:p.rows[0],milestones:milestones.rows,outputs:outputs.rows,risks:risks.rows};
+}
