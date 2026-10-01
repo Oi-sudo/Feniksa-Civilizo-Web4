@@ -207,6 +207,14 @@ export async function listGovernanceArchiveSnapshots(limit=120){
   return r.rows;
 }
 
+
+export async function getGovernanceArchiveSnapshot(date:string){
+  const r=await query<GovernanceArchiveSnapshot>(`SELECT id,snapshot_date::text,proposal_count,decision_count,governance_event_count,
+      project_count,milestone_count,created_at::text
+    FROM governance_archive_snapshots WHERE snapshot_date=$1::date LIMIT 1`,[date]);
+  return r.rows[0]||null;
+}
+
 export async function createGovernanceArchiveSnapshot(snapshotDate?:string){
   const date=snapshotDate||new Date().toISOString().slice(0,10);
   const summary=await getGovernanceArchiveSummary();
