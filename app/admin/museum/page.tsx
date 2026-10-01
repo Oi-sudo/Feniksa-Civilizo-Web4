@@ -1,10 +1,10 @@
 import Link from 'next/link';
-import { requireAnyRole } from '@/lib/permissions/rbac';
+import { hasAnyRole,requireAnyRole } from '@/lib/permissions/rbac';
 import { getMuseumEvidenceOverview,listAdminCatalogVolumes,listAdminMuseumAssets,listMuseumHalls,listMuseumReviewQueue,type MuseumEvidenceFilter } from '@/lib/museum/data';
 import MuseumReviewActions from '@/components/museum/MuseumReviewActions';
 
 export default async function MuseumReviewPage({searchParams}:{searchParams:Promise<{evidence?:string;volume?:string;hall?:string}>}){
- await requireAnyRole(['admin','curator','museum_reviewer']);
+ const user=await requireAnyRole(['admin','curator','museum_reviewer']);
  const p=await searchParams;
  const allowed=new Set<MuseumEvidenceFilter>(['all','missing','unverified','source_confirmed','reviewed']);
  const evidenceFilter=allowed.has((p.evidence||'all') as MuseumEvidenceFilter)?(p.evidence||'all') as MuseumEvidenceFilter:'all';
@@ -46,9 +46,9 @@ export default async function MuseumReviewPage({searchParams}:{searchParams:Prom
     <p>收藏记录：{a.authentication_level} · 权属：{a.ownership_status} · 估值：{a.valuation_status} · 数字权利：{a.digital_rights_status}</p>
     <div className="hero-actions">
       <Link className="button button-secondary" href={`/admin/museum/${a.permanent_code}/evidence`}>整理资料</Link>
-      <MuseumReviewActions id={a.id}/>
+      <MuseumReviewActions id={a.id} canPublish={hasAnyRole(user,['admin','museum_reviewer'])&&a.submitted_for_review_by!==user.id} publishNote={a.submitted_for_review_by===user.id?'这是您提交的馆藏，请由另一位管理员或馆藏审核员确认公开。':!hasAnyRole(user,['admin','museum_reviewer'])?'您可以整理资料；公开展示由管理员或馆藏审核员确认。':undefined}/>
     </div>
-   </article>)}</div>:<section className="card"><p>目前没有等待审核的馆藏。</p></section>}
+   </article>)}</div>:<section className="card"><p>目前没有等待整理的馆藏。</p></section>}
   </section>
 
   <section className="home-section">
