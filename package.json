@@ -11,7 +11,7 @@
     "db:migrate": "node scripts/migrate.mjs",
     "db:seed": "node scripts/seed.mjs",
     "test:smoke": "node scripts/smoke-check.mjs",
-    "check": "npm run i18n:check && npm run locale:check && npm run test:smoke && npm run typecheck && npm run build",
+    "check": "npm run i18n:check && npm run locale:check && npm run enum:check && npm run test:smoke && npm run typecheck && npm run build",
     "integration:preflight": "node scripts/integration-preflight.mjs",
     "static:integrity": "node scripts/static-integrity-check.mjs",
     "runtime:preflight": "npm run test:smoke && npm run integration:preflight && npm run static:integrity",
@@ -21,7 +21,8 @@
     "runtime:verify:local": "bash scripts/runtime-verify-local.sh",
     "runtime:verify:compose": "bash scripts/runtime-compose-verify.sh",
     "i18n:check": "node scripts/i18n-check.mjs",
-    "locale:check": "node scripts/locale-branch-check.mjs"
+    "locale:check": "node scripts/locale-branch-check.mjs",
+    "enum:check": "node scripts/raw-enum-check.mjs"
   },
   "dependencies": {
     "next": "^15.0.0",
