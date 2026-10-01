@@ -27,6 +27,27 @@ export async function getPublicProposals(status?:string){
   return p.rows;
 }
 
+
+export type PublicDecisionRecord=ProposalDecision&{
+  proposal_id:string;proposal_title:string;proposal_short_code:string|null;proposal_status:string;proposal_updated_at:string;
+};
+
+export const publicDecisionOutcomes=['approved','rejected','revision','no_quorum'] as const;
+export type PublicDecisionOutcome=(typeof publicDecisionOutcomes)[number];
+
+export async function getPublicDecisions(outcome?:string){
+  const selected=publicDecisionOutcomes.includes(outcome as PublicDecisionOutcome)?outcome:null;
+  const d=await query<PublicDecisionRecord>(`SELECT d.id,d.proposal_id,d.decision_rule,d.eligible_count,d.participation_count,d.approve_count,
+      d.reject_count,d.abstain_count,d.revise_count,d.decision_vote_count,d.approvals_required,d.outcome,d.finalized_at::text,
+      p.title AS proposal_title,p.short_code AS proposal_short_code,p.status::text AS proposal_status,p.updated_at::text AS proposal_updated_at
+    FROM proposal_decisions d
+    JOIN proposals p ON p.id=d.proposal_id
+    WHERE p.status::text = ANY($1::text[])
+      AND ($2::text IS NULL OR d.outcome=$2)
+    ORDER BY d.finalized_at DESC, d.id DESC`,[publicStatuses,selected]);
+  return d.rows;
+}
+
 export async function getPublicProposal(id:string){
   const p=await query<PublicProposal>(`SELECT id,short_code,title,problem_statement,proposed_solution,budget_requested::text,currency,
       public_value,risk_description,status::text,created_at::text,updated_at::text,final_outcome,decision_finalized_at::text
