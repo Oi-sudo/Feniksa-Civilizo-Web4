@@ -40,7 +40,7 @@ export default async function EstPassportPage(){
       <div className="stat-card"><strong>{approved.length}</strong><span>{eo?'Aprobitaj registroj':en?'Approved records':'已审核记录'}</span></div>
       <div className="stat-card"><strong>{rows.length}</strong><span>{eo?'Ĉiuj registroj':en?'All records':'全部记录'}</span></div>
     </section>
-    {rows.length? <div className="record-list">{rows.map(r=><article className="card" key={r.id}>
+    {rows.length? <div className="record-list">{rows.map(r=><article className="card" id={`est-record-${r.id}`} key={r.id}>
       <div className="record-top"><strong>{(eo?activityEo:en?activityEn:activityZh)[r.activity_type]||r.activity_type}</strong><span>{(eo?statusEo:en?statusEn:statusZh)[r.review_status]||r.review_status}</span></div>
       <p>{r.description}</p>
       {r.course_title&&<p><small>{eo?'Kurso':en?'Course':'课程'}：{r.course_title}</small></p>}
