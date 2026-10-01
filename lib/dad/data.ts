@@ -144,6 +144,30 @@ export async function getPublicGovernanceTimeline(limit=200){
   return r.rows;
 }
 
+
+export type GovernanceChainIndexItem={
+  proposal_id:string;proposal_title:string;proposal_short_code:string|null;proposal_status:string;proposal_created_at:string;
+  decision_id:string|null;decision_outcome:string|null;decision_finalized_at:string|null;
+  project_id:string|null;project_title:string|null;project_status:string|null;project_created_at:string|null;
+  milestone_id:string|null;milestone_title:string|null;milestone_status:string|null;milestone_created_at:string|null;milestone_completed_at:string|null;
+};
+
+export async function getGovernanceChainIndex(){
+  const r=await query<GovernanceChainIndexItem>(`
+    SELECT
+      p.id AS proposal_id,p.title AS proposal_title,p.short_code AS proposal_short_code,p.status::text AS proposal_status,p.created_at::text AS proposal_created_at,
+      d.id AS decision_id,d.outcome AS decision_outcome,d.finalized_at::text AS decision_finalized_at,
+      prj.id AS project_id,prj.title AS project_title,prj.status::text AS project_status,prj.created_at::text AS project_created_at,
+      m.id AS milestone_id,m.title AS milestone_title,m.status AS milestone_status,m.created_at::text AS milestone_created_at,m.completed_at::text AS milestone_completed_at
+    FROM proposals p
+    LEFT JOIN proposal_decisions d ON d.proposal_id=p.id
+    LEFT JOIN projects prj ON prj.proposal_id=p.id AND prj.status IN ('approved','active','paused','completed','terminated','archived')
+    LEFT JOIN project_milestones m ON m.project_id=prj.id
+    WHERE p.status::text = ANY($1::text[])
+    ORDER BY COALESCE(d.finalized_at,p.created_at) DESC,p.id,prj.created_at,m.created_at`,[publicStatuses]);
+  return r.rows;
+}
+
 export async function getPublicProposal(id:string){
   const p=await query<PublicProposal>(`SELECT id,short_code,title,problem_statement,proposed_solution,budget_requested::text,currency,
       public_value,risk_description,status::text,created_at::text,updated_at::text,final_outcome,decision_finalized_at::text
