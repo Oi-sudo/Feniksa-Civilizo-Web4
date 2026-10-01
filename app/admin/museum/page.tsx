@@ -54,21 +54,21 @@ export default async function MuseumReviewPage({searchParams}:{searchParams:Prom
     <p>{eo?'Kolekta registro':en?'Collection record':'收藏记录'}：{a.authentication_level} · {eo?'Posedrajto':en?'Ownership':'权属'}：{a.ownership_status} · {eo?'Taksado':en?'Valuation':'估值'}：{a.valuation_status} · {eo?'Ciferecaj rajtoj':en?'Digital rights':'数字权利'}：{a.digital_rights_status}</p>
     <div className="hero-actions">
       <Link className="button button-secondary" href={`/admin/museum/${a.permanent_code}/evidence`}>{eo?'Ordigi materialojn':en?'Organize materials':'整理资料'}</Link>
-      <MuseumReviewActions id={a.id} canPublish={hasAnyRole(user,['admin','museum_reviewer'])&&a.submitted_for_review_by!==user.id} publishNote={a.submitted_for_review_by===user.id?(eo?'Ĉi tiu kolektaĵo estis sendita de vi; bonvolu lasi alian administranton aŭ muzean kontrolanton konfirmi la publikigon.':'这是您提交的馆藏，请由另一位管理员或馆藏审核员确认公开。'):!hasAnyRole(user,['admin','museum_reviewer'])?(eo?'Vi povas ordigi materialojn; publikan montradon konfirmas administranto aŭ muzea kontrolanto.':'您可以整理资料；公开展示由管理员或馆藏审核员确认。'):undefined} locale={locale}/>
+      <MuseumReviewActions id={a.id} canPublish={hasAnyRole(user,['admin','museum_reviewer'])&&a.submitted_for_review_by!==user.id} publishNote={a.submitted_for_review_by===user.id?(eo?'Ĉi tiu kolektaĵo estis sendita de vi; bonvolu lasi alian administranton aŭ muzean kontrolanton konfirmi la publikigon.':en?'You submitted this collection item; another administrator or museum reviewer must confirm publication.':'这是您提交的馆藏，请由另一位管理员或馆藏审核员确认公开。'):!hasAnyRole(user,['admin','museum_reviewer'])?(eo?'Vi povas ordigi materialojn; publikan montradon konfirmas administranto aŭ muzea kontrolanto.':en?'You may organize materials; public display is confirmed by an administrator or museum reviewer.':'您可以整理资料；公开展示由管理员或馆藏审核员确认。'):undefined} locale={locale}/>
     </div>
    </article>)}</div>:<section className="card"><p>{eo?'Nuntempe ne estas kolektaĵoj atendantaj ordigon.':en?'There are currently no collections awaiting organization.':'目前没有等待整理的馆藏。'}</p></section>}
   </section>
 
   <section className="home-section">
    <h2>{eo?'Ĉiuj kolektaj dosieroj · materiala enirejo':en?'All collection records · material entry':'全部馆藏档案 · 资料入口'}</h2>
-   <p className="muted">{eo?'Ĉi tie troviĝas la jam publikigitaj komencaj katalogoj, la unua volumo de la dua aro, la tria volumo kaj poste registritaj dosieroj. Oni povas rekte eniri unu dosieron por aldoni bildojn, filmetojn, atestilojn, ekrankopiojn pri disvastiga historio aŭ esplorajn referencojn.':'这里包括已经公开的初编、第二批第一册、第三册及后续新登记档案。可直接进入某件档案补充图片、视频、证书、传播史截图或研究参考。'}</p>
+   <p className="muted">{eo?'Ĉi tie troviĝas la jam publikigitaj komencaj katalogoj, la unua volumo de la dua aro, la tria volumo kaj poste registritaj dosieroj. Oni povas rekte eniri unu dosieron por aldoni bildojn, filmetojn, atestilojn, ekrankopiojn pri disvastiga historio aŭ esplorajn referencojn.':en?'This includes the published initial catalogs, the first volume of the second batch, the third volume and later registered records. Open any record directly to add images, videos, certificates, publication-history screenshots or research references.':'这里包括已经公开的初编、第二批第一册、第三册及后续新登记档案。可直接进入某件档案补充图片、视频、证书、传播史截图或研究参考。'}</p>
    <h3>{eo?'Materiala stato':en?'Material status':'资料状态'}</h3>
    <nav className="filter-bar" aria-label={eo?'Filtri materialojn':en?'Filter materials':'资料筛选'}>
     <Link className={`filter-chip ${evidenceFilter==='all'?'active':''}`} href={q({evidence:'all'})}>{eo?'Ĉiuj':en?'All':'全部'}</Link>
     <Link className={`filter-chip ${evidenceFilter==='missing'?'active':''}`} href={q({evidence:'missing'})}>{eo?'Materialoj aldoneblaj':en?'Materials can be added':'资料可续补'}</Link>
     <Link className={`filter-chip ${evidenceFilter==='unverified'?'active':''}`} href={q({evidence:'unverified'})}>{eo?'Fontmaterialoj ordigataj':en?'Source materials being organized':'来源资料整理中'}</Link>
-    <Link className={`filter-chip ${evidenceFilter==='source_confirmed'?'active':''}`} href={q({evidence:'source_confirmed'})}>{eo?'Fonto ordigita':'来源已整理'}</Link>
-    <Link className={`filter-chip ${evidenceFilter==='reviewed'?'active':''}`} href={q({evidence:'reviewed'})}>{eo?'Materialo ordigita':'资料已整理'}</Link>
+    <Link className={`filter-chip ${evidenceFilter==='source_confirmed'?'active':''}`} href={q({evidence:'source_confirmed'})}>{eo?'Fonto ordigita':en?'Source organized':'来源已整理'}</Link>
+    <Link className={`filter-chip ${evidenceFilter==='reviewed'?'active':''}`} href={q({evidence:'reviewed'})}>{eo?'Materialo ordigita':en?'Material organized':'资料已整理'}</Link>
    </nav>
    <h3>{eo?'Volumo':en?'Volume':'分册'}</h3>
    <nav className="filter-bar" aria-label={eo?'Filtri laŭ volumo':en?'Filter by volume':'分册筛选'}>
@@ -80,7 +80,7 @@ export default async function MuseumReviewPage({searchParams}:{searchParams:Prom
     <Link className={`filter-chip ${!hallFilter?'active':''}`} href={q({hall:''})}>{eo?'Ĉiuj haloj':en?'All halls':'全部馆籍'}</Link>
     {halls.map(h=><Link key={h.code} className={`filter-chip ${hallFilter===h.code?'active':''}`} href={q({hall:h.code})}>{eo?(h.title_eo||h.title_zh):en?(h.title_eo||h.title_zh):h.title_zh}</Link>)}
    </nav>
-   <p className="muted">{eo?`Nunaj kombinitaj filtriloj: materialo ${evidenceFilter==='all'?'ĉiuj':evidenceFilter==='missing'?'aldonebla':evidenceFilter==='unverified'?'ordigata':evidenceFilter==='source_confirmed'?'fonto ordigita':'ordigita'}; volumo ${volumeFilter||'ĉiuj'}; halo ${halls.find(h=>h.code===hallFilter)?.title_eo||halls.find(h=>h.code===hallFilter)?.title_zh||'ĉiuj'}. La listo estas ordigita laŭ materiala progreso por faciligi paŝan kompletigon de la ciferecaj dosieroj.`:`当前组合筛选：资料 ${evidenceFilter==='all'?'全部':evidenceFilter==='missing'?'可续补':evidenceFilter==='unverified'?'整理中':evidenceFilter==='source_confirmed'?'来源已整理':'已整理'}；分册 ${volumeFilter||'全部'}；馆籍 ${halls.find(h=>h.code===hallFilter)?.title_zh||'全部'}。列表按资料整理进度排列，方便逐步完善数字档案。`}</p>
+   <p className="muted">{eo?`Nunaj kombinitaj filtriloj: materialo ${evidenceFilter==='all'?'ĉiuj':evidenceFilter==='missing'?'aldonebla':evidenceFilter==='unverified'?'ordigata':evidenceFilter==='source_confirmed'?'fonto ordigita':'ordigita'}; volumo ${volumeFilter||'ĉiuj'}; halo ${halls.find(h=>h.code===hallFilter)?.title_eo||halls.find(h=>h.code===hallFilter)?.title_zh||'ĉiuj'}. La listo estas ordigita laŭ materiala progreso por faciligi paŝan kompletigon de la ciferecaj dosieroj.`:en?`Current filters: material ${evidenceFilter==='all'?'all':evidenceFilter==='missing'?'addable':evidenceFilter==='unverified'?'being organized':evidenceFilter==='source_confirmed'?'source organized':'organized'}; volume ${volumeFilter||'all'}; hall ${halls.find(h=>h.code===hallFilter)?.title_eo||halls.find(h=>h.code===hallFilter)?.title_zh||'all'}. The list is ordered by material progress to support step-by-step completion of digital records.`:`当前组合筛选：资料 ${evidenceFilter==='all'?'全部':evidenceFilter==='missing'?'可续补':evidenceFilter==='unverified'?'整理中':evidenceFilter==='source_confirmed'?'来源已整理':'已整理'}；分册 ${volumeFilter||'全部'}；馆籍 ${halls.find(h=>h.code===hallFilter)?.title_zh||'全部'}。列表按资料整理进度排列，方便逐步完善数字档案。`}</p>
    <div className="hero-actions">
     <Link className="button button-primary" href={q({}).replace('/admin/museum','/admin/museum/worklist')}>{eo?'Krei laborliston':en?'Create worklist':'生成工作清单'}</Link>
     <a className="button button-secondary" href={q({}).replace('/admin/museum','/api/museum/worklist.csv')}>{eo?'Eksporti CSV':en?'Export CSV':'导出 CSV'}</a>
@@ -90,14 +90,14 @@ export default async function MuseumReviewPage({searchParams}:{searchParams:Prom
    {assets.length?<div className="record-list">{assets.map(a=><article className="card museum-admin-row" key={a.id}>
     <div>
       <span className="eyebrow">{a.catalog_code||a.permanent_code} · {a.catalog_volume||(eo?'Aparta registro':en?'Separate record':'独立登记')}</span>
-      <h3>{eo?(a.title_eo||a.title_zh):a.title_zh}</h3>
-      <p className="muted">{eo?(a.hall_eo||a.hall_zh||'Ĉefa halo ankoraŭ ne fiksita'):(a.hall_zh||'主馆籍待定')} · {(eo?workflowEo:en?workflowEn:workflowZh)[a.workflow_status]||a.workflow_status} · {(eo?publicEo:en?publicEn:publicZh)[a.public_status]||a.public_status}</p>
-      <p className="evidence-counts">{eo?'Materialoj entute':en?'Total materials':'资料总数'} {a.evidence_count} · {eo?'Ordigataj':en?'Being organized':'整理中'} {a.evidence_unverified} · {eo?'Fonto ordigita':'来源已整理'} {a.evidence_source_confirmed} · {eo?'Ordigita':en?'Organized':'已整理'} {a.evidence_reviewed}</p>
-      {Number(a.evidence_count)===0&&<p className="weak-evidence">{eo?'Materialoj aldoneblaj: ankoraŭ neniu aldonaĵo estas ligita.':'资料可续补：目前尚未挂接附件。'}</p>}
-      {Number(a.evidence_count)>0&&Number(a.evidence_source_confirmed)===0&&Number(a.evidence_reviewed)===0&&<p className="weak-evidence">{eo?'Fontmaterialoj estas ordigataj: la ekzistantaj aldonaĵoj ankoraŭ povas ricevi pliajn fontnotojn.':'来源资料整理中：现有附件仍可继续补充来源说明。'}</p>}
+      <h3>{eo?(a.title_eo||a.title_zh):en?(a.title_eo||a.title_zh):a.title_zh}</h3>
+      <p className="muted">{eo?(a.hall_eo||a.hall_zh||'Ĉefa halo ankoraŭ ne fiksita'):en?(a.hall_eo||a.hall_zh||'Primary hall not yet set'):(a.hall_zh||'主馆籍待定')} · {(eo?workflowEo:en?workflowEn:workflowZh)[a.workflow_status]||a.workflow_status} · {(eo?publicEo:en?publicEn:publicZh)[a.public_status]||a.public_status}</p>
+      <p className="evidence-counts">{eo?'Materialoj entute':en?'Total materials':'资料总数'} {a.evidence_count} · {eo?'Ordigataj':en?'Being organized':'整理中'} {a.evidence_unverified} · {eo?'Fonto ordigita':en?'Source organized':'来源已整理'} {a.evidence_source_confirmed} · {eo?'Ordigita':en?'Organized':'已整理'} {a.evidence_reviewed}</p>
+      {Number(a.evidence_count)===0&&<p className="weak-evidence">{eo?'Materialoj aldoneblaj: ankoraŭ neniu aldonaĵo estas ligita.':en?'Materials can be added: no attachment is linked yet.':'资料可续补：目前尚未挂接附件。'}</p>}
+      {Number(a.evidence_count)>0&&Number(a.evidence_source_confirmed)===0&&Number(a.evidence_reviewed)===0&&<p className="weak-evidence">{eo?'Fontmaterialoj estas ordigataj: la ekzistantaj aldonaĵoj ankoraŭ povas ricevi pliajn fontnotojn.':en?'Source materials are being organized: existing attachments can still receive additional source notes.':'来源资料整理中：现有附件仍可继续补充来源说明。'}</p>}
     </div>
     <div className="hero-actions">
-      <Link className="button button-primary" href={`/admin/museum/${a.permanent_code}/evidence`}>{eo?'Ordigi materialojn':'整理资料'}</Link>
+      <Link className="button button-primary" href={`/admin/museum/${a.permanent_code}/evidence`}>{eo?'Ordigi materialojn':en?'Organize materials':'整理资料'}</Link>
       {a.public_status==='published'&&<Link className="button button-secondary" href={`/museum/${a.permanent_code}`}>{eo?'Vidi publikan paĝon':en?'View public page':'查看公开页'}</Link>}
     </div>
    </article>)}</div>:<div className="card"><p>{eo?'Ankoraŭ ne estas kolektaj dosieroj.':en?'There are no collection records yet.':'尚无馆藏档案。'}</p></div>}
