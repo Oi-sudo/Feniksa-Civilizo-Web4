@@ -4,6 +4,11 @@ import { getLocale } from '@/lib/i18n';
 import { getMuseumEvidenceOverview,listAdminCatalogVolumes,listAdminMuseumAssets,listMuseumHalls,listMuseumReviewQueue,type MuseumEvidenceFilter } from '@/lib/museum/data';
 import MuseumReviewActions from '@/components/museum/MuseumReviewActions';
 
+const workflowZh:Record<string,string>={draft:'草稿',review:'待整理',published:'已发布',archived:'已归档'};
+const workflowEo:Record<string,string>={draft:'Malneto',review:'Por ordigo',published:'Publikigita',archived:'Arkivita'};
+const publicZh:Record<string,string>={draft:'未公开',published:'公开',hidden:'隐藏'};
+const publicEo:Record<string,string>={draft:'Ne publika',published:'Publika',hidden:'Kaŝita'};
+
 export default async function MuseumReviewPage({searchParams}:{searchParams:Promise<{evidence?:string;volume?:string;hall?:string}>}){
  const user=await requireAnyRole(['admin','curator','museum_reviewer']); const locale=await getLocale(); const eo=locale==='eo';
  const p=await searchParams;
@@ -73,7 +78,7 @@ export default async function MuseumReviewPage({searchParams}:{searchParams:Prom
     <Link className={`filter-chip ${!hallFilter?'active':''}`} href={q({hall:''})}>{eo?'Ĉiuj haloj':'全部馆籍'}</Link>
     {halls.map(h=><Link key={h.code} className={`filter-chip ${hallFilter===h.code?'active':''}`} href={q({hall:h.code})}>{eo?(h.title_eo||h.title_zh):h.title_zh}</Link>)}
    </nav>
-   <p className="muted">当前组合筛选：资料 {evidenceFilter==='all'?'全部':evidenceFilter==='missing'?'可续补':evidenceFilter==='unverified'?'整理中':evidenceFilter==='source_confirmed'?'来源已整理':'已整理'}；分册 {volumeFilter||'全部'}；馆籍 {halls.find(h=>h.code===hallFilter)?.title_zh||'全部'}。列表按资料整理进度排列，方便逐步完善数字档案。</p>
+   <p className="muted">{eo?`Nunaj kombinitaj filtriloj: materialo ${evidenceFilter==='all'?'ĉiuj':evidenceFilter==='missing'?'aldonebla':evidenceFilter==='unverified'?'ordigata':evidenceFilter==='source_confirmed'?'fonto ordigita':'ordigita'}; volumo ${volumeFilter||'ĉiuj'}; halo ${halls.find(h=>h.code===hallFilter)?.title_eo||halls.find(h=>h.code===hallFilter)?.title_zh||'ĉiuj'}. La listo estas ordigita laŭ materiala progreso por faciligi paŝan kompletigon de la ciferecaj dosieroj.`:`当前组合筛选：资料 ${evidenceFilter==='all'?'全部':evidenceFilter==='missing'?'可续补':evidenceFilter==='unverified'?'整理中':evidenceFilter==='source_confirmed'?'来源已整理':'已整理'}；分册 ${volumeFilter||'全部'}；馆籍 ${halls.find(h=>h.code===hallFilter)?.title_zh||'全部'}。列表按资料整理进度排列，方便逐步完善数字档案。`}</p>
    <div className="hero-actions">
     <Link className="button button-primary" href={q({}).replace('/admin/museum','/admin/museum/worklist')}>{eo?'Krei laborliston':'生成工作清单'}</Link>
     <a className="button button-secondary" href={q({}).replace('/admin/museum','/api/museum/worklist.csv')}>{eo?'Eksporti CSV':'导出 CSV'}</a>
@@ -84,7 +89,7 @@ export default async function MuseumReviewPage({searchParams}:{searchParams:Prom
     <div>
       <span className="eyebrow">{a.catalog_code||a.permanent_code} · {a.catalog_volume||(eo?'Aparta registro':'独立登记')}</span>
       <h3>{eo?(a.title_eo||a.title_zh):a.title_zh}</h3>
-      <p className="muted">{eo?(a.hall_eo||a.hall_zh||'Ĉefa halo ankoraŭ ne fiksita'):(a.hall_zh||'主馆籍待定')} · {a.workflow_status} · {a.public_status}</p>
+      <p className="muted">{eo?(a.hall_eo||a.hall_zh||'Ĉefa halo ankoraŭ ne fiksita'):(a.hall_zh||'主馆籍待定')} · {(eo?workflowEo:workflowZh)[a.workflow_status]||a.workflow_status} · {(eo?publicEo:publicZh)[a.public_status]||a.public_status}</p>
       <p className="evidence-counts">{eo?'Materialoj entute':'资料总数'} {a.evidence_count} · {eo?'Ordigataj':'整理中'} {a.evidence_unverified} · {eo?'Fonto ordigita':'来源已整理'} {a.evidence_source_confirmed} · {eo?'Ordigita':'已整理'} {a.evidence_reviewed}</p>
       {Number(a.evidence_count)===0&&<p className="weak-evidence">{eo?'Materialoj aldoneblaj: ankoraŭ neniu aldonaĵo estas ligita.':'资料可续补：目前尚未挂接附件。'}</p>}
       {Number(a.evidence_count)>0&&Number(a.evidence_source_confirmed)===0&&Number(a.evidence_reviewed)===0&&<p className="weak-evidence">{eo?'Fontmaterialoj estas ordigataj: la ekzistantaj aldonaĵoj ankoraŭ povas ricevi pliajn fontnotojn.':'来源资料整理中：现有附件仍可继续补充来源说明。'}</p>}
