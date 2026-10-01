@@ -154,3 +154,10 @@
 .timeline-year>h3{margin:0 0 8px;color:#d7b46a;font-size:1.25rem;letter-spacing:.04em}
 .timeline-year{padding-top:6px}
 .timeline-year+.timeline-year{border-top:1px solid #30363b;padding-top:20px}
+
+.timeline-year-index{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin:16px 0 8px;padding:12px 14px;border:1px solid #343a40;border-radius:14px;background:rgba(255,255,255,.015)}
+.timeline-year-index>span{color:#bcb5a9;font-size:.85rem}
+.timeline-year-index>div{display:flex;flex-wrap:wrap;gap:8px}
+.timeline-year-index a{padding:6px 10px;border:1px solid #3a4046;border-radius:999px;color:#f0d89b}
+.timeline-year-index a:hover{border-color:#d7b46a;background:#211d16}
+.timeline-year{scroll-margin-top:100px}
