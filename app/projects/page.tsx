@@ -3,12 +3,15 @@ import { getLocale } from '@/lib/i18n';
 import TaohuayuanZoneNav from '@/components/taohuayuan/ZoneNav';
 import { listVisibleProjects } from '@/lib/projects/data';
 
-export default async function ProjectsPage({searchParams}:{searchParams:Promise<{status?:string}>}){
+export default async function ProjectsPage({searchParams}:{searchParams:Promise<{status?:string;risk?:string}>}){
   const [locale,params]=await Promise.all([getLocale(),searchParams]); const eo=locale==='eo'; const en=locale==='en';
   const projects=await listVisibleProjects();
   const allowedStatuses=['all','approved','active','paused','completed','terminated','archived'];
+  const allowedRisks=['all','green','yellow','orange','red'];
   const statusFilter=allowedStatuses.includes(params.status||'')?(params.status||'all'):'all';
-  const visibleProjects=statusFilter==='all'?projects:projects.filter(p=>p.status===statusFilter);
+  const riskFilter=allowedRisks.includes(params.risk||'')?(params.risk||'all'):'all';
+  const visibleProjects=projects.filter(p=>(statusFilter==='all'||p.status===statusFilter)&&(riskFilter==='all'||p.risk_level===riskFilter));
+  const projectHref=(status:string,risk:string)=>{const q=new URLSearchParams();if(status!=='all')q.set('status',status);if(risk!=='all')q.set('risk',risk);const s=q.toString();return s?`/projects?${s}`:'/projects';};
   const statusZh:Record<string,string>={approved:'已批准',active:'进行中',paused:'已暂停',completed:'已完成',terminated:'已终止',archived:'已归档'};
   const statusEo:Record<string,string>={approved:'Aprobita',active:'Aktiva',paused:'Paŭzita',completed:'Kompletigita',terminated:'Ĉesigita',archived:'Arkivita'};
   const statusEn:Record<string,string>={approved:'Approved',active:'Active',paused:'Paused',completed:'Completed',terminated:'Terminated',archived:'Archived'};
@@ -34,12 +37,21 @@ export default async function ProjectsPage({searchParams}:{searchParams:Promise<
           ['completed',(eo?statusEo:en?statusEn:statusZh).completed],
           ['terminated',(eo?statusEo:en?statusEn:statusZh).terminated],
           ['archived',(eo?statusEo:en?statusEn:statusZh).archived]
-        ].map(([key,label])=><Link key={key} href={key==='all'?'/projects':`/projects?status=${key}`} className={statusFilter===key?'active':''}>{label}</Link>)}
+        ].map(([key,label])=><Link key={key} href={projectHref(key,riskFilter)} className={statusFilter===key?'active':''}>{label}</Link>)}
+      </div>
+      <div className="timeline-filters" aria-label={eo?'Filtri projektojn laŭ risko':en?'Filter projects by risk':'按风险筛选项目'}>
+        {[
+          ['all',eo?'Ĉiuj riskoj':en?'All risks':'全部风险'],
+          ['green',(eo?riskEo:en?riskEn:riskZh).green],
+          ['yellow',(eo?riskEo:en?riskEn:riskZh).yellow],
+          ['orange',(eo?riskEo:en?riskEn:riskZh).orange],
+          ['red',(eo?riskEo:en?riskEn:riskZh).red]
+        ].map(([key,label])=><Link key={key} href={projectHref(statusFilter,key)} className={riskFilter===key?'active':''}>{label}</Link>)}
       </div>
       <div className="timeline-summary">
         <div><span>{eo?'Ĉiuj projektoj':en?'All projects':'全部项目'}</span><strong>{projects.length}</strong></div>
         <div><span>{eo?'Nun montrataj':en?'Currently shown':'当前显示'}</span><strong>{visibleProjects.length}</strong></div>
-        <div><span>{eo?'Filtrilo':en?'Filter':'筛选状态'}</span><strong>{statusFilter==='all'?(eo?'Ĉiuj':en?'All':'全部'):((eo?statusEo:en?statusEn:statusZh)[statusFilter]||statusFilter)}</strong></div>
+        <div><span>{eo?'Filtrilo':en?'Filter':'筛选条件'}</span><strong>{statusFilter==='all'?(eo?'Ĉiuj statoj':en?'All statuses':'全部状态'):((eo?statusEo:en?statusEn:statusZh)[statusFilter]||statusFilter)} · {riskFilter==='all'?(eo?'Ĉiuj riskoj':en?'All risks':'全部风险'):((eo?riskEo:en?riskEn:riskZh)[riskFilter]||riskFilter)}</strong></div>
       </div>
       {visibleProjects.length?<div className="card-grid">
         {visibleProjects.map(p=><Link className="card project-card" href={`/projects/${p.id}`} key={p.id}>
