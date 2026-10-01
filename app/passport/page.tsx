@@ -53,6 +53,7 @@ export default async function PassportPage({searchParams}:{searchParams:Promise<
     return acc;
   },{});
   const timelineYears=Object.keys(timelineByYear).sort((a,b)=>Number(b)-Number(a));
+  const timelineScopeLabel=timelineFilter==='all'?(eo?'Ĉiuj registroj':en?'All records':'全部记录'):timelineFilter==='est'?'EST':timelineFilter==='bud'?'BUD':timelineFilter==='project'?(eo?'Projektoj':en?'Projects':'项目'):(eo?'Verkoj':en?'Works':'作品');
   const six=new Map(d.sixYao.map(x=>[x.stage,x]));
   const activeYao=[...d.sixYao]
     .filter(x=>x.learning_status==='in_progress'||x.learning_status==='completed')
@@ -72,6 +73,7 @@ export default async function PassportPage({searchParams}:{searchParams:Promise<
       <div>
         <span>{eo?'Arkiva dato':en?'Archive date':'归档日期'}：{archiveDate}</span>
         <span>{eo?'Lingvo':en?'Language':'语言'}：{locale.toUpperCase()}</span>
+        <span>{eo?'Arkiva amplekso':en?'Archive scope':'归档范围'}：{timelineScopeLabel}</span>
       </div>
     </header>
     <span className="badge">{m.passport_badge}</span>
@@ -213,6 +215,11 @@ export default async function PassportPage({searchParams}:{searchParams:Promise<
       <h2>{eo?'Verkoj':en?'Works':'作品档案 · Verkoj'}</h2>
       {d.works.length?d.works.map(w=><p id={`work-record-${w.id}`} key={w.id}>{w.url?<a href={w.url}>{w.title}</a>:w.title} · {(eo?workTypeEo:en?workTypeEn:workTypeZh)[w.work_type]||w.work_type} · {(eo?workStatusEo:en?workStatusEn:workStatusZh)[w.status]||w.status}</p>):<p>{m.no_works_yet}</p>}
     </section>
+
+    <footer className="passport-print-footer">
+      <strong>{eo?'Arkiva noto':en?'Archive note':'归档说明'}</strong>
+      <p>{eo?'Ĉi tiu presaĵo aŭ PDF estas nurlegebla momentbildo de la nun videblaj pasportaj registroj. Ĝi ne estas atestilo, ne ŝanĝas la fontajn datumojn kaj ne anstataŭas la originajn registrejojn.':en?'This printout or PDF is a read-only snapshot of the passport records visible in the current view. It is not a certificate, does not change source data, and does not replace the original record pages.':'本打印件或 PDF 是当前视图中学习护照记录的只读快照，不是认证证书，不改变底层数据，也不能替代原始记录页面。'}</p>
+    </footer>
 
     <section className="card">
       <h2>{eo?'Principo de la pasporto':en?'Passport principle':'护照原则 · Principo'}</h2>
