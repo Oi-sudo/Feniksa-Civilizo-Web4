@@ -59,3 +59,8 @@
 .museum-admin-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px;align-items:center}
 .museum-admin-row .hero-actions{margin:0}
 @media(max-width:760px){.museum-admin-row{grid-template-columns:1fr}.museum-admin-row .hero-actions{margin-top:8px}}
+
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
+.stat-number{display:block;font-size:1.75rem;margin-top:8px}
+.evidence-counts{font-size:.9rem;margin:.35rem 0}
+.weak-evidence{font-weight:600;border-left:3px solid currentColor;padding-left:10px;margin:.45rem 0}

@@ -1,14 +1,27 @@
 import Link from 'next/link';
 import { requireAnyRole } from '@/lib/permissions/rbac';
-import { listAdminMuseumAssets,listMuseumReviewQueue } from '@/lib/museum/data';
+import { getMuseumEvidenceOverview,listAdminMuseumAssets,listMuseumReviewQueue } from '@/lib/museum/data';
 import MuseumReviewActions from '@/components/museum/MuseumReviewActions';
 
 export default async function MuseumReviewPage(){
  await requireAnyRole(['admin','curator','museum_reviewer']);
- const [rows,assets]=await Promise.all([listMuseumReviewQueue(),listAdminMuseumAssets()]);
+ const [rows,assets,overview]=await Promise.all([listMuseumReviewQueue(),listAdminMuseumAssets(),getMuseumEvidenceOverview()]);
  return <main>
   <span className="badge">Museum · Review</span><h1>馆藏审核与证据管理</h1>
   <p className="lead">审核档案是否达到公开登记条件；证据管理与鉴定结论分开。登记名称不会因为上传附件而自动升级为权威鉴定。</p>
+
+  <section className="home-section">
+   <h2>证据统计总览</h2>
+   <div className="stats-grid">
+    <article className="card"><span className="eyebrow">馆藏档案</span><strong className="stat-number">{overview.asset_count}</strong></article>
+    <article className="card"><span className="eyebrow">证据附件</span><strong className="stat-number">{overview.evidence_count}</strong></article>
+    <article className="card"><span className="eyebrow">未核</span><strong className="stat-number">{overview.unverified_count}</strong></article>
+    <article className="card"><span className="eyebrow">来源已确认</span><strong className="stat-number">{overview.source_confirmed_count}</strong></article>
+    <article className="card"><span className="eyebrow">已审阅</span><strong className="stat-number">{overview.reviewed_count}</strong></article>
+    <article className="card"><span className="eyebrow">尚无证据的馆藏</span><strong className="stat-number">{overview.assets_without_evidence}</strong></article>
+   </div>
+   <p className="muted">证据薄弱提示只表示档案材料不足，不表示藏品真伪、价值或重要性较低。目前仅有未核附件的馆藏：{overview.assets_only_unverified} 件。</p>
+  </section>
 
   <section className="home-section">
    <h2>待审核馆藏</h2>
@@ -30,7 +43,10 @@ export default async function MuseumReviewPage(){
     <div>
       <span className="eyebrow">{a.catalog_code||a.permanent_code} · {a.catalog_volume||'独立登记'}</span>
       <h3>{a.title_zh}</h3>
-      <p className="muted">{a.hall_zh||'主馆籍待定'} · {a.workflow_status} · {a.public_status} · 证据附件 {a.evidence_count} 件</p>
+      <p className="muted">{a.hall_zh||'主馆籍待定'} · {a.workflow_status} · {a.public_status}</p>
+      <p className="evidence-counts">总证据 {a.evidence_count} · 未核 {a.evidence_unverified} · 来源已确认 {a.evidence_source_confirmed} · 已审阅 {a.evidence_reviewed}</p>
+      {Number(a.evidence_count)===0&&<p className="weak-evidence">证据链待补：目前尚无附件。</p>}
+      {Number(a.evidence_count)>0&&Number(a.evidence_source_confirmed)===0&&Number(a.evidence_reviewed)===0&&<p className="weak-evidence">证据链待核：现有附件尚未完成来源确认。</p>}
     </div>
     <div className="hero-actions">
       <Link className="button button-primary" href={`/admin/museum/${a.permanent_code}/evidence`}>管理证据</Link>

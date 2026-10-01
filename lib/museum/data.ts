@@ -152,10 +152,15 @@ export async function getMuseumAssetForEvidence(code:string){
 export type AdminMuseumAsset={
   id:string;permanent_code:string;catalog_code:string|null;catalog_volume:string|null;title_zh:string;
   workflow_status:string;public_status:string;hall_zh:string|null;evidence_count:string;
+  evidence_unverified:string;evidence_source_confirmed:string;evidence_reviewed:string;
 };
 export async function listAdminMuseumAssets(limit=200){
   const r=await query<AdminMuseumAsset>(`SELECT a.id,a.permanent_code,a.catalog_code,a.catalog_volume,a.title_zh,
-      a.workflow_status,a.public_status,h.title_zh AS hall_zh,COUNT(m.id)::text AS evidence_count
+      a.workflow_status,a.public_status,h.title_zh AS hall_zh,
+      COUNT(m.id)::text AS evidence_count,
+      COUNT(m.id) FILTER(WHERE m.verification_status='unverified')::text AS evidence_unverified,
+      COUNT(m.id) FILTER(WHERE m.verification_status='source_confirmed')::text AS evidence_source_confirmed,
+      COUNT(m.id) FILTER(WHERE m.verification_status='reviewed')::text AS evidence_reviewed
     FROM cultural_assets a
     LEFT JOIN museum_halls h ON h.id=a.primary_hall_id
     LEFT JOIN asset_media m ON m.asset_id=a.id
@@ -181,4 +186,33 @@ export async function listEvidenceReviewEvents(assetId:string){
      WHERE e.asset_id=$1
      ORDER BY e.created_at DESC`,[assetId]);
   return r.rows;
+}
+
+
+export type MuseumEvidenceOverview={
+  asset_count:string;evidence_count:string;unverified_count:string;source_confirmed_count:string;reviewed_count:string;
+  assets_without_evidence:string;assets_only_unverified:string;
+};
+export async function getMuseumEvidenceOverview(){
+  const r=await query<MuseumEvidenceOverview>(`
+    WITH per_asset AS (
+      SELECT a.id,
+             COUNT(m.id) AS evidence_count,
+             COUNT(m.id) FILTER(WHERE m.verification_status='unverified') AS unverified_count,
+             COUNT(m.id) FILTER(WHERE m.verification_status='source_confirmed') AS source_confirmed_count,
+             COUNT(m.id) FILTER(WHERE m.verification_status='reviewed') AS reviewed_count
+        FROM cultural_assets a
+        LEFT JOIN asset_media m ON m.asset_id=a.id
+       WHERE a.deleted_at IS NULL
+       GROUP BY a.id
+    )
+    SELECT COUNT(*)::text AS asset_count,
+           COALESCE(SUM(evidence_count),0)::text AS evidence_count,
+           COALESCE(SUM(unverified_count),0)::text AS unverified_count,
+           COALESCE(SUM(source_confirmed_count),0)::text AS source_confirmed_count,
+           COALESCE(SUM(reviewed_count),0)::text AS reviewed_count,
+           COUNT(*) FILTER(WHERE evidence_count=0)::text AS assets_without_evidence,
+           COUNT(*) FILTER(WHERE evidence_count>0 AND source_confirmed_count=0 AND reviewed_count=0)::text AS assets_only_unverified
+      FROM per_asset`);
+  return r.rows[0];
 }
