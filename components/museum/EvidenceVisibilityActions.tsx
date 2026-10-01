@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-export default function EvidenceVisibilityActions({mediaId,visibility}:{mediaId:string;visibility:string}){
+export default function EvidenceVisibilityActions({mediaId,visibility,canPublish,publishNote}:{mediaId:string;visibility:string;canPublish:boolean;publishNote?:string}){
  const [busy,setBusy]=useState(false); const [message,setMessage]=useState(''); const router=useRouter();
  async function change(next:'reviewer'|'public'){
   setBusy(true); setMessage('');
@@ -14,7 +14,8 @@ export default function EvidenceVisibilityActions({mediaId,visibility}:{mediaId:
  return <div className="evidence-actions">
   {visibility==='public'
     ?<button disabled={busy} onClick={()=>change('reviewer')}>转为内部资料</button>
-    :<button disabled={busy} onClick={()=>change('public')}>公开展示</button>}
+    :canPublish?<button disabled={busy} onClick={()=>change('public')}>公开展示</button>:null}
+  {!canPublish&&visibility!=='public'&&publishNote&&<small>{publishNote}</small>}
   {message&&<small>{message}</small>}
  </div>;
 }
