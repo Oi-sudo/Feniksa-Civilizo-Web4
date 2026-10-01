@@ -175,9 +175,11 @@ export default async function PassportPage({searchParams}:{searchParams:Promise<
               const shortRef=`${kindLabel} · ${shortId}`;
               const locatorId=`timeline-${item.kind}-${shortId}`;
               const locatorHref=`${timelineFilter==='all'?'/passport':`/passport?timeline=${timelineFilter}`}#${locatorId}`;
+              const citationDate=new Date(item.occurred_at).toISOString().slice(0,10);
+              const citationText=`Phoenix Passport · ${kindLabel} · ${shortId} · ${citationDate}`;
               return <article className="timeline-item" id={locatorId} key={item.id}>
                 <div className="timeline-date">{new Date(item.occurred_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN')}</div>
-                <div><span className="badge">{kindLabel}</span><h3>{item.title}</h3>{detail&&<p>{detail}</p>}<p className="timeline-source-type">{eo?'Fonttipo:':en?'Source type:':'来源类型：'} {sourceType}</p><p className="timeline-source-ref">{eo?'Referenco:':en?'Reference:':'记录标识：'} <code>{shortRef}</code></p><div className="timeline-source-actions"><Link className="timeline-source-link" href={sourceHref}>{sourceLabel}</Link><Link className="timeline-locator-link" href={locatorHref}>{eo?'Konstanta loko →':en?'Permanent locator →':'永久定位链接 →'}</Link></div></div>
+                <div><span className="badge">{kindLabel}</span><h3>{item.title}</h3>{detail&&<p>{detail}</p>}<p className="timeline-source-type">{eo?'Fonttipo:':en?'Source type:':'来源类型：'} {sourceType}</p><p className="timeline-source-ref">{eo?'Referenco:':en?'Reference:':'记录标识：'} <code>{shortRef}</code></p><p className="timeline-citation"><span>{eo?'Citformo:':en?'Citation format:':'引用格式：'}</span> <code>{citationText}</code></p><div className="timeline-source-actions"><Link className="timeline-source-link" href={sourceHref}>{sourceLabel}</Link><Link className="timeline-locator-link" href={locatorHref}>{eo?'Konstanta loko →':en?'Permanent locator →':'永久定位链接 →'}</Link></div></div>
               </article>;
             })}
           </div>
