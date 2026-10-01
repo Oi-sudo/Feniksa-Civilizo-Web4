@@ -171,10 +171,13 @@ export default async function PassportPage({searchParams}:{searchParams:Promise<
               const sourceHref=item.kind==='est'?`/passport/est#est-record-${rawId}`:item.kind==='bud'?`/passport/bud#bud-record-${rawId}`:item.kind==='project'?`/passport#project-record-${rawId}`:`/passport#work-record-${rawId}`;
               const sourceLabel=eo?'Vidi fontan registron →':en?'View source record →':'查看来源记录 →';
               const sourceType=item.kind==='est'?(eo?'EST-registro':en?'EST record':'EST记录'):item.kind==='bud'?(eo?'BUD-registro':en?'BUD record':'BUD记录'):item.kind==='project'?(eo?'Projekta membroregistro':en?'Project membership record':'项目成员记录'):(eo?'Verka dosiero':en?'Work archive':'作品档案');
-              const shortRef=`${kindLabel} · ${rawId.replace(/-/g,'').slice(0,8)}`;
-              return <article className="timeline-item" key={item.id}>
+              const shortId=rawId.replace(/-/g,'').slice(0,8);
+              const shortRef=`${kindLabel} · ${shortId}`;
+              const locatorId=`timeline-${item.kind}-${shortId}`;
+              const locatorHref=`${timelineFilter==='all'?'/passport':`/passport?timeline=${timelineFilter}`}#${locatorId}`;
+              return <article className="timeline-item" id={locatorId} key={item.id}>
                 <div className="timeline-date">{new Date(item.occurred_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN')}</div>
-                <div><span className="badge">{kindLabel}</span><h3>{item.title}</h3>{detail&&<p>{detail}</p>}<p className="timeline-source-type">{eo?'Fonttipo:':en?'Source type:':'来源类型：'} {sourceType}</p><p className="timeline-source-ref">{eo?'Referenco:':en?'Reference:':'记录标识：'} <code>{shortRef}</code></p><Link className="timeline-source-link" href={sourceHref}>{sourceLabel}</Link></div>
+                <div><span className="badge">{kindLabel}</span><h3>{item.title}</h3>{detail&&<p>{detail}</p>}<p className="timeline-source-type">{eo?'Fonttipo:':en?'Source type:':'来源类型：'} {sourceType}</p><p className="timeline-source-ref">{eo?'Referenco:':en?'Reference:':'记录标识：'} <code>{shortRef}</code></p><div className="timeline-source-actions"><Link className="timeline-source-link" href={sourceHref}>{sourceLabel}</Link><Link className="timeline-locator-link" href={locatorHref}>{eo?'Konstanta loko →':en?'Permanent locator →':'永久定位链接 →'}</Link></div></div>
               </article>;
             })}
           </div>
