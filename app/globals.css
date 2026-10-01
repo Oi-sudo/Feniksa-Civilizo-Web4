@@ -251,3 +251,14 @@
   .zone-nav{display:none!important}
   .project-summary-grid>div,.project-progress-grid>div,.project-subrecord,.project-audit-item{background:#fff!important;color:#111!important;border-color:#bbb!important;box-shadow:none!important;break-inside:avoid}
 }
+
+.project-reference-strip{display:flex;flex-wrap:wrap;gap:12px 22px;margin:14px 0 18px;padding:12px 14px;border:1px solid #343a40;border-radius:14px;background:rgba(255,255,255,.015)}
+.project-reference-strip>div{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.project-reference-strip span{font-size:.82rem;color:#bcb5a9}
+.project-reference-strip code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:#d8cfbf;background:#0d1013;border:1px solid #343a40;border-radius:6px;padding:2px 5px}
+.project-reference-strip a{color:#d7b46a}
+main[id^="project-"]{scroll-margin-top:100px}
+@media print{
+  .project-reference-strip{background:#fff!important;border-color:#bbb!important}
+  .project-reference-strip span,.project-reference-strip code,.project-reference-strip a{color:#111!important}
+}
