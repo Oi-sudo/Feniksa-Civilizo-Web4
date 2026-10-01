@@ -10,14 +10,15 @@ export async function POST(req:NextRequest){
   const b=await req.json(); const visibility=String(b.visibility||'');
   if(!['reviewer','public'].includes(visibility))return NextResponse.json({error:'公开状态无效。'},{status:400});
   await withTransaction(async client=>{
-   const r=await client.query<{asset_id:string;visibility:string;copyright_status:string;submitted_for_review_by:string|null;workflow_status:string;public_status:string}>(`
-     SELECT m.asset_id,m.visibility,m.copyright_status,a.submitted_for_review_by::text,a.workflow_status,a.public_status
+   const r=await client.query<{asset_id:string;visibility:string;copyright_status:string;verification_status:string;submitted_for_review_by:string|null;workflow_status:string;public_status:string}>(`
+     SELECT m.asset_id,m.visibility,m.copyright_status,m.verification_status,a.submitted_for_review_by::text,a.workflow_status,a.public_status
        FROM asset_media m JOIN cultural_assets a ON a.id=m.asset_id
       WHERE m.id=$1 FOR UPDATE OF m`,[b.mediaId]);
    if(!r.rowCount)throw new Error('NOT_FOUND');
    if(visibility==='public'&&!['owned','authorized','public_domain'].includes(r.rows[0].copyright_status))throw new Error('RIGHTS');
    if(visibility==='public'&&r.rows[0].submitted_for_review_by===user.id)throw new Error('SELF_PUBLISH');
    if(visibility==='public'&&(r.rows[0].workflow_status!=='published'||r.rows[0].public_status!=='published'))throw new Error('ASSET_NOT_PUBLIC');
+   if(visibility==='public'&&r.rows[0].verification_status!=='reviewed')throw new Error('MATERIAL_NOT_READY');
    await client.query(`UPDATE asset_media SET visibility=$2,published_at=CASE WHEN $2='public' THEN NOW() ELSE NULL END,
       published_by=CASE WHEN $2='public' THEN $3::uuid ELSE NULL END WHERE id=$1`,[b.mediaId,visibility,user.id]);
    const eventType=visibility==='public'?'evidence_published':'evidence_hidden';
@@ -32,6 +33,7 @@ export async function POST(req:NextRequest){
   if(e instanceof Error&&e.message==='RIGHTS')return NextResponse.json({error:'版权/展示状态尚未明确，暂不能公开。'},{status:409});
   if(e instanceof Error&&e.message==='SELF_PUBLISH')return NextResponse.json({error:'这是您提交的馆藏资料，请由另一位管理员或馆藏审核员确认公开。'},{status:409});
   if(e instanceof Error&&e.message==='ASSET_NOT_PUBLIC')return NextResponse.json({error:'请先将馆藏档案整理并公开，再公开其中的图片、视频或其他资料。'},{status:409});
+  if(e instanceof Error&&e.message==='MATERIAL_NOT_READY')return NextResponse.json({error:'请先完成这份收藏资料的整理，再公开展示。'},{status:409});
   console.error(e);return NextResponse.json({error:'暂时无法更新公开状态。'},{status:500});
  }
 }
