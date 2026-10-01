@@ -92,3 +92,9 @@
 .route-lines>div{padding:14px;border:1px solid #383d42;border-radius:14px;background:rgba(255,255,255,.02)}
 .route-lines p{margin-bottom:0;color:#c8c2b8;line-height:1.65}
 @media(max-width:760px){.route-lines{grid-template-columns:1fr}}
+
+.zone-nav{margin:30px 0 18px;padding:16px 18px;border:1px solid #3c4248;border-radius:18px;background:rgba(17,20,24,.78)}
+.zone-nav>strong{display:block;margin-bottom:10px;color:#d7b46a;font-size:.9rem;letter-spacing:.04em}
+.zone-nav-links{display:flex;flex-wrap:wrap;gap:8px}
+.zone-nav-links a{padding:8px 11px;border:1px solid #363c42;border-radius:999px;background:#111418;font-size:.9rem}
+.zone-nav-links a:hover,.zone-nav-links a.active{border-color:#d7b46a;background:#211d16;color:#f0d89b}
