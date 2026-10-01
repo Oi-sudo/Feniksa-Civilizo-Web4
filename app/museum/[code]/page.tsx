@@ -2,10 +2,10 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getAssetDossier,getPublishedAsset } from '@/lib/museum/data';
 
-const evidenceLabel:Record<string,string>={original:'原始证据',publication_history:'传播史证据',comparison:'外部比对资料',research_reference:'研究参考'};
+const evidenceLabel:Record<string,string>={original:'原始收藏资料',publication_history:'传播史资料',comparison:'外部比对资料',research_reference:'研究参考'};
 const mediaLabel:Record<string,string>={
-  image:'原始图片 · Originala bildo',
-  video:'原始视频 · Originala video',
+  image:'收藏图片 · Kolekta bildo',
+  video:'收藏视频 · Kolekta video',
   document:'文献/文件 · Dokumento',
   certificate:'证书 · Atestilo',
   '3d_model':'3D模型 · 3D-modelo'
@@ -34,34 +34,34 @@ export default async function AssetPage({params}:{params:Promise<{code:string}>}
         <p><strong>批次/册次</strong><span>{a.batch_code||'待登记'}</span></p>
         <p><strong>类别</strong><span>{a.category||'待登记'}</span></p>
         <p><strong>材质</strong><span>{a.material||'待登记'}</span></p>
-        <p><strong>年代/时期</strong><span>{a.period_description||'待研究'}</span></p>
+        <p><strong>年代/时期</strong><span>{a.period_description||'依现有收藏记录'}</span></p>
         <p><strong>尺寸 / 重量</strong><span>{a.dimensions||'待登记'} · {a.weight||'待登记'}</span></p>
       </div>
-      <p><strong>来源记录：</strong>{a.provenance||'待补充'}</p>
+      <p><strong>来源记录：</strong>{a.provenance||'依现有收藏记录'}</p>
       {a.catalog_source_note&&<p className="muted"><strong>书册来源说明：</strong>{a.catalog_source_note}</p>}
       {a.related_display_note&&<p className="muted"><strong>关联展示：</strong>{a.related_display_note}</p>}
       {a.current_location_note&&<p><strong>当前保管信息：</strong>{a.current_location_note}</p>}
     </section>
 
     <section className="card">
-      <h2>状态分层 · Apartaj statusoj</h2>
+      <h2>收藏与档案说明 · Kolekta dosiero</h2>
       <div className="status-grid">
-        <div><span>鉴定状态</span><strong>{a.authentication_level}</strong></div>
+        <div><span>收藏记录级别</span><strong>{a.authentication_level}</strong></div>
         <div><span>权属状态</span><strong>{a.ownership_status}</strong></div>
         <div><span>估值状态</span><strong>{a.valuation_status}</strong></div>
         <div><span>数字展示权</span><strong>{a.digital_rights_status}</strong></div>
       </div>
-      <p className="muted">鉴定、权属、估值和数字展示权分别保存；其中任何一项都不能自动替代其他项目。</p>
+      <p className="muted">收藏记录、权属、估值记录和数字展示权分别保存；这些字段用于数字档案管理，不要求以专业鉴定作为赏玩与学习展示的前提。</p>
     </section>
 
     <section className="home-section">
-      <span className="eyebrow">Evidence Chain · 证据链</span>
-      <h2>原始证据</h2>
+      <span className="eyebrow">Collection Archive · 收藏资料</span>
+      <h2>收藏资料与文化记忆</h2>
       {d.media.length?<div className="record-list">{d.media.map(x=><article className="card" key={x.id}>
-        <div className="record-top"><strong>{mediaLabel[x.media_type]||x.media_type}</strong><span>{evidenceLabel[x.evidence_role]||x.evidence_role} · {x.verification_status}</span></div>
+        <div className="record-top"><strong>{mediaLabel[x.media_type]||x.media_type}</strong><span>{evidenceLabel[x.evidence_role]||x.evidence_role}</span></div>
         <p>{x.caption||'档案材料'}</p>{x.source_note&&<p className="muted">来源备注：{x.source_note}</p>}
-        <a href={x.file_url} target="_blank" rel="noreferrer">打开原始资料 →</a>
-      </article>)}</div>:<div className="card"><p>目前尚未接入公开原始图片、视频、证书或文件。档案可以先登记，但不能因此推定缺失证据已经存在。</p></div>}
+        <a href={x.file_url} target="_blank" rel="noreferrer">打开收藏资料 →</a>
+      </article>)}</div>:<div className="card"><p>目前尚未接入更多公开图片、视频、证书或文件；数字档案可随收藏资料逐步丰富。</p></div>}
     </section>
 
     <section className="home-section">
@@ -82,7 +82,7 @@ export default async function AssetPage({params}:{params:Promise<{code:string}>}
         <p>{x.content}</p>
         {x.source_reference&&<p className="muted">来源：{x.source_reference}</p>}
         {x.author_name&&<small>记录者：{x.author_name}</small>}
-      </article>)}</div>:<div className="card"><p>目前没有已发布的专业研究意见。研究结论与馆藏登记名称分开保存。</p></div>}
+      </article>)}</div>:<div className="card"><p>目前没有另外发布的研究说明；馆藏名称主要用于个人收藏、文化记忆与数字赏玩存录。</p></div>}
     </section>
 
     <section className="home-section">
@@ -95,7 +95,7 @@ export default async function AssetPage({params}:{params:Promise<{code:string}>}
 
     <section className="card">
       <h2>档案原则 · Principo de dosiero</h2>
-      <p>馆藏登记名称不等于权威鉴定结论；原始证据先于策展解释；数字展示不改变实物产权；估值状态与鉴定状态分别保存；不同研究意见可以并存并留下版本记录。</p>
+      <p>本馆以个人收藏、文化记忆与数字赏玩为定位。名称、年代、材质与来源等依据现有收藏记录、照片、视频及既有资料存录，不作为专业鉴定、市场估值或交易证明。数字展示不改变实物产权；不同资料与研究意见可以并存并留下版本记录。存录求真，不强定论。</p>
     </section>
 
     <div className="hero-actions">
