@@ -1,9 +1,9 @@
 import Link from 'next/link';
-import { requireRole,ROLE } from '@/lib/permissions/rbac';
+import { requireSignedIn } from '@/lib/permissions/rbac';
 import ProposalCreateForm from '@/components/dad/ProposalCreateForm';
 
 export default async function NewProposalPage(){
-  await requireRole(ROLE.MEMBER);
+  await requireSignedIn();
   return <main>
     <span className="badge">DAD · PROPOSAL DRAFT</span>
     <h1>建立 DAD 提案草案</h1>
