@@ -49,7 +49,7 @@ export default async function VolunteerTasksPage(){
     )}</p>
 
     <div className="volunteer-task-list">
-      {r.rows.map(task=><article className="volunteer-task-card" key={task.id}>
+      {r.rows.map(task=><article className="volunteer-task-card" id={`task-${task.id}`} key={task.id}>
         <div className="volunteer-task-head">
           <div><h2>{title(task)}</h2><p>{desc(task)}</p></div>
           <span className="volunteer-task-code">{task.code}</span>
