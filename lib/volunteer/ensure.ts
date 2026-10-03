@@ -45,11 +45,15 @@ export function ensureVolunteerTaskSchema(){
     await query(`ALTER TABLE volunteer_task_assignments ADD COLUMN IF NOT EXISTS reviewed_at TIMESTAMPTZ`);
     await query(`ALTER TABLE volunteer_task_assignments ADD COLUMN IF NOT EXISTS review_note TEXT`);
     await query(`
-      DO $ BEGIN
+      DO $volunteer$
+      BEGIN
         ALTER TABLE volunteer_task_assignments
           ADD CONSTRAINT volunteer_task_assignments_review_status_ck
           CHECK (review_status IN ('pending','approved','rejected'));
-      EXCEPTION WHEN duplicate_object THEN NULL; END $
+      EXCEPTION
+        WHEN duplicate_object THEN NULL;
+      END
+      $volunteer$
     `);
     await query(`CREATE INDEX IF NOT EXISTS volunteer_task_assignments_review_idx ON volunteer_task_assignments(review_status,completed_at DESC) WHERE status='completed'`);
 
