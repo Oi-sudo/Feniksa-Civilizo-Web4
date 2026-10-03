@@ -69,6 +69,7 @@ export default async function JoinPage(){
         <p className="hero-subtitle">{t(locale,{zh:'这里不是只供参观的网站，而是一座正在建设中的学习大学、数字博物馆、公共议事空间与未来共同体原型。',eo:'Ĉi tio ne estas nur retejo por viziti, sed konstruata lernuniversitato, cifereca muzeo, publika konsilia spaco kaj prototipo de estonta komunumo.',en:'This is not only a site to visit, but a learning university, digital museum, public deliberation space and future-community prototype under construction.'})}</p>
         <div className="hero-actions">
           <Link className="button button-primary" href="/register">{t(locale,{zh:'成为生员',eo:'Fariĝi lernanto',en:'Become a learner'})}</Link>
+          <Link className="button button-secondary" href="/join/volunteer">{t(locale,{zh:'登记志愿参与',eo:'Registri volontulan partoprenon',en:'Register volunteer participation'})}</Link>
           <Link className="button button-secondary" href="/dad">{t(locale,{zh:'进入 DAD 议事厅',eo:'Eniri la DAD-konsilion',en:'Enter the DAD council'})}</Link>
         </div>
         <p className="hero-caption">https://feniksa-civilizo-web4.vercel.app</p>
@@ -97,6 +98,7 @@ export default async function JoinPage(){
       <blockquote>{t(locale,{zh:'让世界语重新成为桥。让学习成为同行的开始。让服务成为共同体的力量。让文明有人传，也有人承。',eo:'Esperanto denove fariĝu ponto. Lernado fariĝu la komenco de kuniro. Servo fariĝu la forto de la komunumo. Civilizo havu homojn, kiuj transdonas, kaj homojn, kiuj heredas.',en:'Let Esperanto become a bridge again. Let learning begin our journey together. Let service become the strength of community. Let civilization be transmitted and carried forward.'})}</blockquote>
       <div className="hero-actions">
         <Link className="button button-primary" href="/register">{t(locale,{zh:'注册学习身份',eo:'Registri lernan identecon',en:'Register a learning identity'})}</Link>
+        <Link className="button button-secondary" href="/join/volunteer">{t(locale,{zh:'登记志愿参与',eo:'Registri volontulan partoprenon',en:'Register volunteer participation'})}</Link>
         <Link className="button button-secondary" href="/courses">{t(locale,{zh:'先看看课程',eo:'Unue vidi kursojn',en:'Explore courses first'})}</Link>
       </div>
     </section>
