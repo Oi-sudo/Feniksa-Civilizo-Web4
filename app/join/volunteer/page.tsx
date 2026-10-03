@@ -12,6 +12,7 @@ export default async function VolunteerPage(){
     <p className="lead">{eo?'Elektu unu aŭ plurajn kampojn, kie vi volas kunlabori. Ne necesas scii ĉion; fidinda kontribuo en unu kampo jam estas vera kunlaboro.':en?'Choose one or more areas where you would like to contribute. You do not need to know everything; one reliable contribution is already meaningful participation.':'请选择一个或多个您愿意参与的方向。不需要什么都会；把一件事可靠地做好，就已经是真正的共建。'}</p>
     <section className="card"><VolunteerForm locale={locale}/></section>
     <div className="hero-actions">
+      <Link className="button button-primary" href="/join/tasks">{eo?'Malfermi la taskocentron':en?'Open task center':'进入志愿者任务中心'}</Link>
       <Link className="button button-secondary" href="/join">{eo?'Reiri al Aliĝu':en?'Back to Join':'返回“加入我们”'}</Link>
       <Link className="button button-secondary" href="/passport">{eo?'Mia pasporto':en?'My passport':'我的学习护照'}</Link>
     </div>
