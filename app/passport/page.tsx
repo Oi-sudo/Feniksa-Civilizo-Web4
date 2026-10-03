@@ -160,7 +160,7 @@ export default async function PassportPage({searchParams}:{searchParams:Promise<
 
     <section className="card">
       <h2>{eo?'Persona registra tempolinio':en?'Personal record timeline':'个人记录时间线'}</h2>
-      <p className="muted">{eo?'Nur registroj kun reala datotempo estas montrataj ĉi tie: aprobitaj EST/BUD-registroj, aliĝo al projektoj, kreitaj verkoj kaj kompletigitaj volontulaj taskoj.':en?'Only records with a real database timestamp are shown here: approved EST/BUD records, project joins, created works and completed volunteer tasks.':'这里只显示数据库中有真实时间戳的记录：已审核 EST/BUD、加入项目、创建作品与已完成志愿任务。'}</p>
+      <p className="muted">{eo?'Nur registroj kun reala datotempo estas montrataj ĉi tie: aprobitaj EST/BUD-registroj, aliĝo al projektoj, kreitaj verkoj kaj administrante konfirmitaj volontulaj taskoj.':en?'Only records with a real database timestamp are shown here: approved EST/BUD records, project joins, created works and administrator-confirmed volunteer tasks.':'这里只显示数据库中有真实时间戳的记录：已审核 EST/BUD、加入项目、创建作品与管理员确认后的志愿任务。'}</p>
       <div className="timeline-summary">
         <div><span>{eo?'Ĉiuj datitaj registroj':en?'All dated records':'全部有日期记录'}</span><strong>{d.timeline.length}</strong></div>
         <div><span>{eo?'Nun montrataj':en?'Currently shown':'当前显示'}</span><strong>{filteredTimeline.length}</strong></div>
@@ -221,11 +221,13 @@ export default async function PassportPage({searchParams}:{searchParams:Promise<
 
     <section className="card">
       <h2>{eo?'Volontula servo':en?'Volunteer service':'志愿服务记录 · Volontula servo'}</h2>
-      <p className="muted">{eo?'Ĉi tie aperas nur taskoj, kiujn vi mem alprenis kaj kompletigis. La registro montras servan sperton; ĝi ne estas persona rango aŭ aŭtomata financa rajto.':en?'Only volunteer tasks you personally claimed and completed appear here. The record shows service experience; it is not a personal rank or automatic financial entitlement.':'这里只显示您本人认领并完成的志愿任务。它记录服务经历，不是人格等级，也不会自动产生资金权益。'}</p>
+      <p className="muted">{eo?'Ĉi tie aperas taskoj, kiujn vi mem alprenis kaj sendis. Atendanta rezulto estas memraportita; nur aprobita rezulto eniras la formalan tempolinion.':en?'This section shows tasks you personally claimed and submitted. A pending result is self-reported; only an approved result enters the formal timeline.':'这里显示您本人认领并提交的志愿任务。“待审核”属于个人提交记录；只有“已确认”才进入正式时间线。'}</p>
       {d.volunteerTasks.length?<div className="record-list">{d.volunteerTasks.map(v=><article className="card" id={`volunteer-record-${v.id}`} key={v.id}>
         <div className="record-top"><strong>{v.title}</strong><span>{v.code}</span></div>
         <p>{eo?'Kategorio':en?'Category':'服务类别'}：{v.category}</p>
-        <p>{eo?'Kompletigita':en?'Completed':'完成时间'}：{new Date(v.completed_at).toLocaleString(eo?'eo':en?'en-US':'zh-CN')}</p>
+        <p>{eo?'Sendita':en?'Submitted':'提交时间'}：{new Date(v.completed_at).toLocaleString(eo?'eo':en?'en-US':'zh-CN')}</p>
+        <p>{eo?'Kontrola stato':en?'Review status':'审核状态'}：<strong>{v.review_status==='approved'?(eo?'Konfirmita':en?'Confirmed':'已确认'):v.review_status==='rejected'?(eo?'Resendita':en?'Returned':'已退回'):(eo?'Atendas kontrolon':en?'Pending review':'待审核')}</strong></p>
+        {v.review_note&&<p>{eo?'Kontrola noto':en?'Review note':'审核说明'}：{v.review_note}</p>}
         {v.result_note&&<p>{eo?'Rezulta noto':en?'Result note':'成果说明'}：{v.result_note}</p>}
         {v.result_url&&<p><a href={v.result_url} target="_blank" rel="noreferrer">{eo?'Malfermi rezulton →':en?'Open result →':'打开成果链接 →'}</a></p>}
       </article>)}</div>:<p>{eo?'Ankoraŭ ne estas kompletigitaj volontulaj taskoj.':en?'No volunteer tasks have been completed yet.':'目前还没有已完成的志愿任务。'}</p>}
