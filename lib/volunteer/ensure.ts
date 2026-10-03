@@ -40,6 +40,18 @@ export function ensureVolunteerTaskSchema(){
       )
     `);
     await query(`CREATE INDEX IF NOT EXISTS volunteer_task_assignments_user_idx ON volunteer_task_assignments(user_id,status,updated_at DESC)`);
+    await query(`ALTER TABLE volunteer_task_assignments ADD COLUMN IF NOT EXISTS review_status TEXT NOT NULL DEFAULT 'pending'`);
+    await query(`ALTER TABLE volunteer_task_assignments ADD COLUMN IF NOT EXISTS reviewed_by UUID REFERENCES users(id) ON DELETE SET NULL`);
+    await query(`ALTER TABLE volunteer_task_assignments ADD COLUMN IF NOT EXISTS reviewed_at TIMESTAMPTZ`);
+    await query(`ALTER TABLE volunteer_task_assignments ADD COLUMN IF NOT EXISTS review_note TEXT`);
+    await query(`
+      DO $ BEGIN
+        ALTER TABLE volunteer_task_assignments
+          ADD CONSTRAINT volunteer_task_assignments_review_status_ck
+          CHECK (review_status IN ('pending','approved','rejected'));
+      EXCEPTION WHEN duplicate_object THEN NULL; END $
+    `);
+    await query(`CREATE INDEX IF NOT EXISTS volunteer_task_assignments_review_idx ON volunteer_task_assignments(review_status,completed_at DESC) WHERE status='completed'`);
 
     const rows=[
       ['VOL-EO-001','校对一篇汉—世界语双语文章','Revizii unu ĉina–Esperantan artikolon','Proofread one Chinese–Esperanto article','检查世界语语法、自然度与术语一致性，并记录需要修改的地方。','Kontrolu gramatikon, naturecon kaj terminologian konsekvencon de Esperanto kaj registru proponitajn ŝanĝojn.','Check Esperanto grammar, naturalness and terminology consistency and record proposed changes.','proofreading','starter',3],
