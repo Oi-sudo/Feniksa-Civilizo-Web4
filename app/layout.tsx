@@ -22,6 +22,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
             <Link href="/courses">{eo?'Kursoj':en?'Courses':'课程 / Kursoj'}</Link>
             <Link href="/museum">{eo?'Muzeo':en?'Museum':'博物馆 / Muzeo'}</Link>
             <Link href="/dad">DAD</Link>
+            <Link href="/join">{eo?'Aliĝu':en?'Join':'加入 / Aliĝu'}</Link>
             <Link href="/passport">{eo?'Pasporto':en?'Passport':'护照 / Pasporto'}</Link>
             <Link href="/dual-wing">{eo?'Du Flugiloj':en?'Dual Wing':'双翼 / Du Flugiloj'}</Link>
             <Link href="/status">{eo?'Stato':en?'Status':'状态 / Stato'}</Link>
