@@ -2,12 +2,14 @@ import { NextRequest,NextResponse } from 'next/server';
 import { getCurrentUser } from '@/lib/auth/session';
 import { withTransaction } from '@/lib/db';
 import { getLocale } from '@/lib/i18n';
+import { ensureVolunteerTaskSchema } from '@/lib/volunteer/ensure';
 
 export async function POST(req:NextRequest){
   const locale=await getLocale(); const eo=locale==='eo'; const en=locale==='en';
   const user=await getCurrentUser();
   if(!user)return NextResponse.json({error:eo?'Bonvolu unue ensaluti.':en?'Please log in first.':'请先登录。'},{status:401});
   try{
+    await ensureVolunteerTaskSchema();
     const b=await req.json();
     const taskId=String(b.taskId||'');
     const action=String(b.action||'');
