@@ -1,5 +1,6 @@
 import { query } from '@/lib/db';
 import { ensureVolunteerTaskSchema } from '@/lib/volunteer/ensure';
+import { ensureVolunteerBudLinkSchema } from '@/lib/bud/ensure';
 
 export type PassportOverview = {
   visibility: 'private' | 'members' | 'public';
@@ -20,6 +21,7 @@ function number(value: unknown): number {
 
 export async function getPassportOverview(userId: string): Promise<PassportOverview> {
   await ensureVolunteerTaskSchema();
+  await ensureVolunteerBudLinkSchema();
   const [passport, courses, est, bud, projects, works, volunteerTasks, sixYao, timeline] = await Promise.all([
     query<{ public_visibility: PassportOverview['visibility'] }>(
       `SELECT public_visibility FROM learning_passports WHERE user_id = $1`, [userId]
@@ -59,7 +61,7 @@ export async function getPassportOverview(userId: string): Promise<PassportOverv
     ),
     query<{ approved: string; value: string; hours: string }>(
       `SELECT COUNT(*)::text AS approved, COALESCE(SUM(bud_value),0)::text AS value,
-              COALESCE(SUM(hours),0)::text AS hours
+              COALESCE(SUM(COALESCE(verified_hours,hours,0)),0)::text AS hours
          FROM bud_records WHERE user_id = $1 AND review_status = 'approved'`, [userId]
     ),
     query<{ id: string; title: string; role: string; status: string; joined_at: string }>(
@@ -98,13 +100,17 @@ export async function getPassportOverview(userId: string): Promise<PassportOverv
             FROM est_records
            WHERE user_id=$1 AND review_status='approved'
           UNION ALL
-          SELECT 'bud-' || id::text AS id,
+          SELECT 'bud-' || b.id::text AS id,
                  'bud'::text AS kind,
-                 COALESCE(description,'BUD') AS title,
-                 ('BUD +' || COALESCE(bud_value,0)::text) AS detail,
-                 created_at::text AS occurred_at
-            FROM bud_records
-           WHERE user_id=$1 AND review_status='approved'
+                 COALESCE(b.description,'BUD') AS title,
+                 CASE WHEN vt.code IS NOT NULL
+                      THEN ('BUD +' || COALESCE(b.bud_value,0)::text || ' · ' || vt.code)
+                      ELSE ('BUD +' || COALESCE(b.bud_value,0)::text)
+                 END AS detail,
+                 COALESCE(b.reviewed_at,b.created_at)::text AS occurred_at
+            FROM bud_records b
+            LEFT JOIN volunteer_tasks vt ON vt.id=b.source_volunteer_task_id
+           WHERE b.user_id=$1 AND b.review_status='approved'
           UNION ALL
           SELECT 'project-' || p.id::text AS id,
                  'project'::text AS kind,
