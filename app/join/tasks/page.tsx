@@ -9,7 +9,7 @@ type TaskRow={
   id:string; code:string; title_zh:string; title_eo:string|null; title_en:string|null;
   description_zh:string; description_eo:string|null; description_en:string|null;
   category:string; difficulty:string; max_claims:number; claimed_count:number;
-  assignment_status:string|null;
+  assignment_status:string|null; review_status:string|null;
 };
 
 export default async function VolunteerTasksPage(){
@@ -20,12 +20,12 @@ export default async function VolunteerTasksPage(){
     `SELECT t.id,t.code,t.title_zh,t.title_eo,t.title_en,t.description_zh,t.description_eo,t.description_en,
             t.category,t.difficulty,t.max_claims,
             COUNT(a2.user_id) FILTER (WHERE a2.status='claimed')::int AS claimed_count,
-            a.status AS assignment_status
+            a.status AS assignment_status, a.review_status
        FROM volunteer_tasks t
        LEFT JOIN volunteer_task_assignments a ON a.task_id=t.id AND a.user_id=$1
        LEFT JOIN volunteer_task_assignments a2 ON a2.task_id=t.id
       WHERE t.status='open'
-      GROUP BY t.id,a.status
+      GROUP BY t.id,a.status,a.review_status
       ORDER BY t.created_at ASC`,
     [user.id]
   );
@@ -53,6 +53,9 @@ export default async function VolunteerTasksPage(){
           <span>{label('难度','Nivelo','Level')}: {task.difficulty}</span>
           <span>{label('认领','Alprenoj','Claims')}: {task.claimed_count}/{task.max_claims}</span>
         </div>
+        {task.assignment_status==='completed'&&<p className="volunteer-task-state">{task.review_status==='approved'
+          ?label('✓ 已确认完成','✓ Konfirmita','✓ Confirmed')
+          :label('已提交，等待管理员审核','Sendita, atendas administran kontrolon','Submitted, awaiting administrator review')}</p>}
         <VolunteerTaskActions locale={locale} taskId={task.id} assignmentStatus={task.assignment_status}/>
       </article>)}
     </div>
