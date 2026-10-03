@@ -1,4 +1,5 @@
 import { query } from '@/lib/db';
+import { ensureVolunteerTaskSchema } from '@/lib/volunteer/ensure';
 
 export type PassportOverview = {
   visibility: 'private' | 'members' | 'public';
@@ -7,8 +8,9 @@ export type PassportOverview = {
   bud: { approved: number; value: number; hours: number };
   projects: Array<{ id: string; title: string; role: string; status: string; joined_at: string }>;
   works: Array<{ id: string; title: string; work_type: string; url: string | null; visibility: string; status: string }>;
+  volunteerTasks: Array<{ id: string; code: string; title: string; category: string; result_url: string | null; result_note: string | null; completed_at: string }>;
   sixYao: Array<{ stage: number; learning_status: string; practice_status: string | null }>;
-  timeline: Array<{ id: string; kind: 'est' | 'bud' | 'project' | 'work'; title: string; detail: string | null; occurred_at: string }>;
+  timeline: Array<{ id: string; kind: 'est' | 'bud' | 'project' | 'work' | 'volunteer'; title: string; detail: string | null; occurred_at: string }>;
 };
 
 function number(value: unknown): number {
@@ -17,7 +19,8 @@ function number(value: unknown): number {
 }
 
 export async function getPassportOverview(userId: string): Promise<PassportOverview> {
-  const [passport, courses, est, bud, projects, works, sixYao, timeline] = await Promise.all([
+  await ensureVolunteerTaskSchema();
+  const [passport, courses, est, bud, projects, works, volunteerTasks, sixYao, timeline] = await Promise.all([
     query<{ public_visibility: PassportOverview['visibility'] }>(
       `SELECT public_visibility FROM learning_passports WHERE user_id = $1`, [userId]
     ),
@@ -71,11 +74,20 @@ export async function getPassportOverview(userId: string): Promise<PassportOverv
         WHERE user_id = $1 AND deleted_at IS NULL
         ORDER BY created_at DESC LIMIT 8`, [userId]
     ),
+    query<{ id: string; code: string; title: string; category: string; result_url: string | null; result_note: string | null; completed_at: string }>(
+      `SELECT t.id, t.code, t.title_zh AS title, t.category,
+              a.result_url, a.result_note, a.completed_at::text AS completed_at
+         FROM volunteer_task_assignments a
+         JOIN volunteer_tasks t ON t.id=a.task_id
+        WHERE a.user_id=$1 AND a.status='completed' AND a.completed_at IS NOT NULL
+        ORDER BY a.completed_at DESC
+        LIMIT 12`, [userId]
+    ),
     query<{ stage: number; learning_status: string; practice_status: string | null }>(
       `SELECT yao_stage AS stage, learning_status::text, practice_status
          FROM six_yao_progress WHERE user_id = $1 ORDER BY yao_stage`, [userId]
     ),
-    query<{ id: string; kind: 'est' | 'bud' | 'project' | 'work'; title: string; detail: string | null; occurred_at: string }>(
+    query<{ id: string; kind: 'est' | 'bud' | 'project' | 'work' | 'volunteer'; title: string; detail: string | null; occurred_at: string }>(
       `SELECT * FROM (
           SELECT 'est-' || id::text AS id,
                  'est'::text AS kind,
@@ -109,6 +121,15 @@ export async function getPassportOverview(userId: string): Promise<PassportOverv
                  created_at::text AS occurred_at
             FROM passport_works
            WHERE user_id=$1 AND deleted_at IS NULL
+          UNION ALL
+          SELECT 'volunteer-' || t.id::text AS id,
+                 'volunteer'::text AS kind,
+                 t.title_zh AS title,
+                 t.code || ' · ' || t.category AS detail,
+                 a.completed_at::text AS occurred_at
+            FROM volunteer_task_assignments a
+            JOIN volunteer_tasks t ON t.id=a.task_id
+           WHERE a.user_id=$1 AND a.status='completed' AND a.completed_at IS NOT NULL
         ) t
         ORDER BY occurred_at DESC
         LIMIT 12`, [userId]
@@ -126,6 +147,7 @@ export async function getPassportOverview(userId: string): Promise<PassportOverv
     bud: { approved: number(b.approved), value: number(b.value), hours: number(b.hours) },
     projects: projects.rows,
     works: works.rows,
+    volunteerTasks: volunteerTasks.rows,
     sixYao: sixYao.rows,
     timeline: timeline.rows
   };
