@@ -44,7 +44,8 @@ export async function POST(req:NextRequest){
         const url=String(b.resultUrl||'').trim().slice(0,1000);
         const a=await client.query(
           `UPDATE volunteer_task_assignments
-              SET status='completed',result_note=$3,result_url=$4,completed_at=NOW(),updated_at=NOW()
+              SET status='completed',result_note=$3,result_url=$4,completed_at=NOW(),
+                  review_status='pending',reviewed_by=NULL,reviewed_at=NULL,review_note=NULL,updated_at=NOW()
             WHERE task_id=$1 AND user_id=$2 AND status='claimed'
             RETURNING task_id`,
           [taskId,user.id,note||null,url||null]
