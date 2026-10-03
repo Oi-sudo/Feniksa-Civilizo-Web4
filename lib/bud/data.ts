@@ -1,4 +1,5 @@
 import { query } from '@/lib/db';
+import { ensureVolunteerBudLinkSchema } from '@/lib/bud/ensure';
 
 export async function listUserProjects(userId:string){
   const r=await query<{id:string;title:string;status:string}>(
@@ -28,6 +29,7 @@ export async function listManagerBudConfirmations(userId:string){
 }
 
 export async function listAdminPendingBud(){
+  await ensureVolunteerBudLinkSchema();
   const r=await query<{
     id:string;user_id:string;user_name:string;project_id:string|null;project_title:string|null;
     service_type:string;description:string;hours:string|null;verified_hours:string|null;
