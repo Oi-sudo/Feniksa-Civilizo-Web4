@@ -70,6 +70,7 @@ export default async function JoinPage(){
         <div className="hero-actions">
           <Link className="button button-primary" href="/register">{t(locale,{zh:'成为生员',eo:'Fariĝi lernanto',en:'Become a learner'})}</Link>
           <Link className="button button-secondary" href="/join/volunteer">{t(locale,{zh:'登记志愿参与',eo:'Registri volontulan partoprenon',en:'Register volunteer participation'})}</Link>
+          <Link className="button button-secondary" href="/join/tasks">{t(locale,{zh:'查看志愿任务',eo:'Vidi volontulajn taskojn',en:'View volunteer tasks'})}</Link>
           <Link className="button button-secondary" href="/dad">{t(locale,{zh:'进入 DAD 议事厅',eo:'Eniri la DAD-konsilion',en:'Enter the DAD council'})}</Link>
         </div>
         <p className="hero-caption">https://feniksa-civilizo-web4.vercel.app</p>
