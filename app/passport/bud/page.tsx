@@ -53,6 +53,7 @@ export default async function BudPassportPage({searchParams}:{searchParams:Promi
       <div className="record-top"><strong>{(eo?serviceEo:en?serviceEn:serviceZh)[r.service_type]||r.service_type}</strong><span>{(eo?statusEo:en?statusEn:statusZh)[r.review_status]||r.review_status}</span></div>
       <p>{r.description}</p>
       {r.project_title&&<p><small>{eo?'Projekto':en?'Project':'项目'}：{r.project_title}</small></p>}
+      {r.source_volunteer_code&&<p><small>{eo?'Fonta volontula tasko':en?'Source volunteer task':'来源志愿任务'}：<Link href={`/join/tasks#task-${r.source_volunteer_task_id}`}>{r.source_volunteer_code}{r.source_volunteer_title?` · ${r.source_volunteer_title}`:''}</Link></small></p>}
       <p><strong>BUD {r.bud_value}</strong>{(r.verified_hours||r.hours)&&<> · {r.verified_hours||r.hours} {eo?'horoj':en?'hours':'小时'}</>}</p>
       <p><small>{r.rule_version} · {eo?'Projekta konfirmo':en?'Project confirmation':'项目确认'}：{(eo?confirmationEo:en?confirmationEn:confirmationZh)[r.project_confirmation_status]||r.project_confirmation_status}</small></p>
       <small>{new Date(r.created_at).toLocaleDateString(eo?'eo':en?'en-US':'zh-CN')}</small>
