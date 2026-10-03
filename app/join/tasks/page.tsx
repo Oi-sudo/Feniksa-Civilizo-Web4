@@ -4,28 +4,34 @@ import { getLocale } from '@/lib/i18n';
 import { query } from '@/lib/db';
 import VolunteerTaskActions from '@/components/volunteer/VolunteerTaskActions';
 import { ensureVolunteerTaskSchema } from '@/lib/volunteer/ensure';
+import { ensureVolunteerBudLinkSchema } from '@/lib/bud/ensure';
+import VolunteerBudRequest from '@/components/volunteer/VolunteerBudRequest';
 
 type TaskRow={
   id:string; code:string; title_zh:string; title_eo:string|null; title_en:string|null;
   description_zh:string; description_eo:string|null; description_en:string|null;
   category:string; difficulty:string; max_claims:number; claimed_count:number;
   assignment_status:string|null; review_status:string|null;
+  bud_id:string|null; bud_review_status:string|null; bud_value:string|null;
 };
 
 export default async function VolunteerTasksPage(){
   const user=await requireSignedIn();
   await ensureVolunteerTaskSchema();
+  await ensureVolunteerBudLinkSchema();
   const locale=await getLocale(); const eo=locale==='eo'; const en=locale==='en';
   const r=await query<TaskRow>(
     `SELECT t.id,t.code,t.title_zh,t.title_eo,t.title_en,t.description_zh,t.description_eo,t.description_en,
             t.category,t.difficulty,t.max_claims,
             COUNT(a2.user_id) FILTER (WHERE a2.status='claimed')::int AS claimed_count,
-            a.status AS assignment_status, a.review_status
+            a.status AS assignment_status, a.review_status,
+            b.id AS bud_id, b.review_status::text AS bud_review_status, b.bud_value::text AS bud_value
        FROM volunteer_tasks t
        LEFT JOIN volunteer_task_assignments a ON a.task_id=t.id AND a.user_id=$1
        LEFT JOIN volunteer_task_assignments a2 ON a2.task_id=t.id
+       LEFT JOIN bud_records b ON b.user_id=$1 AND b.source_volunteer_task_id=t.id AND b.revoked_at IS NULL
       WHERE t.status='open'
-      GROUP BY t.id,a.status,a.review_status
+      GROUP BY t.id,a.status,a.review_status,b.id,b.review_status,b.bud_value
       ORDER BY t.created_at ASC`,
     [user.id]
   );
@@ -56,6 +62,8 @@ export default async function VolunteerTasksPage(){
         {task.assignment_status==='completed'&&<p className="volunteer-task-state">{task.review_status==='approved'
           ?label('✓ 已确认完成','✓ Konfirmita','✓ Confirmed')
           :label('已提交，等待管理员审核','Sendita, atendas administran kontrolon','Submitted, awaiting administrator review')}</p>}
+        {task.assignment_status==='completed'&&task.review_status==='approved'&&!task.bud_id&&<VolunteerBudRequest taskId={task.id} eo={eo} en={en}/>} 
+        {task.bud_id&&<p className="volunteer-task-state">{task.bud_review_status==='approved' ? label('BUD 服务记录已审核通过','BUD-servoregistro aprobita','BUD service record approved') : task.bud_review_status==='rejected' ? label('BUD 服务记录未通过','BUD-servoregistro malakceptita','BUD service record rejected') : label('BUD 服务记录待审核','BUD-servoregistro atendas kontrolon','BUD service record pending review')}{task.bud_review_status==='approved'&&task.bud_value ? ` · BUD +${task.bud_value}` : ''}</p>}
         {task.assignment_status!=='completed'&&<VolunteerTaskActions locale={locale} taskId={task.id} assignmentStatus={task.assignment_status}/>} 
       </article>)}
     </div>
