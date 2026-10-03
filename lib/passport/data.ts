@@ -8,7 +8,7 @@ export type PassportOverview = {
   bud: { approved: number; value: number; hours: number };
   projects: Array<{ id: string; title: string; role: string; status: string; joined_at: string }>;
   works: Array<{ id: string; title: string; work_type: string; url: string | null; visibility: string; status: string }>;
-  volunteerTasks: Array<{ id: string; code: string; title: string; category: string; result_url: string | null; result_note: string | null; completed_at: string }>;
+  volunteerTasks: Array<{ id: string; code: string; title: string; category: string; result_url: string | null; result_note: string | null; completed_at: string; review_status: string; review_note: string | null }>;
   sixYao: Array<{ stage: number; learning_status: string; practice_status: string | null }>;
   timeline: Array<{ id: string; kind: 'est' | 'bud' | 'project' | 'work' | 'volunteer'; title: string; detail: string | null; occurred_at: string }>;
 };
@@ -74,9 +74,10 @@ export async function getPassportOverview(userId: string): Promise<PassportOverv
         WHERE user_id = $1 AND deleted_at IS NULL
         ORDER BY created_at DESC LIMIT 8`, [userId]
     ),
-    query<{ id: string; code: string; title: string; category: string; result_url: string | null; result_note: string | null; completed_at: string }>(
+    query<{ id: string; code: string; title: string; category: string; result_url: string | null; result_note: string | null; completed_at: string; review_status: string; review_note: string | null }>(
       `SELECT t.id, t.code, t.title_zh AS title, t.category,
-              a.result_url, a.result_note, a.completed_at::text AS completed_at
+              a.result_url, a.result_note, a.completed_at::text AS completed_at,
+              a.review_status, a.review_note
          FROM volunteer_task_assignments a
          JOIN volunteer_tasks t ON t.id=a.task_id
         WHERE a.user_id=$1 AND a.status='completed' AND a.completed_at IS NOT NULL
@@ -129,7 +130,7 @@ export async function getPassportOverview(userId: string): Promise<PassportOverv
                  a.completed_at::text AS occurred_at
             FROM volunteer_task_assignments a
             JOIN volunteer_tasks t ON t.id=a.task_id
-           WHERE a.user_id=$1 AND a.status='completed' AND a.completed_at IS NOT NULL
+           WHERE a.user_id=$1 AND a.status='completed' AND a.completed_at IS NOT NULL AND a.review_status='approved'
         ) t
         ORDER BY occurred_at DESC
         LIMIT 12`, [userId]
