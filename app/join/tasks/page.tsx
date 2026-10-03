@@ -56,7 +56,7 @@ export default async function VolunteerTasksPage(){
         {task.assignment_status==='completed'&&<p className="volunteer-task-state">{task.review_status==='approved'
           ?label('✓ 已确认完成','✓ Konfirmita','✓ Confirmed')
           :label('已提交，等待管理员审核','Sendita, atendas administran kontrolon','Submitted, awaiting administrator review')}</p>}
-        <VolunteerTaskActions locale={locale} taskId={task.id} assignmentStatus={task.assignment_status}/>
+        {task.assignment_status!=='completed'&&<VolunteerTaskActions locale={locale} taskId={task.id} assignmentStatus={task.assignment_status}/>} 
       </article>)}
     </div>
 
