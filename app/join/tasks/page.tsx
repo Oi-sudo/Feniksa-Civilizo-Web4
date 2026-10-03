@@ -3,6 +3,7 @@ import { requireSignedIn } from '@/lib/permissions/rbac';
 import { getLocale } from '@/lib/i18n';
 import { query } from '@/lib/db';
 import VolunteerTaskActions from '@/components/volunteer/VolunteerTaskActions';
+import { ensureVolunteerTaskSchema } from '@/lib/volunteer/ensure';
 
 type TaskRow={
   id:string; code:string; title_zh:string; title_eo:string|null; title_en:string|null;
@@ -13,6 +14,7 @@ type TaskRow={
 
 export default async function VolunteerTasksPage(){
   const user=await requireSignedIn();
+  await ensureVolunteerTaskSchema();
   const locale=await getLocale(); const eo=locale==='eo'; const en=locale==='en';
   const r=await query<TaskRow>(
     `SELECT t.id,t.code,t.title_zh,t.title_eo,t.title_en,t.description_zh,t.description_eo,t.description_en,
