@@ -38,11 +38,15 @@ export default function VolunteerForm({locale}:Props){
     setMessage(pick(locale,'参与登记已保存。以后可以再次回来修改。','La partoprena registro estas konservita. Vi povas reveni kaj ĝisdatigi ĝin.','Your participation profile has been saved. You can return and update it later.'));
   }
   return <form className="auth-form" onSubmit={submit}>
-    <fieldset><legend>{pick(locale,'我愿意参与','Mi volas partopreni','I would like to help with')}</legend>
-      {interestOptions.map(([value,zh,eo,en])=><label key={value}><input type="checkbox" name="interests" value={value}/> {pick(locale,zh,eo,en)}</label>)}
+    <fieldset className="volunteer-fieldset"><legend>{pick(locale,'我愿意参与','Mi volas partopreni','I would like to help with')}</legend>
+      <div className="volunteer-choice-grid">
+        {interestOptions.map(([value,zh,eo,en])=><label className="volunteer-option" key={value}><input type="checkbox" name="interests" value={value}/><span>{pick(locale,zh,eo,en)}</span></label>)}
+      </div>
     </fieldset>
-    <fieldset><legend>{pick(locale,'我可以使用的语言','Lingvoj, kiujn mi povas uzi','Languages I can use')}</legend>
-      {languageOptions.map(([value,zh,eo,en])=><label key={value}><input type="checkbox" name="languages" value={value}/> {pick(locale,zh,eo,en)}</label>)}
+    <fieldset className="volunteer-fieldset"><legend>{pick(locale,'我可以使用的语言','Lingvoj, kiujn mi povas uzi','Languages I can use')}</legend>
+      <div className="volunteer-choice-grid volunteer-language-grid">
+        {languageOptions.map(([value,zh,eo,en])=><label className="volunteer-option" key={value}><input type="checkbox" name="languages" value={value}/><span>{pick(locale,zh,eo,en)}</span></label>)}
+      </div>
     </fieldset>
     <label>{pick(locale,'可参与时间（例如：每周约2小时）','Disponebla tempo (ekz. ĉirkaŭ 2 horoj semajne)','Availability (for example, about 2 hours per week)')}
       <input name="availability" maxLength={120}/>
@@ -50,7 +54,7 @@ export default function VolunteerForm({locale}:Props){
     <label>{pick(locale,'想补充说明的经验、兴趣或愿望','Aldona sperto, intereso aŭ deziro','Anything else about your experience, interests or wishes')}
       <textarea name="note" rows={5} maxLength={2000}/>
     </label>
-    <label><input type="checkbox" name="consentPublicContact"/> {pick(locale,'我同意未来在我再次确认后，公开我的志愿者联系卡片。','Mi konsentas, ke estonte mia volontula kontaktkarto povos esti publikigita nur post mia plia konfirmo.','I agree that a volunteer contact card may be made public in the future only after I confirm again.')}</label>
+    <label className="volunteer-option volunteer-consent"><input type="checkbox" name="consentPublicContact"/><span>{pick(locale,'我同意未来在我再次确认后，公开我的志愿者联系卡片。','Mi konsentas, ke estonte mia volontula kontaktkarto povos esti publikigita nur post mia plia konfirmo.','I agree that a volunteer contact card may be made public in the future only after I confirm again.')}</span></label>
     <button className="button button-primary" disabled={busy}>{busy?pick(locale,'正在保存…','Konservante…','Saving…'):pick(locale,'保存参与登记','Konservi partoprenon','Save participation profile')}</button>
     {message&&<p className="form-message">{message}</p>}
     <p className="muted">{pick(locale,'登记志愿方向不自动授予治理权、资金权限或任何投资权益。','Volontula registrado ne aŭtomate donas regrajton, financan rajton aŭ investan profiton.','Volunteer registration does not automatically grant governance authority, financial permissions or investment rights.')}</p>
