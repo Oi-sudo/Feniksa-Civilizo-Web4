@@ -31,14 +31,15 @@ export async function listAdminPendingBud(){
   const r=await query<{
     id:string;user_id:string;user_name:string;project_id:string|null;project_title:string|null;
     service_type:string;description:string;hours:string|null;verified_hours:string|null;
-    project_confirmation_status:string;created_at:string;
+    project_confirmation_status:string;created_at:string;source_volunteer_task_id:string|null;source_volunteer_code:string|null;
   }>(
     `SELECT b.id,b.user_id,u.display_name AS user_name,b.project_id,p.title AS project_title,
             b.service_type,b.description,b.hours::text,b.verified_hours::text,
-            b.project_confirmation_status,b.created_at::text
+            b.project_confirmation_status,b.created_at::text,b.source_volunteer_task_id,vt.code AS source_volunteer_code
        FROM bud_records b
        JOIN users u ON u.id=b.user_id
        LEFT JOIN projects p ON p.id=b.project_id
+       LEFT JOIN volunteer_tasks vt ON vt.id=b.source_volunteer_task_id
       WHERE b.review_status='pending' AND b.revoked_at IS NULL
       ORDER BY b.created_at ASC`);
   return r.rows;
