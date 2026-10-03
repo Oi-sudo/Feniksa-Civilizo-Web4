@@ -1,7 +1,7 @@
 import { query } from '@/lib/db';
 
 export type AdminDashboardCounts = {
-  activeUsers: number; pendingEst: number; pendingBud: number; pendingMuseum: number;
+  activeUsers: number; pendingEst: number; pendingBud: number; pendingMuseum: number; pendingVolunteer: number;
   pendingBudgetChanges: number; redRisks: number; orangeRisks: number; activeProjects: number;
   openProposals: number; unreadNotifications: number;
 };
@@ -27,11 +27,12 @@ async function scalar(sql: string, params: unknown[] = []) {
 }
 
 export async function getAdminDashboardCounts(): Promise<AdminDashboardCounts> {
-  const [activeUsers,pendingEst,pendingBud,pendingMuseum,pendingBudgetChanges,redRisks,orangeRisks,activeProjects,openProposals,unreadNotifications] = await Promise.all([
+  const [activeUsers,pendingEst,pendingBud,pendingMuseum,pendingVolunteer,pendingBudgetChanges,redRisks,orangeRisks,activeProjects,openProposals,unreadNotifications] = await Promise.all([
     scalar(`SELECT COUNT(*)::text count FROM users WHERE account_status='active' AND deleted_at IS NULL`),
     scalar(`SELECT COUNT(*)::text count FROM est_records WHERE review_status='pending' AND revoked_at IS NULL`),
     scalar(`SELECT COUNT(*)::text count FROM bud_records WHERE review_status='pending' AND revoked_at IS NULL`),
     scalar(`SELECT COUNT(*)::text count FROM cultural_assets WHERE workflow_status IN ('draft','review','changes_requested','approved') AND deleted_at IS NULL`),
+    scalar(`SELECT COUNT(*)::text count FROM volunteer_task_assignments WHERE status='completed' AND review_status='pending'`),
     scalar(`SELECT COUNT(*)::text count FROM project_budget_events WHERE event_type='budget_change' AND status='pending'`),
     scalar(`SELECT COUNT(*)::text count FROM project_risks WHERE risk_level='red' AND status IN ('open','mitigating')`),
     scalar(`SELECT COUNT(*)::text count FROM project_risks WHERE risk_level='orange' AND status IN ('open','mitigating')`),
@@ -39,7 +40,7 @@ export async function getAdminDashboardCounts(): Promise<AdminDashboardCounts> {
     scalar(`SELECT COUNT(*)::text count FROM proposals WHERE status IN ('discussion','revision','voting','approved','executing')`),
     scalar(`SELECT COUNT(*)::text count FROM notifications WHERE read_at IS NULL`)
   ]);
-  return { activeUsers,pendingEst,pendingBud,pendingMuseum,pendingBudgetChanges,redRisks,orangeRisks,activeProjects,openProposals,unreadNotifications };
+  return { activeUsers,pendingEst,pendingBud,pendingMuseum,pendingVolunteer,pendingBudgetChanges,redRisks,orangeRisks,activeProjects,openProposals,unreadNotifications };
 }
 
 export async function getDashboardRisks(limit = 8) {
