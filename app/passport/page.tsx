@@ -45,7 +45,7 @@ export default async function PassportPage({searchParams}:{searchParams:Promise<
   const user=await getCurrentUser();
   if(!user) redirect('/login');
   const [locale,m,p]=await Promise.all([getLocale(),getMessages(),searchParams]); const eo=locale==='eo'; const en=locale==='en';
-  const timelineFilter=['all','est','bud','project','work'].includes(p.timeline||'')?(p.timeline||'all'):'all';
+  const timelineFilter=['all','est','bud','project','work','volunteer'].includes(p.timeline||'')?(p.timeline||'all'):'all';
   const d=await getPassportOverview(user.id);
   const filteredTimeline=timelineFilter==='all'?d.timeline:d.timeline.filter(x=>x.kind===timelineFilter);
   const timelineByYear=filteredTimeline.reduce<Record<string,typeof filteredTimeline>>((acc,item)=>{
@@ -54,7 +54,7 @@ export default async function PassportPage({searchParams}:{searchParams:Promise<
     return acc;
   },{});
   const timelineYears=Object.keys(timelineByYear).sort((a,b)=>Number(b)-Number(a));
-  const timelineScopeLabel=timelineFilter==='all'?(eo?'Ĉiuj registroj':en?'All records':'全部记录'):timelineFilter==='est'?'EST':timelineFilter==='bud'?'BUD':timelineFilter==='project'?(eo?'Projektoj':en?'Projects':'项目'):(eo?'Verkoj':en?'Works':'作品');
+  const timelineScopeLabel=timelineFilter==='all'?(eo?'Ĉiuj registroj':en?'All records':'全部记录'):timelineFilter==='est'?'EST':timelineFilter==='bud'?'BUD':timelineFilter==='project'?(eo?'Projektoj':en?'Projects':'项目'):timelineFilter==='work'?(eo?'Verkoj':en?'Works':'作品'):(eo?'Volontula servo':en?'Volunteer service':'志愿服务');
   const six=new Map(d.sixYao.map(x=>[x.stage,x]));
   const activeYao=[...d.sixYao]
     .filter(x=>x.learning_status==='in_progress'||x.learning_status==='completed')
@@ -107,6 +107,7 @@ export default async function PassportPage({searchParams}:{searchParams:Promise<
         <Link href="/passport/bud"><span>BUD</span><strong>{d.bud.value}</strong><small>{d.bud.hours}h</small></Link>
         <Link href="/projects"><span>{eo?'Projektoj':en?'Projects':'项目'}</span><strong>{d.projects.length}</strong></Link>
         <div><span>{eo?'Verkoj':en?'Works':'作品'}</span><strong>{d.works.length}</strong></div>
+        <Link href="/join/tasks"><span>{eo?'Volontula servo':en?'Volunteer service':'志愿服务'}</span><strong>{d.volunteerTasks.length}</strong></Link>
       </div>
     </section>
 
@@ -125,8 +126,9 @@ export default async function PassportPage({searchParams}:{searchParams:Promise<
         <Link href="/dad"><span>03</span><strong>{eo?'Diskuti':en?'Discuss':'议事'}</strong><small>DAD</small></Link>
         <Link href="/projects"><span>04</span><strong>{eo?'Partopreni projektojn':en?'Join projects':'参与项目'}</strong><small>{d.projects.length}</small></Link>
         <Link href="/passport/bud"><span>05</span><strong>{eo?'Servi':en?'Serve':'服务'}</strong><small>BUD {d.bud.value} · {d.bud.hours}h</small></Link>
-        <Link href="/museum"><span>06</span><strong>{eo?'Konservi kulturon':en?'Preserve culture':'文化存录'}</strong><small>{eo?'Muzeo':en?'Museum':'博物馆'}</small></Link>
-        <Link href="/passport"><span>07</span><strong>{eo?'Reveni al mia pasporto':en?'Return to my passport':'回到个人护照'}</strong><small>{eo?'Unu persona kronologio':en?'One personal chronology':'个人总轨迹'}</small></Link>
+        <Link href="/join/tasks"><span>06</span><strong>{eo?'Volontuli':en?'Volunteer':'志愿服务'}</strong><small>{d.volunteerTasks.length}</small></Link>
+        <Link href="/museum"><span>07</span><strong>{eo?'Konservi kulturon':en?'Preserve culture':'文化存录'}</strong><small>{eo?'Muzeo':en?'Museum':'博物馆'}</small></Link>
+        <Link href="/passport"><span>08</span><strong>{eo?'Reveni al mia pasporto':en?'Return to my passport':'回到个人护照'}</strong><small>{eo?'Unu persona kronologio':en?'One personal chronology':'个人总轨迹'}</small></Link>
       </div>
       <div className="dual-record-grid">
         <div><strong>EST</strong><p>{eo?'Lernado, tradukado, instruado kaj sciaj kontribuoj.':en?'Learning, translation, teaching and knowledge contributions.':'学习、翻译、教学与知识贡献。'}</p></div>
@@ -158,7 +160,7 @@ export default async function PassportPage({searchParams}:{searchParams:Promise<
 
     <section className="card">
       <h2>{eo?'Persona registra tempolinio':en?'Personal record timeline':'个人记录时间线'}</h2>
-      <p className="muted">{eo?'Nur registroj kun reala datotempo estas montrataj ĉi tie: aprobitaj EST/BUD-registroj, aliĝo al projektoj kaj kreitaj verkoj.':en?'Only records with a real database timestamp are shown here: approved EST/BUD records, project joins and created works.':'这里只显示数据库中有真实时间戳的记录：已审核 EST/BUD、加入项目与创建作品。'}</p>
+      <p className="muted">{eo?'Nur registroj kun reala datotempo estas montrataj ĉi tie: aprobitaj EST/BUD-registroj, aliĝo al projektoj, kreitaj verkoj kaj kompletigitaj volontulaj taskoj.':en?'Only records with a real database timestamp are shown here: approved EST/BUD records, project joins, created works and completed volunteer tasks.':'这里只显示数据库中有真实时间戳的记录：已审核 EST/BUD、加入项目、创建作品与已完成志愿任务。'}</p>
       <div className="timeline-summary">
         <div><span>{eo?'Ĉiuj datitaj registroj':en?'All dated records':'全部有日期记录'}</span><strong>{d.timeline.length}</strong></div>
         <div><span>{eo?'Nun montrataj':en?'Currently shown':'当前显示'}</span><strong>{filteredTimeline.length}</strong></div>
@@ -170,7 +172,8 @@ export default async function PassportPage({searchParams}:{searchParams:Promise<
           ['est','EST'],
           ['bud','BUD'],
           ['project',eo?'Projektoj':en?'Projects':'项目'],
-          ['work',eo?'Verkoj':en?'Works':'作品']
+          ['work',eo?'Verkoj':en?'Works':'作品'],
+          ['volunteer',eo?'Volontulado':en?'Volunteer':'志愿服务']
         ].map(([key,label])=><Link key={key} href={key==='all'?'/passport':`/passport?timeline=${key}`} className={timelineFilter===key?'active':''}>{label}</Link>)}
       </div>
       {filteredTimeline.length?<div>
@@ -183,12 +186,12 @@ export default async function PassportPage({searchParams}:{searchParams:Promise<
           <h3>{year}</h3>
           <div className="passport-timeline">
             {timelineByYear[year].map(item=>{
-              const kindLabel=item.kind==='est'?'EST':item.kind==='bud'?'BUD':item.kind==='project'?(eo?'Projekto':en?'Project':'项目'):(eo?'Verko':en?'Work':'作品');
+              const kindLabel=item.kind==='est'?'EST':item.kind==='bud'?'BUD':item.kind==='project'?(eo?'Projekto':en?'Project':'项目'):item.kind==='work'?(eo?'Verko':en?'Work':'作品'):(eo?'Volontulado':en?'Volunteer':'志愿服务');
               const detail=item.kind==='project' ? ((eo?roleEo:en?roleEn:roleZh)[item.detail||'']||item.detail) : item.kind==='work' ? ((eo?workTypeEo:en?workTypeEn:workTypeZh)[item.detail||'']||item.detail) : item.detail;
-              const rawId=item.id.replace(/^(est|bud|project|work)-/,'');
-              const sourceHref=item.kind==='est'?`/passport/est#est-record-${rawId}`:item.kind==='bud'?`/passport/bud#bud-record-${rawId}`:item.kind==='project'?`/passport#project-record-${rawId}`:`/passport#work-record-${rawId}`;
+              const rawId=item.id.replace(/^(est|bud|project|work|volunteer)-/,'');
+              const sourceHref=item.kind==='est'?`/passport/est#est-record-${rawId}`:item.kind==='bud'?`/passport/bud#bud-record-${rawId}`:item.kind==='project'?`/passport#project-record-${rawId}`:item.kind==='work'?`/passport#work-record-${rawId}`:`/passport#volunteer-record-${rawId}`;
               const sourceLabel=eo?'Vidi fontan registron →':en?'View source record →':'查看来源记录 →';
-              const sourceType=item.kind==='est'?(eo?'EST-registro':en?'EST record':'EST记录'):item.kind==='bud'?(eo?'BUD-registro':en?'BUD record':'BUD记录'):item.kind==='project'?(eo?'Projekta membroregistro':en?'Project membership record':'项目成员记录'):(eo?'Verka dosiero':en?'Work archive':'作品档案');
+              const sourceType=item.kind==='est'?(eo?'EST-registro':en?'EST record':'EST记录'):item.kind==='bud'?(eo?'BUD-registro':en?'BUD record':'BUD记录'):item.kind==='project'?(eo?'Projekta membroregistro':en?'Project membership record':'项目成员记录'):item.kind==='work'?(eo?'Verka dosiero':en?'Work archive':'作品档案'):(eo?'Volontula taskoregistro':en?'Volunteer task record':'志愿任务记录');
               const shortId=rawId.replace(/-/g,'').slice(0,8);
               const shortRef=`${kindLabel} · ${shortId}`;
               const locatorId=`timeline-${item.kind}-${shortId}`;
@@ -214,6 +217,19 @@ export default async function PassportPage({searchParams}:{searchParams:Promise<
         <div className="passport-project-actions no-print"><Link href={`/passport/projects/${p.id}`}>{eo?'Mia projekta pasporto':en?'My project passport':'我的项目护照'}</Link><Link href={`/projects/${p.id}`}>{eo?'Publika projekta dosiero':en?'Public project dossier':'公共项目档案'}</Link></div>
       </article>})}</div>:<p>{m.no_projects_yet}</p>}
       <Link className="no-print" href="/projects">{eo?'Vidi projektan enirejon →':en?'View project entry →':'查看项目入口 →'}</Link>
+    </section>
+
+    <section className="card">
+      <h2>{eo?'Volontula servo':en?'Volunteer service':'志愿服务记录 · Volontula servo'}</h2>
+      <p className="muted">{eo?'Ĉi tie aperas nur taskoj, kiujn vi mem alprenis kaj kompletigis. La registro montras servan sperton; ĝi ne estas persona rango aŭ aŭtomata financa rajto.':en?'Only volunteer tasks you personally claimed and completed appear here. The record shows service experience; it is not a personal rank or automatic financial entitlement.':'这里只显示您本人认领并完成的志愿任务。它记录服务经历，不是人格等级，也不会自动产生资金权益。'}</p>
+      {d.volunteerTasks.length?<div className="record-list">{d.volunteerTasks.map(v=><article className="card" id={`volunteer-record-${v.id}`} key={v.id}>
+        <div className="record-top"><strong>{v.title}</strong><span>{v.code}</span></div>
+        <p>{eo?'Kategorio':en?'Category':'服务类别'}：{v.category}</p>
+        <p>{eo?'Kompletigita':en?'Completed':'完成时间'}：{new Date(v.completed_at).toLocaleString(eo?'eo':en?'en-US':'zh-CN')}</p>
+        {v.result_note&&<p>{eo?'Rezulta noto':en?'Result note':'成果说明'}：{v.result_note}</p>}
+        {v.result_url&&<p><a href={v.result_url} target="_blank" rel="noreferrer">{eo?'Malfermi rezulton →':en?'Open result →':'打开成果链接 →'}</a></p>}
+      </article>)}</div>:<p>{eo?'Ankoraŭ ne estas kompletigitaj volontulaj taskoj.':en?'No volunteer tasks have been completed yet.':'目前还没有已完成的志愿任务。'}</p>}
+      <Link className="no-print" href="/join/tasks">{eo?'Malfermi la taskocentron →':en?'Open task center →':'进入志愿者任务中心 →'}</Link>
     </section>
 
     <section className="card">
