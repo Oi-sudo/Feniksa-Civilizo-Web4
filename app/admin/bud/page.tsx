@@ -19,6 +19,7 @@ export default async function AdminBudPage(){
     {rows.length?<div className="record-list">{rows.map(r=><article className="card" key={r.id}>
       <h2>{r.user_name}</h2><p>{r.description}</p><p>{(eo?serviceEo:en?serviceEn:serviceZh)[r.service_type]||r.service_type} · {eo?'Deklaritaj horoj':en?'Declared hours':'申报小时'} {r.hours??'—'} · {eo?'Projekto':en?'Project':'项目'} {r.project_title??(eo?'neniu':en?'none':'无')}</p>
       <p>{eo?'Projekta konfirmo':en?'Project confirmation':'项目确认'}：<strong>{(eo?confirmationEo:en?confirmationEn:confirmationZh)[r.project_confirmation_status]||r.project_confirmation_status}</strong></p>
+      {r.source_volunteer_code&&<p>{eo?'Fonta volontula tasko':en?'Source volunteer task':'来源志愿任务'}：<strong>{r.source_volunteer_code}</strong></p>}
       {(r.project_confirmation_status==='confirmed'||r.project_confirmation_status==='not_required')?
         <BudActionButton id={r.id} action="approve" label={eo?'Aprobi kaj kalkuli BUD':en?'Approve and calculate BUD':'审核通过并计算 BUD'} verifiedHours={r.hours?Number(r.hours):null} eo={eo} en={en}/>:
         <p className="muted">{eo?'La projekta servo ankoraŭ ne estas konfirmita kaj ne povas esti aprobita.':en?'The project service has not yet been confirmed and cannot be approved.':'项目服务尚未确认，不能批准。'}</p>}
