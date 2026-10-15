@@ -4,7 +4,8 @@ const navItems = [
   ["vow", "愿力不老", "La Voto Ne Maljuniĝas", "pages/vow.html"],
   ["libro", "凤凰文明书", "Libro de Feniksa Civilizacio", "pages/libro.html"],
   ["manifesto", "宣言", "Manifesto", "pages/manifesto.html"],
-  ["contact", "联系方式", "Kontakto", "pages/contact.html"]
+  ["contact", "联系方式", "Kontakto", "pages/contact.html"],
+  ["museum", "数字博物馆", "Cifereca Muzeo", "museum/index.html"]
 ];
 
 const cards = [
@@ -12,11 +13,13 @@ const cards = [
   ["vow", "愿力不老", "La Voto Ne Maljuniĝas", "生命故事的起点：愿天下老人，临终不孤独。", "La vivrakonta komenco: ke maljunuloj ne estu solecaj ĉe la fino de vivo."],
   ["libro", "凤凰文明书", "Libro de Feniksa Civilizacio", "文明与觉醒、语言、思想、行动、重生的双语经卷。", "Dulingva libro pri civilizacio, vekiĝo, lingvo, penso, ago kaj renaskiĝo."],
   ["manifesto", "宣言", "Manifesto", "面向国际世界语者的共愿、共治、共建、共成宣言。", "Manifesto por internaciaj Esperantistoj: komuna voto, kunregado, kunkonstruado kaj kunplenumo."],
-  ["contact", "联系方式", "Kontakto", "统一邮箱与后续共同维护入口。", "Unueca retpoŝto kaj enirejo por posta komuna prizorgado."]
+  ["contact", "联系方式", "Kontakto", "统一邮箱与后续共同维护入口。", "Unueca retpoŝto kaj enirejo por posta komuna prizorgado."],
+  ["museum", "数字博物馆", "Cifereca Muzeo", "九馆文明地图、双语互动导览及十二集影像目录。", "Mapo de naŭ haloj, dulingva interaga gvidado kaj katalogo de dek du filmoj."]
 ];
 
 function relativeHref(href) {
   const inPages = location.pathname.includes("/pages/");
+  if (inPages && href.startsWith("museum/")) return "../" + href;
   if (inPages && href === "index.html") return "../index.html";
   if (inPages && href.startsWith("pages/")) return href.replace("pages/", "");
   return href;
