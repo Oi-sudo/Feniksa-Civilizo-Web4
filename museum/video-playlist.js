@@ -77,6 +77,7 @@
     });
   });
   pauseAll.addEventListener('click', () => {
+    active = null;
     videos.forEach(video => video.pause());
     status.textContent = '全部视频已暂停。 / Ĉiuj filmoj estas paŭzigitaj.';
   });
