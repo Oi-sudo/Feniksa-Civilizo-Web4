@@ -1,0 +1,465 @@
+{
+  "published_commit": "f218046cc7b197a32778108a032c2034a5010c1d",
+  "date": "2026-10-16",
+  "live_originals": [
+    {
+      "path": "museum/halls/01.html",
+      "status": 200,
+      "bytes": 2038800,
+      "identical": true
+    },
+    {
+      "path": "museum/halls/02/index.html",
+      "status": 200,
+      "bytes": 1981763,
+      "identical": true
+    },
+    {
+      "path": "museum/halls/03/index.html",
+      "status": 200,
+      "bytes": 4512646,
+      "identical": true
+    },
+    {
+      "path": "museum/halls/04/index.html",
+      "status": 200,
+      "bytes": 1991074,
+      "identical": true
+    },
+    {
+      "path": "museum/halls/05/index.html",
+      "status": 200,
+      "bytes": 29954299,
+      "identical": true
+    },
+    {
+      "path": "museum/halls/06/index.html",
+      "status": 200,
+      "bytes": 1987390,
+      "identical": true
+    },
+    {
+      "path": "museum/halls/07/index.html",
+      "status": 200,
+      "bytes": 2003317,
+      "identical": true
+    },
+    {
+      "path": "museum/halls/08/index.html",
+      "status": 200,
+      "bytes": 4440870,
+      "identical": true
+    },
+    {
+      "path": "museum/halls/09/index.html",
+      "status": 200,
+      "bytes": 4437076,
+      "identical": true
+    },
+    {
+      "path": "museum/videos/01.mp4",
+      "status": 200,
+      "bytes": 22838244,
+      "identical": true
+    },
+    {
+      "path": "museum/videos/02.mp4",
+      "status": 200,
+      "bytes": 23376226,
+      "identical": true
+    },
+    {
+      "path": "museum/videos/03.mp4",
+      "status": 200,
+      "bytes": 8602268,
+      "identical": true
+    },
+    {
+      "path": "museum/videos/04.mp4",
+      "status": 200,
+      "bytes": 9415643,
+      "identical": true
+    },
+    {
+      "path": "museum/videos/05.mp4",
+      "status": 200,
+      "bytes": 9857879,
+      "identical": true
+    },
+    {
+      "path": "museum/videos/06.mp4",
+      "status": 200,
+      "bytes": 22249133,
+      "identical": true
+    },
+    {
+      "path": "museum/videos/07.mp4",
+      "status": 200,
+      "bytes": 9542391,
+      "identical": true
+    },
+    {
+      "path": "museum/videos/08.mp4",
+      "status": 200,
+      "bytes": 10146980,
+      "identical": true
+    },
+    {
+      "path": "museum/videos/09.mp4",
+      "status": 200,
+      "bytes": 7380640,
+      "identical": true
+    },
+    {
+      "path": "museum/videos/10.mp4",
+      "status": 200,
+      "bytes": 10899120,
+      "identical": true
+    },
+    {
+      "path": "museum/videos/11.mp4",
+      "status": 200,
+      "bytes": 7948571,
+      "identical": true
+    },
+    {
+      "path": "museum/videos/12.mp4",
+      "status": 200,
+      "bytes": 25354938,
+      "identical": true
+    }
+  ],
+  "live_companions": [
+    {
+      "path": "museum/halls/西方科技文明大学_汉语世界语双语读本_R1.docx",
+      "identical": true
+    },
+    {
+      "path": "museum/halls/导览与声音状态.txt",
+      "identical": true
+    },
+    {
+      "path": "museum/halls/09/世界语文明大学_汉语世界语双语读本_R1.docx",
+      "identical": true
+    },
+    {
+      "path": "museum/halls/09/汉世双语导览文字.txt",
+      "identical": true
+    },
+    {
+      "path": "museum/halls/09/世界语女声_轻音乐.m4a",
+      "identical": true
+    },
+    {
+      "path": "museum/halls/09/汉语男声_轻音乐.m4a",
+      "identical": true
+    },
+    {
+      "path": "museum/halls/09/先读我_播放与分享说明.txt",
+      "identical": true
+    },
+    {
+      "path": "museum/halls/04/导览与声音状态.txt",
+      "identical": true
+    },
+    {
+      "path": "museum/halls/04/礼物与藏品馆_汉语世界语双语读本_R1.docx",
+      "identical": true
+    },
+    {
+      "path": "museum/halls/02/凤凰网络Web4文明大学_汉语世界语双语读本_R1.docx",
+      "identical": true
+    },
+    {
+      "path": "museum/halls/02/导览与声音状态.txt",
+      "identical": true
+    },
+    {
+      "path": "museum/halls/08/凤凰文明馆_汉语世界语双语读本_R1.docx",
+      "identical": true
+    },
+    {
+      "path": "museum/halls/08/播放说明.txt",
+      "identical": true
+    },
+    {
+      "path": "museum/halls/05/中央佛堂_汉语世界语双语读本_R1.docx",
+      "identical": true
+    },
+    {
+      "path": "museum/halls/05/播放说明.txt",
+      "identical": true
+    },
+    {
+      "path": "museum/halls/07/导览与声音状态.txt",
+      "identical": true
+    },
+    {
+      "path": "museum/halls/07/博物馆文明大学_汉语世界语双语读本_R1.docx",
+      "identical": true
+    },
+    {
+      "path": "museum/halls/06/东方智慧文明大学_汉语世界语双语读本_R1.docx",
+      "identical": true
+    },
+    {
+      "path": "museum/halls/06/导览与声音状态.txt",
+      "identical": true
+    },
+    {
+      "path": "museum/halls/03/播放说明.txt",
+      "identical": true
+    },
+    {
+      "path": "museum/halls/03/佛法修学馆_汉语世界语双语读本_R1.docx",
+      "identical": true
+    }
+  ],
+  "browser": {
+    "videos": [
+      {
+        "duration": 208,
+        "episode": 1,
+        "error": null,
+        "height": 1260,
+        "time": 15.237073,
+        "width": 1200
+      },
+      {
+        "duration": 210,
+        "episode": 2,
+        "error": null,
+        "height": 1260,
+        "time": 61.502356,
+        "width": 1200
+      },
+      {
+        "duration": 192,
+        "episode": 3,
+        "error": null,
+        "height": 1260,
+        "time": 46.803564,
+        "width": 1200
+      },
+      {
+        "duration": 204,
+        "episode": 4,
+        "error": null,
+        "height": 1260,
+        "time": 46.478234,
+        "width": 1200
+      },
+      {
+        "duration": 216,
+        "episode": 5,
+        "error": null,
+        "height": 1260,
+        "time": 46.200898,
+        "width": 1200
+      },
+      {
+        "duration": 208,
+        "episode": 6,
+        "error": null,
+        "height": 1260,
+        "time": 17.704842,
+        "width": 1200
+      },
+      {
+        "duration": 204,
+        "episode": 7,
+        "error": null,
+        "height": 1260,
+        "time": 17.571572,
+        "width": 1200
+      },
+      {
+        "duration": 204,
+        "episode": 8,
+        "error": null,
+        "height": 1260,
+        "time": 17.507587,
+        "width": 1200
+      },
+      {
+        "duration": 168,
+        "episode": 9,
+        "error": null,
+        "height": 1260,
+        "time": 17.379592,
+        "width": 1200
+      },
+      {
+        "duration": 228,
+        "episode": 10,
+        "error": null,
+        "height": 1260,
+        "time": 17.272891,
+        "width": 1200
+      },
+      {
+        "duration": 204,
+        "episode": 11,
+        "error": null,
+        "height": 1260,
+        "time": 13.134234,
+        "width": 1200
+      },
+      {
+        "duration": 228,
+        "episode": 12,
+        "error": null,
+        "height": 1260,
+        "time": 12.117525,
+        "width": 1200
+      }
+    ],
+    "halls": [
+      {
+        "hall": 2,
+        "audio": [
+          {
+            "duration": 40,
+            "error": null,
+            "paused": false,
+            "time": 8.638835
+          }
+        ]
+      },
+      {
+        "hall": 3,
+        "language": "zh",
+        "audio": [
+          {
+            "duration": 40,
+            "error": null,
+            "paused": true,
+            "time": 0
+          }
+        ]
+      },
+      {
+        "hall": 3,
+        "language": "eo",
+        "audio": [
+          {
+            "duration": 40,
+            "error": null,
+            "paused": true,
+            "time": 0
+          }
+        ],
+        "limitation": "WebGL disabled; original player initialization stops"
+      },
+      {
+        "hall": 4,
+        "audio": [
+          {
+            "duration": 40,
+            "error": null,
+            "paused": false,
+            "time": 14.495639
+          }
+        ]
+      },
+      {
+        "hall": 5,
+        "audio": [
+          {
+            "duration": 40,
+            "error": null,
+            "paused": true,
+            "time": 0
+          }
+        ],
+        "console": [
+          {
+            "level": "error",
+            "message": "Error sending browser metadata to extension: Object",
+            "timestamp": "2026-10-16T06:43:34.675Z",
+            "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+          }
+        ]
+      },
+      {
+        "hall": 6,
+        "audio": [
+          {
+            "duration": 40,
+            "error": null,
+            "paused": false,
+            "time": 19.236163
+          }
+        ]
+      },
+      {
+        "hall": 7,
+        "audio": [
+          {
+            "duration": 40,
+            "error": null,
+            "paused": false,
+            "time": 8.951741
+          }
+        ]
+      },
+      {
+        "hall": 8,
+        "audio": [
+          {
+            "duration": 40,
+            "error": null,
+            "paused": true,
+            "time": 0
+          }
+        ],
+        "webgl": [
+          {
+            "level": "error",
+            "message": "THREE.WebGLRenderer: Error creating WebGL context.",
+            "timestamp": "2026-10-16T06:44:15.362Z",
+            "url": "https://feniksa-civilizacio-web4.netlify.app/museum/halls/08/"
+          },
+          {
+            "level": "error",
+            "message": "Error: Error creating WebGL context.\n    at new to (https://feniksa-civilizacio-web4.netlify.app/museum/halls/08/:56:427927)\n    at init (https://feniksa-civilizacio-web4.netlify.app/museum/halls/08/:707:11)\n    at https://feniksa-civilizacio-web4.netlify.app/museum/halls/08/:735:5\n    at https://feniksa-civilizacio-web4.netlify.app/museum/halls/08/:736:3",
+            "timestamp": "2026-10-16T06:44:15.365Z",
+            "url": "https://feniksa-civilizacio-web4.netlify.app/museum/halls/08/"
+          }
+        ]
+      },
+      {
+        "hall": 9,
+        "audio": [
+          {
+            "duration": 40,
+            "error": null,
+            "paused": true,
+            "time": 0
+          }
+        ],
+        "webgl": [
+          {
+            "level": "error",
+            "message": "THREE.WebGLRenderer: Error creating WebGL context.",
+            "timestamp": "2026-10-16T06:44:23.597Z",
+            "url": "https://feniksa-civilizacio-web4.netlify.app/museum/halls/09/"
+          },
+          {
+            "level": "error",
+            "message": "Error: Error creating WebGL context.\n    at new to (https://feniksa-civilizacio-web4.netlify.app/museum/halls/09/:53:427927)\n    at init (https://feniksa-civilizacio-web4.netlify.app/museum/halls/09/:554:11)\n    at https://feniksa-civilizacio-web4.netlify.app/museum/halls/09/:582:5\n    at https://feniksa-civilizacio-web4.netlify.app/museum/halls/09/:583:3",
+            "timestamp": "2026-10-16T06:44:23.597Z",
+            "url": "https://feniksa-civilizacio-web4.netlify.app/museum/halls/09/"
+          }
+        ]
+      }
+    ],
+    "firstHall": {
+      "fullPlaybackSeconds": 40,
+      "ended": true,
+      "error": null
+    },
+    "limitation": "Cloud browser WebGL disabled; 3D visual rendering and halls 03,05,08,09 original audio UI remain unverified."
+  },
+  "old_pages": "Existing source pages retained unchanged; Netlify pretty-URL postprocessing rewrites home links."
+}
