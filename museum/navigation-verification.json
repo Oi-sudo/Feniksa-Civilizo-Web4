@@ -1,0 +1,160 @@
+{
+  "date": "2026-10-16",
+  "tested_commit": "5240bdd99c7fc584716793646005f79291eb2f49",
+  "http_checks": [
+    {
+      "hall": "01",
+      "original_sha256_matches": true,
+      "download_header": "attachment; filename=\"phoenix-hall-01-original.html\"",
+      "navigation_count": 1,
+      "previous_link": false,
+      "next_link": true,
+      "old_vercel_entry_removed": true,
+      "links": [
+        "/museum/",
+        "/museum/halls/02/",
+        "/museum/#videos",
+        "/museum/halls/01-original"
+      ]
+    },
+    {
+      "hall": "02",
+      "original_sha256_matches": true,
+      "download_header": "attachment; filename=\"phoenix-hall-02-original.html\"",
+      "navigation_count": 1,
+      "previous_link": true,
+      "next_link": true,
+      "old_vercel_entry_removed": true,
+      "links": [
+        "/museum/",
+        "/museum/halls/01",
+        "/museum/halls/03/",
+        "/museum/#videos",
+        "/museum/halls/02/original"
+      ]
+    },
+    {
+      "hall": "03",
+      "original_sha256_matches": true,
+      "download_header": "attachment; filename=\"phoenix-hall-03-original.html\"",
+      "navigation_count": 1,
+      "previous_link": true,
+      "next_link": true,
+      "old_vercel_entry_removed": true,
+      "links": [
+        "/museum/",
+        "/museum/halls/02/",
+        "/museum/halls/04/",
+        "/museum/#videos",
+        "/museum/halls/03/original"
+      ]
+    },
+    {
+      "hall": "04",
+      "original_sha256_matches": true,
+      "download_header": "attachment; filename=\"phoenix-hall-04-original.html\"",
+      "navigation_count": 1,
+      "previous_link": true,
+      "next_link": true,
+      "old_vercel_entry_removed": true,
+      "links": [
+        "/museum/",
+        "/museum/halls/03/",
+        "/museum/halls/05/",
+        "/museum/#videos",
+        "/museum/halls/04/original"
+      ]
+    },
+    {
+      "hall": "05",
+      "original_sha256_matches": true,
+      "download_header": "attachment; filename=\"phoenix-hall-05-original.html\"",
+      "navigation_count": 1,
+      "previous_link": true,
+      "next_link": true,
+      "old_vercel_entry_removed": true,
+      "links": [
+        "/museum/",
+        "/museum/halls/04/",
+        "/museum/halls/06/",
+        "/museum/#videos",
+        "/museum/halls/05/original"
+      ]
+    },
+    {
+      "hall": "06",
+      "original_sha256_matches": true,
+      "download_header": "attachment; filename=\"phoenix-hall-06-original.html\"",
+      "navigation_count": 1,
+      "previous_link": true,
+      "next_link": true,
+      "old_vercel_entry_removed": true,
+      "links": [
+        "/museum/",
+        "/museum/halls/05/",
+        "/museum/halls/07/",
+        "/museum/#videos",
+        "/museum/halls/06/original"
+      ]
+    },
+    {
+      "hall": "07",
+      "original_sha256_matches": true,
+      "download_header": "attachment; filename=\"phoenix-hall-07-original.html\"",
+      "navigation_count": 1,
+      "previous_link": true,
+      "next_link": true,
+      "old_vercel_entry_removed": true,
+      "links": [
+        "/museum/",
+        "/museum/halls/06/",
+        "/museum/halls/08/",
+        "/museum/#videos",
+        "/museum/halls/07/original"
+      ]
+    },
+    {
+      "hall": "08",
+      "original_sha256_matches": true,
+      "download_header": "attachment; filename=\"phoenix-hall-08-original.html\"",
+      "navigation_count": 1,
+      "previous_link": true,
+      "next_link": true,
+      "old_vercel_entry_removed": true,
+      "links": [
+        "/museum/",
+        "/museum/halls/07/",
+        "/museum/halls/09/",
+        "/museum/#videos",
+        "/museum/halls/08/original"
+      ]
+    },
+    {
+      "hall": "09",
+      "original_sha256_matches": true,
+      "download_header": "attachment; filename=\"phoenix-hall-09-original.html\"",
+      "navigation_count": 1,
+      "previous_link": true,
+      "next_link": false,
+      "old_vercel_entry_removed": true,
+      "links": [
+        "/museum/",
+        "/museum/halls/08/",
+        "/museum/#videos",
+        "/museum/halls/09/original"
+      ]
+    }
+  ],
+  "browser_checks": {
+    "hall_09_to_08_and_back": true,
+    "hall_01_to_02_and_back": true,
+    "first_hall_has_no_previous_link": true,
+    "last_hall_has_no_next_link": true,
+    "video_catalogue_has_12_players": true,
+    "hall_01_audio_progress_seconds": 39.553512,
+    "hall_01_audio_error": null,
+    "navigation_touch_target_height_px": 44
+  },
+  "responsive_verification": "Small-screen CSS inspected; actual mobile viewport was not emulated in this browser.",
+  "rendering_limitation": "WebGL disabled in cloud browser; 3D visual rendering remains unverified."
+}
