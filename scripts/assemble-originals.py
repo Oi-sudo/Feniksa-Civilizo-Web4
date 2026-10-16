@@ -12,3 +12,7 @@ for item in json.loads((root/'_original_parts/manifest.json').read_text()):
     target.parent.mkdir(parents=True,exist_ok=True)
     target.write_bytes(data)
     print('Verified original:',item['path'],len(data))
+
+# Keep exact originals available; add a bounded playback compatibility fix.
+from audio_resilience import enhance_players
+enhance_players(out)

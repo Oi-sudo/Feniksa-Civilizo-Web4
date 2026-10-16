@@ -23,7 +23,9 @@
       "original_html": "03_佛法修学馆_双语有声3D.html",
       "sha256": "cd9981e3c9df1f49fcca16faef088f492af372edb249f51e7241a6530eaa4b25",
       "bytes": 4512646,
-      "original_bytes_preserved": true
+      "original_bytes_preserved": true,
+      "untouched_original_url": "halls/03/original.html",
+      "entry_audio_compatibility": "Audio controls work independently of WebGL; all original content and embedded media retained."
     },
     {
       "number": "04",
@@ -39,7 +41,9 @@
       "original_html": "05_中央佛堂_双语有声3D.html",
       "sha256": "1e72241008cd48d7e3c872ee4de647f92cfa7f6d91936b08470849671a1b07bb",
       "bytes": 29954299,
-      "original_bytes_preserved": true
+      "original_bytes_preserved": true,
+      "untouched_original_url": "halls/05/original.html",
+      "entry_audio_compatibility": "Audio controls work independently of WebGL; all original content and embedded media retained."
     },
     {
       "number": "06",
@@ -63,7 +67,9 @@
       "original_html": "08_凤凰文明馆_双语有声3D.html",
       "sha256": "8a9bd7736544206773158ec78f8f2f822b450c151ac325080e14adc50b1e4309",
       "bytes": 4440870,
-      "original_bytes_preserved": true
+      "original_bytes_preserved": true,
+      "untouched_original_url": "halls/08/original.html",
+      "entry_audio_compatibility": "Audio controls work independently of WebGL; all original content and embedded media retained."
     },
     {
       "number": "09",
@@ -71,7 +77,9 @@
       "original_html": "09世界语文明大学_汉语男声世界语女声_轻音乐3D互动版.html",
       "sha256": "883312f9c5e07223f2d9eb0b1d3eb30e5c2e47724dca2145bb6f293b3bb2cd6f",
       "bytes": 4437076,
-      "original_bytes_preserved": true
+      "original_bytes_preserved": true,
+      "untouched_original_url": "halls/09/original.html",
+      "entry_audio_compatibility": "Audio controls work independently of WebGL; all original content and embedded media retained."
     }
   ],
   "videos": [
