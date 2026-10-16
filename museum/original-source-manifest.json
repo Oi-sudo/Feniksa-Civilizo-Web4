@@ -7,7 +7,9 @@
       "original_html": "西方科技文明大学_双语3D展馆_世界语女声轻音乐预览R1.html",
       "sha256": "a633c3c686365c9adfc639f3ad8524174a6335c340a5b6c6920c589c79a976ca",
       "bytes": 2038800,
-      "original_bytes_preserved": true
+      "original_bytes_preserved": true,
+      "untouched_original_url": "halls/01-original.html",
+      "entry_navigation": "Museum directory, adjacent halls, original download and 12 videos; complete original content retained."
     },
     {
       "number": "02",
@@ -15,7 +17,9 @@
       "original_html": "凤凰网络Web4文明大学_双语3D展馆_世界语女声轻音乐预览R1.html",
       "sha256": "b22857d6d447a6117ada2baebdcd188d55d17ddae44d59f001716bf36110e552",
       "bytes": 1981763,
-      "original_bytes_preserved": true
+      "original_bytes_preserved": true,
+      "untouched_original_url": "halls/02/original.html",
+      "entry_navigation": "Museum directory, adjacent halls, original download and 12 videos; complete original content retained."
     },
     {
       "number": "03",
@@ -25,7 +29,8 @@
       "bytes": 4512646,
       "original_bytes_preserved": true,
       "untouched_original_url": "halls/03/original.html",
-      "entry_audio_compatibility": "Audio controls work independently of WebGL; all original content and embedded media retained."
+      "entry_audio_compatibility": "Audio controls work independently of WebGL; all original content and embedded media retained.",
+      "entry_navigation": "Museum directory, adjacent halls, original download and 12 videos; complete original content retained."
     },
     {
       "number": "04",
@@ -33,7 +38,9 @@
       "original_html": "礼物与藏品馆_双语3D展馆_世界语女声轻音乐预览R2.html",
       "sha256": "050be1733755f69c1120ce55e3272b49a9306666f02cb1c77a0d69eaa3f2c4d2",
       "bytes": 1991074,
-      "original_bytes_preserved": true
+      "original_bytes_preserved": true,
+      "untouched_original_url": "halls/04/original.html",
+      "entry_navigation": "Museum directory, adjacent halls, original download and 12 videos; complete original content retained."
     },
     {
       "number": "05",
@@ -43,7 +50,8 @@
       "bytes": 29954299,
       "original_bytes_preserved": true,
       "untouched_original_url": "halls/05/original.html",
-      "entry_audio_compatibility": "Audio controls work independently of WebGL; all original content and embedded media retained."
+      "entry_audio_compatibility": "Audio controls work independently of WebGL; all original content and embedded media retained.",
+      "entry_navigation": "Museum directory, adjacent halls, original download and 12 videos; complete original content retained."
     },
     {
       "number": "06",
@@ -51,7 +59,9 @@
       "original_html": "东方智慧文明大学_双语3D展馆_世界语女声轻音乐预览R1.html",
       "sha256": "4cb3bac5122d8ea345c38585a3e0fab5d6cd41125e08ad05c8887c0524132f4e",
       "bytes": 1987390,
-      "original_bytes_preserved": true
+      "original_bytes_preserved": true,
+      "untouched_original_url": "halls/06/original.html",
+      "entry_navigation": "Museum directory, adjacent halls, original download and 12 videos; complete original content retained."
     },
     {
       "number": "07",
@@ -59,7 +69,9 @@
       "original_html": "博物馆文明大学_双语3D展馆_世界语女声轻音乐预览R1.html",
       "sha256": "891c6dd12f7a9a47d40767b96bd368ba837e6621d8999f5f841fc918a62ef842",
       "bytes": 2003317,
-      "original_bytes_preserved": true
+      "original_bytes_preserved": true,
+      "untouched_original_url": "halls/07/original.html",
+      "entry_navigation": "Museum directory, adjacent halls, original download and 12 videos; complete original content retained."
     },
     {
       "number": "08",
@@ -69,7 +81,8 @@
       "bytes": 4440870,
       "original_bytes_preserved": true,
       "untouched_original_url": "halls/08/original.html",
-      "entry_audio_compatibility": "Audio controls work independently of WebGL; all original content and embedded media retained."
+      "entry_audio_compatibility": "Audio controls work independently of WebGL; all original content and embedded media retained.",
+      "entry_navigation": "Museum directory, adjacent halls, original download and 12 videos; complete original content retained."
     },
     {
       "number": "09",
@@ -79,7 +92,8 @@
       "bytes": 4437076,
       "original_bytes_preserved": true,
       "untouched_original_url": "halls/09/original.html",
-      "entry_audio_compatibility": "Audio controls work independently of WebGL; all original content and embedded media retained."
+      "entry_audio_compatibility": "Audio controls work independently of WebGL; all original content and embedded media retained.",
+      "entry_navigation": "Museum directory, adjacent halls, original download and 12 videos; complete original content retained."
     }
   ],
   "videos": [

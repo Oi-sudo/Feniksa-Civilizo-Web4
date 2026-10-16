@@ -16,3 +16,6 @@ for item in json.loads((root/'_original_parts/manifest.json').read_text()):
 # Keep exact originals available; add a bounded playback compatibility fix.
 from audio_resilience import enhance_players
 enhance_players(out)
+
+from museum_navigation import connect_halls
+connect_halls(out)

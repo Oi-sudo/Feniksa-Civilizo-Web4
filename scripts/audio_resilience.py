@@ -36,10 +36,6 @@ def enhance_players(out):
         data = replace_once(data,
             ('请用较新的 Edge 或 Chrome 打开，并启用浏览器硬件加速。您仍可使用' + ('供位' if number == '05' else '文献') + '介绍和馆藏登记入口。'),
             '此设备暂不能显示3D。您仍可直接播放下方双语有声导览、切换语言并阅读全部文献；支持3D的浏览器可正常参观展馆。')
-        start = data.index(b'<nav class="alignment-bar"')
-        end = data.index(b'</nav>', start)
-        link = '<a href="original.html" download>下载原版网页 / Elŝuti la originalon</a>'.encode()
-        data = data[:end] + link + data[end:]
         page.write_bytes(data)
         if page.with_name('original.html').read_bytes() != original:
             raise RuntimeError('Original copy changed: ' + number)
