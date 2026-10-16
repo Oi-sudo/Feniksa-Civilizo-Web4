@@ -19,3 +19,6 @@ enhance_players(out)
 
 from museum_navigation import connect_halls
 connect_halls(out)
+
+from reading_room import publish_reading_room
+publish_reading_room(out)

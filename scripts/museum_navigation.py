@@ -30,7 +30,7 @@ def connect_halls(out):
         data=page.read_bytes()
         if b'id="museum-route-nav"' in data:raise RuntimeError('Navigation already applied')
         def url(h):return '/museum/'+h['url']
-        links=['<a href="/museum/">九馆目录 / Naŭ haloj</a>']
+        links=['<a href="/museum/">九馆目录 / Naŭ haloj</a>', '<a href="/museum/books/'+number+'/">在线读本 / Legi</a>']
         if index>0:links.append('<a rel="prev" href="'+url(halls[index-1])+'">← 上一馆 / Antaŭa</a>')
         if index+1<len(halls):links.append('<a rel="next" href="'+url(halls[index+1])+'">下一馆 / Sekva →</a>')
         links+=['<a href="/museum/#videos">十二集视频 / Filmoj</a>', '<a href="'+original.name+'" download="phoenix-hall-'+number+'-original.html">下载原版 / Originalo</a>']
