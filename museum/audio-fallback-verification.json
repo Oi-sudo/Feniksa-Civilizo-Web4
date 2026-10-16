@@ -1,0 +1,156 @@
+{
+  "date": "2026-10-16",
+  "tested_commit": "5b47624150a598282936a9ffcaea0449cbd0503e",
+  "method": "User-facing controls clicked in live cloud browser; media state read from DOM.",
+  "checks": [
+    {
+      "hall": "03",
+      "language": "zh",
+      "duration": 40,
+      "observed_time": 28.516974,
+      "completed": true,
+      "completion_message": "40秒有声导览已结束 · 可再次播放或自由游览文献",
+      "error": null
+    },
+    {
+      "hall": "03",
+      "language": "eo",
+      "duration": 40,
+      "observed_time": 18.182236,
+      "error": null
+    },
+    {
+      "hall": "05",
+      "language": "zh",
+      "duration": 40,
+      "observed_time": 34.512998,
+      "error": null
+    },
+    {
+      "hall": "05",
+      "language": "eo",
+      "duration": 40,
+      "observed_time": 17.204101,
+      "source_verified": true,
+      "error": null
+    },
+    {
+      "hall": "08",
+      "language": "zh",
+      "duration": 40,
+      "observed_time": 9.707714,
+      "error": null
+    },
+    {
+      "hall": "08",
+      "language": "eo",
+      "duration": 40,
+      "observed_time": 17.639534,
+      "source_verified": true,
+      "error": null
+    },
+    {
+      "hall": "09",
+      "language": "zh",
+      "duration": 40,
+      "observed_time": 13.734249,
+      "error": null
+    },
+    {
+      "hall": "09",
+      "language": "eo",
+      "duration": 40,
+      "observed_time": 12.421447,
+      "source_verified": true,
+      "completed": true,
+      "error": null
+    }
+  ],
+  "controls": {
+    "pause": {
+      "tested": true,
+      "observed_time": 19.287881,
+      "paused": true
+    },
+    "stop": {
+      "tested": true,
+      "time": 0,
+      "paused": true
+    },
+    "seek": {
+      "tested": true,
+      "time": 0.238128,
+      "paused": false
+    },
+    "language_switch": {
+      "tested": true
+    },
+    "restart": {
+      "tested": true
+    }
+  },
+  "live_files": [
+    {
+      "path": "museum/halls/03/index.html",
+      "status": 200,
+      "bytes": 4512931,
+      "byte_identical_to_build": false,
+      "sha256": "24086712104f992e6ea8d15dd1b379a53150a5fb8e52a778c2cf4e8a63251a3d",
+      "embedded_audio_unchanged": true
+    },
+    {
+      "path": "museum/halls/03/original.html",
+      "status": 200,
+      "bytes": 4512646,
+      "byte_identical_to_build": true,
+      "sha256": "cd9981e3c9df1f49fcca16faef088f492af372edb249f51e7241a6530eaa4b25"
+    },
+    {
+      "path": "museum/halls/05/index.html",
+      "status": 200,
+      "bytes": 29954584,
+      "byte_identical_to_build": false,
+      "sha256": "a46c0c091b4b9f716e032ebe21a48d981c1aeda51181c841679147897f4cf36e",
+      "embedded_audio_unchanged": true
+    },
+    {
+      "path": "museum/halls/05/original.html",
+      "status": 200,
+      "bytes": 29954299,
+      "byte_identical_to_build": true,
+      "sha256": "1e72241008cd48d7e3c872ee4de647f92cfa7f6d91936b08470849671a1b07bb"
+    },
+    {
+      "path": "museum/halls/08/index.html",
+      "status": 200,
+      "bytes": 4441155,
+      "byte_identical_to_build": false,
+      "sha256": "61e798deedefbe51d5d4acac2a72c56aff155cf99f7aca1fb37bbee7098c5fc0",
+      "embedded_audio_unchanged": true
+    },
+    {
+      "path": "museum/halls/08/original.html",
+      "status": 200,
+      "bytes": 4440870,
+      "byte_identical_to_build": true,
+      "sha256": "8a9bd7736544206773158ec78f8f2f822b450c151ac325080e14adc50b1e4309"
+    },
+    {
+      "path": "museum/halls/09/index.html",
+      "status": 200,
+      "bytes": 4437361,
+      "byte_identical_to_build": false,
+      "sha256": "838677bfd569f6f463c753e2c3a0448132cf343d3ce06654740f988bb58a14e7",
+      "embedded_audio_unchanged": true
+    },
+    {
+      "path": "museum/halls/09/original.html",
+      "status": 200,
+      "bytes": 4437076,
+      "byte_identical_to_build": true,
+      "sha256": "883312f9c5e07223f2d9eb0b1d3eb30e5c2e47724dca2145bb6f293b3bb2cd6f"
+    }
+  ],
+  "hosting_processing": "Enhanced entries differ only by Netlify pretty-URL rewriting of the new download anchor. The four untouched original.html copies remain byte-identical.",
+  "limitation": "3D rendering remains unverified: WebGL is disabled in the test browser."
+}
