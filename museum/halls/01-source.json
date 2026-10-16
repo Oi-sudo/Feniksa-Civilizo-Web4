@@ -1,0 +1,16 @@
+{
+  "source_archive": "凤凰文明_九馆单馆有声分享包总集_R1(3).zip",
+  "source_inner_archive": "九馆单独分享包/01_西方科技文明大学_分享包.zip",
+  "original_html": "西方科技文明大学_双语3D展馆_世界语女声轻音乐预览R1.html",
+  "deployed_path": "museum/halls/01.html",
+  "sha256": "a633c3c686365c9adfc639f3ad8524174a6335c340a5b6c6920c589c79a976ca",
+  "original_html_unchanged": true,
+  "audio": {
+    "codec": "AAC",
+    "duration_seconds": 40,
+    "language": "Esperanto",
+    "description": "原版内嵌世界语合成女声与轻音乐；中文男声按原稿说明未附"
+  },
+  "status": "source_prepared; Netlify deployment and browser playback not yet verified",
+  "preservation": "All previous tracked files retained; only museum navigation and integration notes updated."
+}
