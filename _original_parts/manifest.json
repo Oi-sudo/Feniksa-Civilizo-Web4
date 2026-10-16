@@ -1,0 +1,58 @@
+[
+  {
+    "path": "museum/halls/05/index.html",
+    "parts": [
+      "_original_parts/museum/halls/05/index.html/000.part",
+      "_original_parts/museum/halls/05/index.html/001.part",
+      "_original_parts/museum/halls/05/index.html/002.part",
+      "_original_parts/museum/halls/05/index.html/003.part",
+      "_original_parts/museum/halls/05/index.html/004.part"
+    ],
+    "bytes": 29954299,
+    "sha256": "1e72241008cd48d7e3c872ee4de647f92cfa7f6d91936b08470849671a1b07bb"
+  },
+  {
+    "path": "museum/videos/12.mp4",
+    "parts": [
+      "_original_parts/museum/videos/12.mp4/000.part",
+      "_original_parts/museum/videos/12.mp4/001.part",
+      "_original_parts/museum/videos/12.mp4/002.part",
+      "_original_parts/museum/videos/12.mp4/003.part"
+    ],
+    "bytes": 25354938,
+    "sha256": "672f2a8bdddcf2a61ff242a7c70dd1b7a2b569073d1cc479a60a6a35c636b286"
+  },
+  {
+    "path": "museum/videos/02.mp4",
+    "parts": [
+      "_original_parts/museum/videos/02.mp4/000.part",
+      "_original_parts/museum/videos/02.mp4/001.part",
+      "_original_parts/museum/videos/02.mp4/002.part",
+      "_original_parts/museum/videos/02.mp4/003.part"
+    ],
+    "bytes": 23376226,
+    "sha256": "e837f8c74bf5f776b42c4f5a775cc0e8a027d79c24b3f4ee8be8f3281e3a3429"
+  },
+  {
+    "path": "museum/videos/01.mp4",
+    "parts": [
+      "_original_parts/museum/videos/01.mp4/000.part",
+      "_original_parts/museum/videos/01.mp4/001.part",
+      "_original_parts/museum/videos/01.mp4/002.part",
+      "_original_parts/museum/videos/01.mp4/003.part"
+    ],
+    "bytes": 22838244,
+    "sha256": "98616d9850f5c409d6933a67efb43c8d2ca175637961b6e22ed0182a6a4b1e9e"
+  },
+  {
+    "path": "museum/videos/06.mp4",
+    "parts": [
+      "_original_parts/museum/videos/06.mp4/000.part",
+      "_original_parts/museum/videos/06.mp4/001.part",
+      "_original_parts/museum/videos/06.mp4/002.part",
+      "_original_parts/museum/videos/06.mp4/003.part"
+    ],
+    "bytes": 22249133,
+    "sha256": "1744e668037f627f611cd46ce1944a4770b50f3c563a3f6db91939b47908bf43"
+  }
+]

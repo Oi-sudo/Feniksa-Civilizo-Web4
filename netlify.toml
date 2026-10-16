@@ -1,0 +1,3 @@
+[build]
+  command = "python3 scripts/assemble-originals.py"
+  publish = "dist"

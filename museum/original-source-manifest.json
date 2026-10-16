@@ -1,0 +1,167 @@
+{
+  "source_archive": "凤凰文明_九馆单馆有声分享包总集_R1(3).zip",
+  "halls": [
+    {
+      "number": "01",
+      "url": "halls/01.html",
+      "original_html": "西方科技文明大学_双语3D展馆_世界语女声轻音乐预览R1.html",
+      "sha256": "a633c3c686365c9adfc639f3ad8524174a6335c340a5b6c6920c589c79a976ca",
+      "bytes": 2038800,
+      "original_bytes_preserved": true
+    },
+    {
+      "number": "02",
+      "url": "halls/02/",
+      "original_html": "凤凰网络Web4文明大学_双语3D展馆_世界语女声轻音乐预览R1.html",
+      "sha256": "b22857d6d447a6117ada2baebdcd188d55d17ddae44d59f001716bf36110e552",
+      "bytes": 1981763,
+      "original_bytes_preserved": true
+    },
+    {
+      "number": "03",
+      "url": "halls/03/",
+      "original_html": "03_佛法修学馆_双语有声3D.html",
+      "sha256": "cd9981e3c9df1f49fcca16faef088f492af372edb249f51e7241a6530eaa4b25",
+      "bytes": 4512646,
+      "original_bytes_preserved": true
+    },
+    {
+      "number": "04",
+      "url": "halls/04/",
+      "original_html": "礼物与藏品馆_双语3D展馆_世界语女声轻音乐预览R2.html",
+      "sha256": "050be1733755f69c1120ce55e3272b49a9306666f02cb1c77a0d69eaa3f2c4d2",
+      "bytes": 1991074,
+      "original_bytes_preserved": true
+    },
+    {
+      "number": "05",
+      "url": "halls/05/",
+      "original_html": "05_中央佛堂_双语有声3D.html",
+      "sha256": "1e72241008cd48d7e3c872ee4de647f92cfa7f6d91936b08470849671a1b07bb",
+      "bytes": 29954299,
+      "original_bytes_preserved": true
+    },
+    {
+      "number": "06",
+      "url": "halls/06/",
+      "original_html": "东方智慧文明大学_双语3D展馆_世界语女声轻音乐预览R1.html",
+      "sha256": "4cb3bac5122d8ea345c38585a3e0fab5d6cd41125e08ad05c8887c0524132f4e",
+      "bytes": 1987390,
+      "original_bytes_preserved": true
+    },
+    {
+      "number": "07",
+      "url": "halls/07/",
+      "original_html": "博物馆文明大学_双语3D展馆_世界语女声轻音乐预览R1.html",
+      "sha256": "891c6dd12f7a9a47d40767b96bd368ba837e6621d8999f5f841fc918a62ef842",
+      "bytes": 2003317,
+      "original_bytes_preserved": true
+    },
+    {
+      "number": "08",
+      "url": "halls/08/",
+      "original_html": "08_凤凰文明馆_双语有声3D.html",
+      "sha256": "8a9bd7736544206773158ec78f8f2f822b450c151ac325080e14adc50b1e4309",
+      "bytes": 4440870,
+      "original_bytes_preserved": true
+    },
+    {
+      "number": "09",
+      "url": "halls/09/",
+      "original_html": "09世界语文明大学_汉语男声世界语女声_轻音乐3D互动版.html",
+      "sha256": "883312f9c5e07223f2d9eb0b1d3eb30e5c2e47724dca2145bb6f293b3bb2cd6f",
+      "bytes": 4437076,
+      "original_bytes_preserved": true
+    }
+  ],
+  "videos": [
+    {
+      "number": "01",
+      "url": "videos/01.mp4",
+      "bytes": 22838244,
+      "sha256": "98616d9850f5c409d6933a67efb43c8d2ca175637961b6e22ed0182a6a4b1e9e",
+      "original_bytes_preserved": true
+    },
+    {
+      "number": "02",
+      "url": "videos/02.mp4",
+      "bytes": 23376226,
+      "sha256": "e837f8c74bf5f776b42c4f5a775cc0e8a027d79c24b3f4ee8be8f3281e3a3429",
+      "original_bytes_preserved": true
+    },
+    {
+      "number": "03",
+      "url": "videos/03.mp4",
+      "bytes": 8602268,
+      "sha256": "117a93bc9892f13acbe43e48dd2682d447d7c2d909afb30766ef3a0d84e0e315",
+      "original_bytes_preserved": true
+    },
+    {
+      "number": "04",
+      "url": "videos/04.mp4",
+      "bytes": 9415643,
+      "sha256": "4c20f54c2115218a7f73fd51541f544eb7e49054e474ee27c83672ba07e4cffa",
+      "original_bytes_preserved": true
+    },
+    {
+      "number": "05",
+      "url": "videos/05.mp4",
+      "bytes": 9857879,
+      "sha256": "fc73db466f12b2f725be59bda5ad24024996f6022649ea0d8a5f4ae2957c27ed",
+      "original_bytes_preserved": true
+    },
+    {
+      "number": "06",
+      "url": "videos/06.mp4",
+      "bytes": 22249133,
+      "sha256": "1744e668037f627f611cd46ce1944a4770b50f3c563a3f6db91939b47908bf43",
+      "original_bytes_preserved": true
+    },
+    {
+      "number": "07",
+      "url": "videos/07.mp4",
+      "bytes": 9542391,
+      "sha256": "42cc1956b459df077a4fcf3dd59b39eba8ba279e290f7a512d757b6f094025af",
+      "original_bytes_preserved": true
+    },
+    {
+      "number": "08",
+      "url": "videos/08.mp4",
+      "bytes": 10146980,
+      "sha256": "1a71bea8efb6c9e8b8aa93a5119b9697f269e0a62eecc7393df0f1649f29dfef",
+      "original_bytes_preserved": true
+    },
+    {
+      "number": "09",
+      "url": "videos/09.mp4",
+      "bytes": 7380640,
+      "sha256": "7d67d2679b551ec6f6b72e33020c39fb78482f7281265bfaf6eb7d9635445b39",
+      "original_bytes_preserved": true
+    },
+    {
+      "number": "10",
+      "url": "videos/10.mp4",
+      "bytes": 10899120,
+      "sha256": "ae70b0a287a7caab7e857f4845ad0aa5fcc9af0d63b82c50fa2f9da95dfb0a5e",
+      "original_bytes_preserved": true
+    },
+    {
+      "number": "11",
+      "url": "videos/11.mp4",
+      "bytes": 7948571,
+      "sha256": "a4aa4f909339c30dcc971236f0d85855fada010bd3e3664262d0d651fac2d9ef",
+      "original_bytes_preserved": true
+    },
+    {
+      "number": "12",
+      "url": "videos/12.mp4",
+      "bytes": 25354938,
+      "sha256": "672f2a8bdddcf2a61ff242a7c70dd1b7a2b569073d1cc479a60a6a35c636b286",
+      "original_bytes_preserved": true
+    }
+  ],
+  "verification": {
+    "first_hall_audio": "40 seconds played to completion in browser; bilingual final caption verified",
+    "webgl": "Rendering cannot be verified in the cloud browser because WebGL is disabled"
+  }
+}

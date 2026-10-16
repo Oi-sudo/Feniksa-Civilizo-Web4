@@ -11,6 +11,6 @@
     "language": "Esperanto",
     "description": "原版内嵌世界语合成女声与轻音乐；中文男声按原稿说明未附"
   },
-  "status": "source_prepared; Netlify deployment and browser playback not yet verified",
+  "status": "Published on Netlify; original 40-second audio played to completion in browser; WebGL rendering unavailable in test browser",
   "preservation": "All previous tracked files retained; only museum navigation and integration notes updated."
 }
