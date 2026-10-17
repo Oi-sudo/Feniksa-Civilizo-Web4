@@ -1,0 +1,7 @@
+{
+  "source_branch": "web4-0.1-alpha-runtime",
+  "source_commit": "b0b23bde473fb935e1342358c71a087e889357d4",
+  "courses_source": "database/migrations/0006_course_catalog_seed.sql",
+  "principles_source": "app/passport/page.tsx",
+  "scope": "Public course guides and passport principles; no personal data or backend migration"
+}
