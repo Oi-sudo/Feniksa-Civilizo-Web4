@@ -1,0 +1,30 @@
+{
+  "07": {
+    "duration_seconds": 130.612,
+    "size_bytes": 15094331,
+    "sha256": "cfe0dcfae626b5760dea4322522d6a1fb03ab83a1b67dafb911704546f3215f3",
+    "format": "MP4 H.264/AAC",
+    "note": "Compressed copy; full audio and video timelines retained"
+  },
+  "08": {
+    "duration_seconds": 194.583,
+    "size_bytes": 20376658,
+    "sha256": "bfd69d156924a903d745abf4f6643fc22fff4360e70b711c72470f1081f05727",
+    "format": "MP4 H.264/AAC",
+    "note": "Compressed copy; full audio and video timelines retained"
+  },
+  "09": {
+    "duration_seconds": 114.01,
+    "size_bytes": 12976084,
+    "sha256": "c9e1afdad21d06be615c0e2b25b1d6ec1714444ef27b0ea05e74ec5e4972a60f",
+    "format": "MP4 H.264/AAC",
+    "note": "Compressed copy; full audio and video timelines retained"
+  },
+  "10": {
+    "duration_seconds": 254.958,
+    "size_bytes": 17552704,
+    "sha256": "489c56201293b04325fe2fd18b57b4de154585b9c54af4895429b336cbcf9a95",
+    "format": "MP4 H.264/AAC",
+    "note": "Compressed copy; full audio and video timelines retained"
+  }
+}
