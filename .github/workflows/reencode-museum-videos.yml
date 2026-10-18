@@ -1,0 +1,68 @@
+name: Prepare compact museum copies
+on:
+  push:
+    branches: [museum-videos-07-10-staging-20261018]
+    paths: [.github/workflows/reencode-museum-videos.yml]
+permissions:
+  contents: write
+jobs:
+  transcode:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: museum-videos-07-10-staging-20261018
+      - name: Copy and verify all four published originals
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import subprocess,re,urllib.request,json,hashlib
+          prior=subprocess.check_output(["git","show","ac01e8b334cb33c50100e197f10ce27d3c5270c4:.github/workflows/stage-museum-originals.yml"],text=True)
+          urls=dict(re.findall(r"^\s+SOURCE_(0[7-9]|10): '([^']+)'\s*$",prior,re.M))
+          if len(urls)!=4: raise RuntimeError("Four source URLs required")
+          expected={"07":130.6,"08":194.5667,"09":114.0,"10":254.955}
+          output=Path("museum/collection-videos/videos")
+          output.mkdir(parents=True,exist_ok=True)
+          manifest={}
+          for number,target in expected.items():
+              raw=Path("/tmp/museum-source-"+number+".mp4")
+              req=urllib.request.Request(urls[number],headers={"User-Agent":"Mozilla/5.0"})
+              print("Fetch original",number,flush=True)
+              with urllib.request.urlopen(req,timeout=150) as response,raw.open("wb") as dest:
+                  while True:
+                      block=response.read(1024*1024)
+                      if not block:break
+                      dest.write(block)
+                      if dest.tell()>1500*1024*1024:raise RuntimeError("Oversized source "+number)
+              if raw.stat().st_size<200000: raise RuntimeError("Small source "+number)
+              dst=output/(number+".mp4")
+              subprocess.run(["ffmpeg","-hide_banner","-loglevel","error","-nostdin","-y","-i",str(raw),
+                  "-map","0:v:0","-map","0:a:0","-vf","scale=480:-2:force_original_aspect_ratio=decrease,fps=24",
+                  "-c:v","libx264","-preset","fast","-b:v","850k","-maxrate","1100k",
+                  "-bufsize","2200k","-pix_fmt","yuv420p","-c:a","aac","-b:a","96k",
+                  "-movflags","+faststart",str(dst)],check=True,timeout=700)
+              raw.unlink()
+              data=json.loads(subprocess.check_output(["ffprobe","-v","error","-show_entries",
+                  "format=duration:stream=codec_type","-of","json",str(dst)],text=True))
+              duration=float(data["format"]["duration"])
+              codecs={s["codec_type"] for s in data.get("streams",[])}
+              if abs(duration-target)>3 or not {"audio","video"}.issubset(codecs):
+                  raise RuntimeError("Verification failed on "+number+": "+str(duration))
+              if dst.stat().st_size>95*1024*1024:
+                  raise RuntimeError("Compressed video too big "+number)
+              manifest[number]={"duration_seconds":round(duration,3),"size_bytes":dst.stat().st_size,
+                  "sha256":hashlib.sha256(dst.read_bytes()).hexdigest(),"format":"MP4 H.264/AAC",
+                  "note":"Compressed copy; full audio and video timelines retained"}
+              print("VERIFIED",number,manifest[number],flush=True)
+          (output/"verified-manifest.json").write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+"\n")
+          PY
+      - name: Commit verified playable files to staging only
+        shell: bash
+        run: |
+          git config user.name "museum-video-archiver"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add museum/collection-videos/videos
+          git commit -m "Stage verified full-length MP4 copies of episodes 07-10"
+          git push origin HEAD:museum-videos-07-10-staging-20261018
