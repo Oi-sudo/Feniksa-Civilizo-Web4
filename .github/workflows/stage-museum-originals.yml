@@ -1,0 +1,68 @@
+name: Stage museum original MP4 files
+on:
+  push:
+    branches: [museum-videos-07-10-staging-20261018]
+    paths: [.github/workflows/stage-museum-originals.yml]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  fetch-verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      SOURCE_10: 'https://media.descriptusercontent.com/v2/proxy/remux?url=https%3A%2F%2Fapi.descript.com%2Fv2%2Fpublished_projects%2F2832264b-d467-4139-9361-7c013b52b45b%2Fhls%3Fexpiration%3D1792399975205%26signature%3D51ad7d34c270c91cca3c5c81d555b49064872f9209b38122a322bb5dd710dd10&filename=Tenth+artifact+nine+voices+with+background+music.mp4&mediaCacheBucketName=production-273614-media-cache&expiration=1792396375&signature=db6edd6e139f0b351243205039dbe7e891c519954c64a1601d7e619f9dcfdb58'
+      SOURCE_07: 'https://media.descriptusercontent.com/v2/proxy/remux?url=https%3A%2F%2Fapi.descript.com%2Fv2%2Fpublished_projects%2Fe6ec8588-7754-4bb1-b634-072fbff8f8be%2Fhls%3Fexpiration%3D1792399974369%26signature%3D2d09c6f9c47ff6564d8da0403db3f0fda1cb7236ce8803581ec34be346e50d0d&filename=Wukong+complete+voice+music+and+subtitles.mp4&mediaCacheBucketName=production-273614-media-cache&expiration=1792396374&signature=485159d46869c97a9159f24328d02431291fec3e465c97f3447ac53029875806'
+      SOURCE_08: 'https://media.descriptusercontent.com/v2/proxy/remux?url=https%3A%2F%2Fapi.descript.com%2Fv2%2Fpublished_projects%2Ffe713f1a-d6ef-4007-a26b-2f4bff76fee9%2Fhls%3Fexpiration%3D1792399972095%26signature%3Ddb78ccae9675fe73ead4d0efdcb97720b7da35e73d26faf4daad6b32ebb78532&filename=Kosma+Dia+Stono+cover+plus+eight+voices+official.mp4&mediaCacheBucketName=production-273614-media-cache&expiration=1792396372&signature=5ecbaeb0648ce2f065a5fb96b6d105a20ae11f973f16bd99965112dca5306900'
+      SOURCE_09: 'https://media.descriptusercontent.com/v2/proxy/remux?url=https%3A%2F%2Fapi.descript.com%2Fv2%2Fpublished_projects%2Ffa10b7bd-f0b1-4f54-b472-55c767d8671e%2Fhls%3Fexpiration%3D1792399969103%26signature%3Db2d510a2fa25f6bb5ed9befae7fd4c4bd013bc7316d631f7b922a928a0c28565&filename=Panda+item+9+music+subtitles+8+voices.mp4&mediaCacheBucketName=production-273614-media-cache&expiration=1792396369&signature=360d39567a0e3f262e6e162825f2a84dceca0bdea2601838390ce5aebd750df9'
+    steps:
+      - name: Check out staging branch only
+        uses: actions/checkout@v4
+        with:
+          ref: museum-videos-07-10-staging-20261018
+          persist-credentials: true
+      - name: Fetch approved MP4 originals and validate streams
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import os,urllib.request,subprocess,json,pathlib,hashlib,sys,time
+          dest=pathlib.Path("museum/collection-videos/videos")
+          dest.mkdir(parents=True,exist_ok=True)
+          expected={"07":130.6,"08":194.5667,"09":114.0,"10":254.9551}
+          records={}
+          for n,target_sec in expected.items():
+              url=os.environ["SOURCE_"+n]
+              part=dest/(n+".mp4.part")
+              print("Downloading episode",n,flush=True)
+              request=urllib.request.Request(url,headers={"User-Agent":"Mozilla/5.0"})
+              with urllib.request.urlopen(request,timeout=120) as response,part.open("wb") as f:
+                  while True:
+                      chunk=response.read(1024*1024)
+                      if not chunk:break
+                      f.write(chunk)
+                      if f.tell()>95*1024*1024:raise RuntimeError("Video exceeds 95 MiB GitHub safety limit: "+n)
+              size=part.stat().st_size
+              if size<200_000:raise RuntimeError("File too small: "+n)
+              with part.open("rb") as f:
+                  if b"ftyp" not in f.read(64):raise RuntimeError("Not MP4: "+n)
+              check=subprocess.run(["ffprobe","-v","error","-show_entries","format=duration:stream=codec_type","-of","json",str(part)],capture_output=True,text=True)
+              if check.returncode:raise RuntimeError("ffprobe failed for "+n+": "+check.stderr[:400])
+              info=json.loads(check.stdout)
+              duration=float(info["format"]["duration"])
+              kinds={stream["codec_type"] for stream in info.get("streams",[])}
+              if not {"video","audio"}.issubset(kinds):raise RuntimeError("Missing video or audio stream: "+n)
+              if abs(duration-target_sec)>12:raise RuntimeError("Unexpected duration for "+n+": "+str(duration))
+              final=dest/(n+".mp4")
+              part.rename(final)
+              records[n]={"seconds":round(duration,2),"bytes":size,"sha256":hashlib.sha256(final.read_bytes()).hexdigest(),"has_video":True,"has_audio":True}
+              print("Verified episode",n,round(duration,2),size,flush=True)
+          (dest/"verified-manifest.json").write_text(json.dumps(records,indent=2)+"\n")
+          PY
+      - name: Commit ONLY verified four MP4 files to staging
+        shell: bash
+        run: |
+          git config user.name "museum-archive-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add museum/collection-videos/videos/07.mp4 museum/collection-videos/videos/08.mp4 museum/collection-videos/videos/09.mp4 museum/collection-videos/videos/10.mp4 museum/collection-videos/videos/verified-manifest.json
+          git commit -m "Stage four verified original museum videos" || exit 0
+          git push origin HEAD:museum-videos-07-10-staging-20261018
