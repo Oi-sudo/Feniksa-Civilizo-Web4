@@ -1,0 +1,429 @@
+[
+  {
+    "number": 1,
+    "title": "蒹葭",
+    "path": "songs/media/song-01.mp4",
+    "bytes": 17582345,
+    "sha256": "068ddd98fe4202d075eb2550d9bb453b889d5f825e05ad1b848ec5e2738620c1"
+  },
+  {
+    "number": 59,
+    "title": "蒹葭",
+    "path": "songs/media/song-59.mp4",
+    "bytes": 18704547,
+    "sha256": "05785aba724cc9482a05be563c5be9dfb47f97469bc3b48436c87bda8bffe33b"
+  },
+  {
+    "number": 2,
+    "title": "多年以后",
+    "path": "songs/media/song-02.mp4",
+    "bytes": 14029532,
+    "sha256": "9ce99d5537760267843b64d1e4db8b27ed2db464c38b399ef7ed0b199f425c50"
+  },
+  {
+    "number": 53,
+    "title": "多年以后",
+    "path": "songs/media/song-53.mp4",
+    "bytes": 19725910,
+    "sha256": "9469d1d1a35231402e115509755251dc4555397f4621708e785b217ac15081fb"
+  },
+  {
+    "number": 54,
+    "title": "多年以后",
+    "path": "songs/media/song-54.mp4",
+    "bytes": 20750528,
+    "sha256": "9d833eeb8374d6f9a7b7271b424045e33f8edbdc3aad517a1cc520bf3a86dd30"
+  },
+  {
+    "number": 3,
+    "title": "静女",
+    "path": "songs/media/song-03.mp4",
+    "bytes": 15607810,
+    "sha256": "3aacfe50c280b8d872ea26c96fad9da018188fdfea0268128d595f906965e1ad"
+  },
+  {
+    "number": 6,
+    "title": "静女",
+    "path": "songs/media/song-06.mp4",
+    "bytes": 12148273,
+    "sha256": "313651eb67d5d34c46cdde26accd84a3bbdc2b8d2d38bb48a813a3c6925e89b4"
+  },
+  {
+    "number": 62,
+    "title": "静女",
+    "path": "songs/media/song-62.mp4",
+    "bytes": 11877313,
+    "sha256": "be7b528637ebd7a9bd3164fbd1302078c8df7259ad5da98a74ee1a0356044989"
+  },
+  {
+    "number": 4,
+    "title": "野有死麕",
+    "path": "songs/media/song-04.mp4",
+    "bytes": 18963263,
+    "sha256": "3f52e85f912dd9bce03437c0fae0d8630ccf2373005be6c4d931e9e6a3199ac1"
+  },
+  {
+    "number": 61,
+    "title": "野有死麕",
+    "path": "songs/media/song-61.mp4",
+    "bytes": 16217437,
+    "sha256": "93e9d64401697a9d17d06cdd7bc91e6ae4c545c1b49426456b0ed44a48daf16a"
+  },
+  {
+    "number": 5,
+    "title": "屹立之光",
+    "path": "songs/media/song-05.mp4",
+    "bytes": 13034016,
+    "sha256": "3f560939439c0c83896660bb3b50c1fe45e18ad0051f01d6a650c6e686f8c2c9"
+  },
+  {
+    "number": 7,
+    "title": "柏舟",
+    "path": "songs/media/song-07.mp4",
+    "bytes": 30487082,
+    "sha256": "3bb4e8af2ec59cca14c9bb8ff3df52b3c45d2699730cd99e2cdd2bd83e512a98"
+  },
+  {
+    "number": 8,
+    "title": "卷耳",
+    "path": "songs/media/song-08.mp4",
+    "bytes": 34333648,
+    "sha256": "aa069bbfd0a518254872c1ecb9b843178539990f941e713cc74027a6bac53128"
+  },
+  {
+    "number": 9,
+    "title": "长安的黠戛斯",
+    "path": "songs/media/song-09.mp4",
+    "bytes": 37087971,
+    "sha256": "0e1d0f1c4a486f2d63c1341d03811166ab65337e2dc499a0bea89063e4996ac4"
+  },
+  {
+    "number": 10,
+    "title": "河湟谣",
+    "path": "songs/media/song-10.mp4",
+    "bytes": 13844781,
+    "sha256": "a333ce074d2c149237fe1cdc518d097f1b5154e1c17802eb6c301e63b4480b60"
+  },
+  {
+    "number": 11,
+    "title": "山巅之花——游击队之歌",
+    "path": "songs/media/song-11.mp4",
+    "bytes": 13089300,
+    "sha256": "2263159f9208496df9b115d5d1b18dc2ec63acc4cb5e935acdb633124be76413"
+  },
+  {
+    "number": 12,
+    "title": "占城谣",
+    "path": "songs/media/song-12.mp4",
+    "bytes": 24704137,
+    "sha256": "11a792ba13ff43759a6d1972d5393cb103ec5f8d8de94d6272c7c4b7133bd294"
+  },
+  {
+    "number": 14,
+    "title": "我的半个儿心",
+    "path": "songs/media/song-14.mp4",
+    "bytes": 24150031,
+    "sha256": "573a4504deec3df49f38a27b934e0dce23f4b33405a9efce4d3f34f0f213a3b4"
+  },
+  {
+    "number": 21,
+    "title": "我的半儿个心",
+    "path": "songs/media/song-21.mp4",
+    "bytes": 31725874,
+    "sha256": "e103a18d9ecff74ced5bac47c717a7a7910134b200a736898d8e95878c9f8470"
+  },
+  {
+    "number": 15,
+    "title": "鹿鸣",
+    "path": "songs/media/song-15.mp4",
+    "bytes": 42582921,
+    "sha256": "72582bfcc9b2b297e5d393a5b54c60e55ba18e36c32f6e18d3724acf77f476e9"
+  },
+  {
+    "number": 18,
+    "title": "凉山月下",
+    "path": "songs/media/song-18.mp4",
+    "bytes": 17561398,
+    "sha256": "9a9ff6fb8eee02d63545d0a4e69aa6e21deee36544da479b83bd778b32e46083"
+  },
+  {
+    "number": 24,
+    "title": "丰收麦西莱甫",
+    "path": "songs/media/song-24.mp4",
+    "bytes": 14221520,
+    "sha256": "8af078774b84623c1b0f419062b0fddfd278ccb2b91ff91e221ac7a1be0e4423"
+  },
+  {
+    "number": 25,
+    "title": "童年的沼泽",
+    "path": "songs/media/song-25.mp4",
+    "bytes": 21105701,
+    "sha256": "60ee16fc315fd13c90b59e815024e9f009773b93072012acdeab938b2799163c"
+  },
+  {
+    "number": 26,
+    "title": "童年的沼泽",
+    "path": "songs/media/song-26.mp4",
+    "bytes": 22834666,
+    "sha256": "4a1fb8f19cbede9452c57da217a9c548de2b7800402baf365ebd54153379597b"
+  },
+  {
+    "number": 27,
+    "title": "共同的呼唤",
+    "path": "songs/media/song-27.mp4",
+    "bytes": 13761610,
+    "sha256": "700347fd597c7a363cc54847fbbb648e1cda72ceacb77dc68480eca0e19e5512"
+  },
+  {
+    "number": 28,
+    "title": "采薇",
+    "path": "songs/media/song-28.mp4",
+    "bytes": 37080927,
+    "sha256": "99445ac8c99709451970e225cda4adf3c4fced34f68f20f105268afc67dfec96"
+  },
+  {
+    "number": 29,
+    "title": "红太阳",
+    "path": "songs/media/song-29.mp4",
+    "bytes": 12998058,
+    "sha256": "b5785e501e006da636c45fffc2b07747c045333a75213bd0620037046141ccb1"
+  },
+  {
+    "number": 30,
+    "title": "谷风",
+    "path": "songs/media/song-30.mp4",
+    "bytes": 40787894,
+    "sha256": "c6cb45fab9d61d16a6277a2c2a0b500ea4cb6d5d259d59fc5ddfbdb095f4ef82"
+  },
+  {
+    "number": 31,
+    "title": "击鼓",
+    "path": "songs/media/song-31.mp4",
+    "bytes": 28546589,
+    "sha256": "4ae5ae1dd3bdff01d80fda7ddfb01e0df02c1aa6166f2e48bd8359ca35ab5b16"
+  },
+  {
+    "number": 33,
+    "title": "上邪",
+    "path": "songs/media/song-33.mp4",
+    "bytes": 25605706,
+    "sha256": "b2d15e06fc3c9a553152d2d44793619517dae8cc31de3ac7c8a461365bd9ba42"
+  },
+  {
+    "number": 47,
+    "title": "上邪（歌词版）",
+    "path": "songs/media/song-47.mp4",
+    "bytes": 21640587,
+    "sha256": "8908905fddd2528b9a8319dcaefb669ec2c302b990edc8eaeaa62b6d4fba1013"
+  },
+  {
+    "number": 34,
+    "title": "香港之夜",
+    "path": "songs/media/song-34.mp4",
+    "bytes": 14844077,
+    "sha256": "3d20f48cb0dfea8569f0dde4feb33f97822e7526562d6d7e2f69f2d50021b3f2"
+  },
+  {
+    "number": 35,
+    "title": "橘颂",
+    "path": "songs/media/song-35.mp4",
+    "bytes": 25519159,
+    "sha256": "367964ac28911d73349839401ee1008472b320bc73cdf526b2f51660641af17f"
+  },
+  {
+    "number": 36,
+    "title": "Mojito",
+    "path": "songs/media/song-36.mp4",
+    "bytes": 17423800,
+    "sha256": "c468e590738a033537a4345480cf10a316a28cbe781e464908248b05ff363118"
+  },
+  {
+    "number": 37,
+    "title": "大河泛舟",
+    "path": "songs/media/song-37.mp4",
+    "bytes": 30653274,
+    "sha256": "13d9a6f384081776a69908a2e5147009a53051563bcc33ff662a67780eaecfe3"
+  },
+  {
+    "number": 39,
+    "title": "千古绝唱",
+    "path": "songs/media/song-39.mp4",
+    "bytes": 43582617,
+    "sha256": "a40f6b71e7fde0c07368f089b5ab6645c9bfe000596724dd17154c5bc4b6f1f5"
+  },
+  {
+    "number": 40,
+    "title": "世界妇女解放之歌",
+    "path": "songs/media/song-40.mp4",
+    "bytes": 10892161,
+    "sha256": "259d8fe2cc92024d66e86afc5ed2ebdbdd2310a82df4e46c6f09b1bb94521795"
+  },
+  {
+    "number": 42,
+    "title": "一片闲云到滇海",
+    "path": "songs/media/song-42.mp4",
+    "bytes": 18380312,
+    "sha256": "76457aefa13a1f5c8d9630f3246887f578c5f0532a1ffac5b90488427efddac6"
+  },
+  {
+    "number": 44,
+    "title": "孔雀胆／阿盖公主",
+    "path": "songs/media/song-44.mp4",
+    "bytes": 26066384,
+    "sha256": "bbc92c125227a71caf0adb5f5381f885c1fdd0f038a3e548880ef905d970b410"
+  },
+  {
+    "number": 48,
+    "title": "草原牧歌",
+    "path": "songs/media/song-48.mp4",
+    "bytes": 21896287,
+    "sha256": "618ef464b60b436087726f16e4db8d51d43e71ecd385dbb70be790c2314bf60f"
+  },
+  {
+    "number": 49,
+    "title": "敕勒川歌",
+    "path": "songs/media/song-49.mp4",
+    "bytes": 24576508,
+    "sha256": "55a9ba63da02579327f8b37bd263a0a9a450b9eb199d1a9ebc1c730dd462e6d8"
+  },
+  {
+    "number": 52,
+    "title": "桃夭",
+    "path": "songs/media/song-52.mp4",
+    "bytes": 19198135,
+    "sha256": "f5153ba7bb71c4e6d7de2a641ebd01af219d68872f79d5d3e124cb42b1b375ec"
+  },
+  {
+    "number": 55,
+    "title": "桃夭",
+    "path": "songs/media/song-55.mp4",
+    "bytes": 20057579,
+    "sha256": "c9c123d7646ed48f55b6e2611fe013d45179a1d092887f0fb4b20b62f86b883d"
+  },
+  {
+    "number": 56,
+    "title": "金风玉露",
+    "path": "songs/media/song-56.mp4",
+    "bytes": 28661681,
+    "sha256": "69753c1ef9886538bd03a5cbc8cd8d20d3b21e54cf3056e68100509cb02edcab"
+  },
+  {
+    "number": 57,
+    "title": "下马酒之歌",
+    "path": "songs/media/song-57.mp4",
+    "bytes": 18391207,
+    "sha256": "bdc066af72d76ccc8f548dc06a6df00e8788fbf891894b5fb9d305080240ae7e"
+  },
+  {
+    "number": 58,
+    "title": "山海经",
+    "path": "songs/media/song-58.mp4",
+    "bytes": 14377313,
+    "sha256": "e4bf843eca6ed238f27b4a95362c6638136fbc735473701ff7ec19bfc4ac3ea8"
+  },
+  {
+    "number": 60,
+    "title": "野有蔓草",
+    "path": "songs/media/song-60.mp4",
+    "bytes": 12498531,
+    "sha256": "a58fee7b304cd7ae55d7c029ca987d1f703a31a80186236f6a92124e66df48d1"
+  },
+  {
+    "number": 63,
+    "title": "炸酱面",
+    "path": "songs/media/song-63.mp4",
+    "bytes": 21432832,
+    "sha256": "f4d7f571777435df180815cb1f94702cf651f673c0bbd2438c7741fcd7d6e7ec"
+  },
+  {
+    "number": 64,
+    "title": "三字经",
+    "path": "songs/media/song-64.mp4",
+    "bytes": 16126063,
+    "sha256": "94165b25d24f343471ebbb6d2ca5208b84cffbddaa8eafdf4a0e8f78e7a286d3"
+  },
+  {
+    "number": 65,
+    "title": "不妨长作岭南人",
+    "path": "songs/media/song-65.mp4",
+    "bytes": 24158932,
+    "sha256": "c7e37e2dba8539f695293690255066995dbb46c191f6c03259023c9a6fa628c3"
+  },
+  {
+    "number": 66,
+    "title": "平壤之冬",
+    "path": "songs/media/song-66.mp4",
+    "bytes": 23131417,
+    "sha256": "a991992c95c785e5876d2e4cabcf65fe2103b2b53c4d7d26eb334d48b75e7ee7"
+  },
+  {
+    "number": 67,
+    "title": "平壤之冬",
+    "path": "songs/media/song-67.mp4",
+    "bytes": 28057957,
+    "sha256": "82294c48ca42a8f57960f1eeeaffcb8f73b097fe0d626e4a1fb1c335dcb008dc"
+  },
+  {
+    "number": 68,
+    "title": "不妨长作岭南人",
+    "path": "songs/media/song-68.mp4",
+    "bytes": 73606509,
+    "sha256": "7c79866b40ffe7c3c082cb3c2e72719b012b1a5a19782ebe3b2252fe9e443f17"
+  },
+  {
+    "number": 69,
+    "title": "越人歌",
+    "path": "songs/media/song-69.mp4",
+    "bytes": 17166780,
+    "sha256": "228a98a80cdfee9ec04d38a6992b84ad9ec93efcfbe34b3c7aa898838bfbe35f"
+  },
+  {
+    "number": 70,
+    "title": "降甘露",
+    "path": "songs/media/song-70.mp4",
+    "bytes": 42793861,
+    "sha256": "9c806c2c07b93148c23a95e47478f7c6257cf414205020c3c574e406d5744f40"
+  },
+  {
+    "number": 71,
+    "title": "炸酱面",
+    "path": "songs/media/song-71.mp4",
+    "bytes": 32557595,
+    "sha256": "51d38afa31740a3f5e76143a95c3b6c8dde893f35bc3c7597c5dd38640293396"
+  },
+  {
+    "number": 72,
+    "title": "千古绝唱",
+    "path": "songs/media/song-72.mp4",
+    "bytes": 28905248,
+    "sha256": "31be7be83cfbaea386d180bdc23daf63cf3cd75944f2c165be6b57bcf082a493"
+  },
+  {
+    "number": 73,
+    "title": "千古绝唱",
+    "path": "songs/media/song-73.mp4",
+    "bytes": 26493478,
+    "sha256": "db19e86a95f8d7abaeb92ba0bf8bc1377bed0b950ef5b6a16aa1e8911dc8e456"
+  },
+  {
+    "number": 75,
+    "title": "让我们荡起双桨",
+    "path": "songs/media/song-75.mp4",
+    "bytes": 14377427,
+    "sha256": "551156ab883ef2883ba07e9fedce7906caef362bf441dd43561007195c6b3c51"
+  },
+  {
+    "number": 76,
+    "title": "让我们荡起双桨",
+    "path": "songs/media/song-76.mp4",
+    "bytes": 78157843,
+    "sha256": "2c68a7ae2901b190f4d86a0177c81269ec6b7788242b8c310a33aa76286fe2be"
+  },
+  {
+    "number": 78,
+    "title": "枫叶红",
+    "path": "songs/media/song-78.mp4",
+    "bytes": 31242800,
+    "sha256": "b3f35a2f43f7a0b815a364a7d4b96b7204836d1cec4624426c84c2659b34dbad"
+  }
+]

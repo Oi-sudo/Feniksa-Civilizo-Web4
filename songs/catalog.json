@@ -1,0 +1,821 @@
+[
+  {
+    "title": "蒹葭",
+    "category": "诗经与古典诗歌",
+    "versions": [
+      {
+        "number": 1,
+        "title": "蒹葭",
+        "eo": "Kie ŝi estas",
+        "credits": "世界语翻译：魏以达（Vejdo，中国）；作曲：龙铁成（Long Tiecheng，中国）；视频制作：陈胜利（Venko Chen，中国）",
+        "url": "media/song-01.mp4",
+        "duration": 180.000091,
+        "cover": "歌曲封面/01.jpg"
+      },
+      {
+        "number": 59,
+        "title": "蒹葭",
+        "eo": "Kie ŝi estas",
+        "credits": "世界语翻译：魏以达（Vejdo，中国）；作曲：龙铁成（Long Tiecheng，中国）；视频制作：陈胜利（Venko Chen，中国）",
+        "url": "media/song-59.mp4",
+        "duration": 192.3,
+        "cover": "歌曲封面/59.jpg"
+      }
+    ]
+  },
+  {
+    "title": "多年以后",
+    "category": "原创与流行",
+    "versions": [
+      {
+        "number": 2,
+        "title": "多年以后",
+        "eo": "Multajn jarojn poste",
+        "credits": "译审：黄小龙、龙铁城",
+        "url": "media/song-02.mp4",
+        "duration": 172.92,
+        "cover": "歌曲封面/02.jpg"
+      },
+      {
+        "number": 53,
+        "title": "多年以后",
+        "eo": "Post Multaj Jaroj",
+        "credits": "改编：龙铁城；译审：黄小龙（加拿大）；演唱：制作者＋AI；视频：Batalanto",
+        "url": "media/song-53.mp4",
+        "duration": 246.36,
+        "cover": "歌曲封面/53.jpg"
+      },
+      {
+        "number": 54,
+        "title": "多年以后",
+        "eo": "Post Multaj Jaroj",
+        "credits": "译审、改编、配器：黄小龙、龙铁城；世界语演唱：龙铁城；视频：Batalanto",
+        "url": "media/song-54.mp4",
+        "duration": 258.24,
+        "cover": "歌曲封面/54.jpg"
+      }
+    ]
+  },
+  {
+    "title": "静女",
+    "category": "诗经与古典诗歌",
+    "versions": [
+      {
+        "number": 3,
+        "title": "静女",
+        "eo": "Linda Junulino",
+        "credits": "世界语翻译：魏以达（Vejdo，中国）；Muziko: Long Tiecheng (Ĉinio)；片尾下方其余署名尚未完整显示",
+        "url": "media/song-03.mp4",
+        "duration": 160.800408,
+        "cover": "歌曲封面/03.jpg"
+      },
+      {
+        "number": 6,
+        "title": "静女",
+        "eo": "Linda Junulino",
+        "credits": "世界语翻译：魏以达（Vejdo，中国）；作曲：龙铁成（Long Tiecheng，中国）；视频制作：陈胜利（Venko Chen，中国）",
+        "url": "media/song-06.mp4",
+        "duration": 124.2,
+        "cover": "歌曲封面/06.jpg"
+      },
+      {
+        "number": 62,
+        "title": "静女",
+        "eo": "Linda Junulino",
+        "credits": "世界语翻译：魏以达（Vejdo，中国）；作曲：龙铁成（Long Tiecheng，中国）；视频制作：陈胜利（Venko Chen，中国）",
+        "url": "media/song-62.mp4",
+        "duration": 107.832993,
+        "cover": "歌曲封面/62.jpg"
+      }
+    ]
+  },
+  {
+    "title": "野有死麕",
+    "category": "诗经与古典诗歌",
+    "versions": [
+      {
+        "number": 4,
+        "title": "野有死麕",
+        "eo": "Amo de ĉasisto",
+        "credits": "世界语翻译：魏以达（Vejdo，中国）；作曲：龙铁成（Long Tiecheng，中国）；视频制作：陈胜利（Venko Chen，中国）",
+        "url": "media/song-04.mp4",
+        "duration": 193.466667,
+        "cover": "歌曲封面/04.jpg"
+      },
+      {
+        "number": 61,
+        "title": "野有死麕",
+        "eo": "Amo de ĉasisto",
+        "credits": "世界语翻译：魏以达（Vejdo，中国）；作曲：龙铁成（Long Tiecheng，中国）；视频制作：陈胜利（Venko Chen，中国）",
+        "url": "media/song-61.mp4",
+        "duration": 193.469002,
+        "cover": "歌曲封面/61.jpg"
+      }
+    ]
+  },
+  {
+    "title": "屹立之光",
+    "category": "原创与流行",
+    "versions": [
+      {
+        "number": 5,
+        "title": "屹立之光",
+        "eo": "Staru",
+        "credits": "作曲、译配：龙铁城；字幕：Batalanto",
+        "url": "media/song-05.mp4",
+        "duration": 161.88,
+        "cover": "歌曲封面/05.jpg"
+      }
+    ]
+  },
+  {
+    "title": "柏舟",
+    "category": "诗经与古典诗歌",
+    "versions": [
+      {
+        "number": 7,
+        "title": "柏舟",
+        "eo": "Kiel cipresa boato",
+        "credits": "世界语翻译：魏以达（Vejdo，中国）；作曲：龙铁成（Long Tiecheng，中国）；视频制作：陈胜利（Venko Chen，中国）；制作组：《诗经》世界语版短视频制作团队；2025年10月",
+        "url": "media/song-07.mp4",
+        "duration": 313.5,
+        "cover": "歌曲封面/07.jpg"
+      }
+    ]
+  },
+  {
+    "title": "卷耳",
+    "category": "诗经与古典诗歌",
+    "versions": [
+      {
+        "number": 8,
+        "title": "卷耳",
+        "eo": "Sopire al la edzo",
+        "credits": "世界语翻译：魏以达（Vejdo，中国）；作曲：龙铁成（Long Tiecheng，中国）；视频制作：陈胜利（Venko Chen，中国）；制作组：《诗经》世界语版短视频制作团队；2025年10月",
+        "url": "media/song-08.mp4",
+        "duration": 351.8,
+        "cover": "歌曲封面/08.jpg"
+      }
+    ]
+  },
+  {
+    "title": "长安的黠戛斯",
+    "category": "古典意境",
+    "versions": [
+      {
+        "number": 9,
+        "title": "长安的黠戛斯",
+        "eo": "La Ĥitanoj en Chang'an",
+        "credits": "kantoteksto kaj muziko: Long Tiecheng；Prezentita de: Timur·Arslan (WeChat-Kanalo)；Kantado: Timur·Arslan, Chai Yuesui",
+        "url": "media/song-09.mp4",
+        "duration": 392.99,
+        "cover": "歌曲封面/09.jpg"
+      }
+    ]
+  },
+  {
+    "title": "河湟谣",
+    "category": "民歌与风土",
+    "versions": [
+      {
+        "number": 10,
+        "title": "河湟谣",
+        "eo": "He-Huang popolkanto",
+        "credits": "词曲、译配：龙铁城；男声：龙铁城；女声：柴粤穗；字幕：Batalanto",
+        "url": "media/song-10.mp4",
+        "duration": 365.17,
+        "cover": "歌曲封面/10.jpg"
+      }
+    ]
+  },
+  {
+    "title": "山巅之花——游击队之歌",
+    "category": "民歌与风土",
+    "versions": [
+      {
+        "number": 11,
+        "title": "山巅之花——游击队之歌",
+        "eo": "Floro sur la Montopinto: Gerila Kanto",
+        "credits": "译配：龙铁城；演奏演唱：铁木尔·阿尔斯兰；字幕：Batalanto",
+        "url": "media/song-11.mp4",
+        "duration": 158.76,
+        "cover": "歌曲封面/11.jpg"
+      }
+    ]
+  },
+  {
+    "title": "占城谣",
+    "category": "古典意境",
+    "versions": [
+      {
+        "number": 12,
+        "title": "占城谣",
+        "eo": "Kanto de Ĉampa",
+        "credits": "词曲：龙铁城；演唱：柴粤穗（女）、铁木尔·阿尔斯兰（男）；字幕：Batalanto",
+        "url": "media/song-12.mp4",
+        "duration": 247.32,
+        "cover": "歌曲封面/12.jpg"
+      }
+    ]
+  },
+  {
+    "title": "我的半个儿心",
+    "category": "民歌与风土",
+    "versions": [
+      {
+        "number": 14,
+        "title": "我的半个儿心",
+        "eo": "Duono de mia spir’",
+        "credits": "译配：龙城、Long Thành、Thamer Östland；男歌手：铁木尔（铁木尔·阿尔斯兰）",
+        "url": "media/song-14.mp4",
+        "duration": 339.48,
+        "cover": "歌曲封面/14.jpg"
+      },
+      {
+        "number": 21,
+        "title": "我的半儿个心",
+        "eo": "Duono de mia koro",
+        "credits": "译配：龙城、Long Thành、Thamer Östland；世界语演唱：柴粤穗",
+        "url": "media/song-21.mp4",
+        "duration": 356.659184,
+        "cover": "歌曲封面/21.jpg"
+      }
+    ]
+  },
+  {
+    "title": "鹿鸣",
+    "category": "诗经与古典诗歌",
+    "versions": [
+      {
+        "number": 15,
+        "title": "鹿鸣",
+        "eo": "Festa balado",
+        "credits": "世界语翻译：魏以达（Vejdo，中国）；作曲：龙铁成（Long Tiecheng，中国）；视频制作：陈胜利（Venko Chen，中国）",
+        "url": "media/song-15.mp4",
+        "duration": 437.2,
+        "cover": "歌曲封面/15.jpg"
+      }
+    ]
+  },
+  {
+    "title": "凉山月下",
+    "category": "民歌与风土",
+    "versions": [
+      {
+        "number": 18,
+        "title": "凉山月下",
+        "eo": "Sur la Nuosua Luno",
+        "credits": "作词、作曲：龙铁城；铁木尔阿尔斯兰（微信频道）工作室；视频字幕：Batalanto",
+        "url": "media/song-18.mp4",
+        "duration": 217.0,
+        "cover": "歌曲封面/18.jpg"
+      }
+    ]
+  },
+  {
+    "title": "丰收麦西莱甫",
+    "category": "民歌与风土",
+    "versions": [
+      {
+        "number": 24,
+        "title": "丰收麦西莱甫",
+        "eo": "",
+        "credits": "演唱：柴粤穗（女）、铁木尔·阿尔斯兰（男）；词曲原创：铁木尔·阿尔斯兰",
+        "url": "media/song-24.mp4",
+        "duration": 157.8,
+        "cover": "歌曲封面/24.jpg"
+      }
+    ]
+  },
+  {
+    "title": "童年的沼泽",
+    "category": "原创与流行",
+    "versions": [
+      {
+        "number": 25,
+        "title": "童年的沼泽",
+        "eo": "",
+        "credits": "演唱及演奏：铁木尔·阿尔斯兰；片头列出“原创词曲”，该行姓名被画面效果遮挡，暂不补写",
+        "url": "media/song-25.mp4",
+        "duration": 198.644717,
+        "cover": "歌曲封面/25.jpg"
+      },
+      {
+        "number": 26,
+        "title": "童年的沼泽",
+        "eo": "",
+        "credits": "演唱及演奏：铁木尔·阿尔斯兰；原创词曲：龙铁城",
+        "url": "media/song-26.mp4",
+        "duration": 214.967687,
+        "cover": "歌曲封面/26.jpg"
+      }
+    ]
+  },
+  {
+    "title": "共同的呼唤",
+    "category": "原创与流行",
+    "versions": [
+      {
+        "number": 27,
+        "title": "共同的呼唤",
+        "eo": "Komuna voko",
+        "credits": "作词：袁爱林；作曲：况力；译配：龙铁城；演唱：铁木尔、柴粤穗；画面列出：重庆市世界语协会、重庆市音乐家协会",
+        "url": "media/song-27.mp4",
+        "duration": 166.08,
+        "cover": "歌曲封面/27.jpg"
+      }
+    ]
+  },
+  {
+    "title": "采薇",
+    "category": "诗经与古典诗歌",
+    "versions": [
+      {
+        "number": 28,
+        "title": "采薇",
+        "eo": "Hejmveo",
+        "credits": "作曲：龙铁成（Long Tiecheng，中国）；视频制作：陈胜利（Venko Chen，中国）；2025年3月",
+        "url": "media/song-28.mp4",
+        "duration": 382.037211,
+        "cover": "歌曲封面/28.jpg"
+      }
+    ]
+  },
+  {
+    "title": "红太阳",
+    "category": "原创与流行",
+    "versions": [
+      {
+        "number": 29,
+        "title": "红太阳",
+        "eo": "Ruĝa Sun’",
+        "credits": "词曲：龙铁城；字幕：Batalanto",
+        "url": "media/song-29.mp4",
+        "duration": 142.25,
+        "cover": "歌曲封面/29.jpg"
+      }
+    ]
+  },
+  {
+    "title": "谷风",
+    "category": "诗经与古典诗歌",
+    "versions": [
+      {
+        "number": 30,
+        "title": "谷风",
+        "eo": "Vento el la valo",
+        "credits": "世界语翻译：魏以达（Vejdo，中国）；作曲：龙铁成（Long Tiecheng，中国）；视频制作：陈胜利（Venko Chen，中国）；制作组：《诗经》世界语版短视频制作团队；2025年10月",
+        "url": "media/song-30.mp4",
+        "duration": 421.5,
+        "cover": "歌曲封面/30.jpg"
+      }
+    ]
+  },
+  {
+    "title": "击鼓",
+    "category": "诗经与古典诗歌",
+    "versions": [
+      {
+        "number": 31,
+        "title": "击鼓",
+        "eo": "Tambura",
+        "credits": "世界语翻译：魏以达（Vejdo，中国）；作曲：龙铁成（Long Tiecheng，中国）；视频制作：陈胜利（Venko Chen，中国）；制作组：《诗经》世界语版短视频制作团队；2025年12月",
+        "url": "media/song-31.mp4",
+        "duration": 293.800091,
+        "cover": "歌曲封面/31.jpg"
+      }
+    ]
+  },
+  {
+    "title": "上邪",
+    "category": "古典意境",
+    "versions": [
+      {
+        "number": 33,
+        "title": "上邪",
+        "eo": "Ho, Plejsupra, mia Dio!",
+        "credits": "作曲、译配：龙铁城",
+        "url": "media/song-33.mp4",
+        "duration": 317.856667,
+        "cover": "歌曲封面/33.jpg"
+      },
+      {
+        "number": 47,
+        "title": "上邪（歌词版）",
+        "eo": "Mi amos vin ĝis la fino（画面副题）",
+        "credits": "作曲、译配、配器：龙铁城；演唱：小龙女；视频：Batalanto",
+        "url": "media/song-47.mp4",
+        "duration": 267.64,
+        "cover": "歌曲封面/47.jpg"
+      }
+    ]
+  },
+  {
+    "title": "香港之夜",
+    "category": "原创与流行",
+    "versions": [
+      {
+        "number": 34,
+        "title": "香港之夜",
+        "eo": "Honkonga Nokto",
+        "credits": "译审：黄小龙；配曲：周志奇；演唱：黄天依；Trad. Batalanto",
+        "url": "media/song-34.mp4",
+        "duration": 170.201338,
+        "cover": "歌曲封面/34.jpg"
+      }
+    ]
+  },
+  {
+    "title": "橘颂",
+    "category": "古典意境",
+    "versions": [
+      {
+        "number": 35,
+        "title": "橘颂",
+        "eo": "Odo al Oranĝarbo",
+        "credits": "作曲：龙铁城",
+        "url": "media/song-35.mp4",
+        "duration": 316.37,
+        "cover": "歌曲封面/35.jpg"
+      }
+    ]
+  },
+  {
+    "title": "Mojito",
+    "category": "原创与流行",
+    "versions": [
+      {
+        "number": 36,
+        "title": "Mojito",
+        "eo": "Mojito",
+        "credits": "世译：龙铁成；制作：铁木尔阿尔斯兰世界语音乐工作室；演唱：铁木尔、柴粤穗",
+        "url": "media/song-36.mp4",
+        "duration": 184.28,
+        "cover": "歌曲封面/36.jpg"
+      }
+    ]
+  },
+  {
+    "title": "大河泛舟",
+    "category": "民歌与风土",
+    "versions": [
+      {
+        "number": 37,
+        "title": "大河泛舟",
+        "eo": "Boatado sur la granda rivero",
+        "credits": "作词、作曲：龙铁城；图片、视频：辽宁张伟；吉他弹唱：铁木尔",
+        "url": "media/song-37.mp4",
+        "duration": 298.235011,
+        "cover": "歌曲封面/37.jpg"
+      }
+    ]
+  },
+  {
+    "title": "千古绝唱",
+    "category": "古典意境",
+    "versions": [
+      {
+        "number": 39,
+        "title": "千古绝唱",
+        "eo": "Eterna Majstroverko",
+        "credits": "作词、作曲、配唱：龙铁城；视频：Batalanto",
+        "url": "media/song-39.mp4",
+        "duration": 539.96,
+        "cover": "歌曲封面/39.jpg"
+      },
+      {
+        "number": 72,
+        "title": "千古绝唱",
+        "eo": "Eterna Majstroverko",
+        "credits": "作词、作曲、配器：龙铁城；视频：Batalanto",
+        "url": "media/song-72.mp4",
+        "duration": 358.68,
+        "cover": "歌曲封面/72.jpg"
+      },
+      {
+        "number": 73,
+        "title": "千古绝唱",
+        "eo": "Eterna Majstroverko",
+        "credits": "改编、作曲、配器：龙铁城；视频：Batalanto",
+        "url": "media/song-73.mp4",
+        "duration": 330.441678,
+        "cover": "歌曲封面/73.jpg"
+      }
+    ]
+  },
+  {
+    "title": "世界妇女解放之歌",
+    "category": "原创与流行",
+    "versions": [
+      {
+        "number": 40,
+        "title": "世界妇女解放之歌",
+        "eo": "Kanto de la Virina Liberiĝo",
+        "credits": "Muziko: 龙铁城",
+        "url": "media/song-40.mp4",
+        "duration": 135.16,
+        "cover": "歌曲封面/40.jpg"
+      }
+    ]
+  },
+  {
+    "title": "一片闲云到滇海",
+    "category": "古典意境",
+    "versions": [
+      {
+        "number": 42,
+        "title": "一片闲云到滇海",
+        "eo": "",
+        "credits": "电影《孔雀胆》主题曲；曲：铁木尔阿尔斯兰（微信原创音乐人频道）；词：（元）孛儿只斤阿盖、（明）杨……（末字待复核）",
+        "url": "media/song-42.mp4",
+        "duration": 220.433333,
+        "cover": "歌曲封面/42.jpg"
+      }
+    ]
+  },
+  {
+    "title": "孔雀胆／阿盖公主",
+    "category": "古典意境",
+    "versions": [
+      {
+        "number": 44,
+        "title": "孔雀胆／阿盖公主",
+        "eo": "",
+        "credits": "作词、作曲、译配：龙铁城；字幕：Batalanto",
+        "url": "media/song-44.mp4",
+        "duration": 326.44,
+        "cover": "歌曲封面/44.jpg"
+      }
+    ]
+  },
+  {
+    "title": "草原牧歌",
+    "category": "民歌与风土",
+    "versions": [
+      {
+        "number": 48,
+        "title": "草原牧歌",
+        "eo": "Prada Kanto",
+        "credits": "故事片《草原上的人们》的主题歌；其余署名待核",
+        "url": "media/song-48.mp4",
+        "duration": 255.08,
+        "cover": "歌曲封面/48.jpg"
+      }
+    ]
+  },
+  {
+    "title": "敕勒川歌",
+    "category": "民歌与风土",
+    "versions": [
+      {
+        "number": 49,
+        "title": "敕勒川歌",
+        "eo": "La Ĉi-lia kanto",
+        "credits": "作曲、译配、配器：龙铁城",
+        "url": "media/song-49.mp4",
+        "duration": 304.44,
+        "cover": "歌曲封面/49.jpg"
+      }
+    ]
+  },
+  {
+    "title": "桃夭",
+    "category": "诗经与古典诗歌",
+    "versions": [
+      {
+        "number": 52,
+        "title": "桃夭",
+        "eo": "Persikfloroj pompas",
+        "credits": "世界语翻译：魏以达（Vejdo，中国）；作曲：龙铁成（Long Tiecheng，中国）；视频制作：陈胜利（Venko Chen，中国）",
+        "url": "media/song-52.mp4",
+        "duration": 196.366667,
+        "cover": "歌曲封面/52.jpg"
+      },
+      {
+        "number": 55,
+        "title": "桃夭",
+        "eo": "Persikfloroj pompas",
+        "credits": "世界语翻译：魏以达（Vejdo，中国）；作曲：龙铁成（Long Tiecheng，中国）；视频制作：陈胜利（Venko Chen，中国）",
+        "url": "media/song-55.mp4",
+        "duration": 230.68,
+        "cover": "歌曲封面/55.jpg"
+      }
+    ]
+  },
+  {
+    "title": "金风玉露",
+    "category": "原创与流行",
+    "versions": [
+      {
+        "number": 56,
+        "title": "金风玉露",
+        "eo": "Ora vento kaj jada roso",
+        "credits": "作词：王琛；作曲：董宇",
+        "url": "media/song-56.mp4",
+        "duration": 354.845011,
+        "cover": "歌曲封面/56.jpg"
+      }
+    ]
+  },
+  {
+    "title": "下马酒之歌",
+    "category": "民歌与风土",
+    "versions": [
+      {
+        "number": 57,
+        "title": "下马酒之歌",
+        "eo": "Deĉevaliĝa vino",
+        "credits": "作曲：龙铁成（Long Tiecheng，中国）；视频制作：陈胜利（Venko Chen，中国）；2025年3月",
+        "url": "media/song-57.mp4",
+        "duration": 188.366667,
+        "cover": "歌曲封面/57.jpg"
+      }
+    ]
+  },
+  {
+    "title": "山海经",
+    "category": "古典意境",
+    "versions": [
+      {
+        "number": 58,
+        "title": "山海经",
+        "eo": "Klasiko de Montoj kaj Maroj (Antikvaj Ĉinaj mitoj kaj rakontoj)",
+        "credits": "译配、声乐：龙铁城；铁木尔阿尔斯兰（微信频道）工作室；字幕：Batalanto",
+        "url": "media/song-58.mp4",
+        "duration": 177.12,
+        "cover": "歌曲封面/58.jpg"
+      }
+    ]
+  },
+  {
+    "title": "野有蔓草",
+    "category": "诗经与古典诗歌",
+    "versions": [
+      {
+        "number": 60,
+        "title": "野有蔓草",
+        "eo": "Sarmentoj rampas",
+        "credits": "世界语翻译：魏以达（Vejdo，中国）；作曲：龙铁成（Long Tiecheng，中国）；视频制作：陈胜利（Venko Chen，中国）",
+        "url": "media/song-60.mp4",
+        "duration": 127.6,
+        "cover": "歌曲封面/60.jpg"
+      }
+    ]
+  },
+  {
+    "title": "炸酱面",
+    "category": "原创与流行",
+    "versions": [
+      {
+        "number": 63,
+        "title": "炸酱面",
+        "eo": "Dzagangmjon",
+        "credits": "片头署名：龙城",
+        "url": "media/song-63.mp4",
+        "duration": 180.100023,
+        "cover": "歌曲封面/63.jpg"
+      },
+      {
+        "number": 71,
+        "title": "炸酱面",
+        "eo": "Dzagangmjon",
+        "credits": "视频制作：陈胜利（Venko Chen，中国）；2024年9月",
+        "url": "media/song-71.mp4",
+        "duration": 356.833333,
+        "cover": "歌曲封面/71.jpg"
+      }
+    ]
+  },
+  {
+    "title": "三字经",
+    "category": "诗经与古典诗歌",
+    "versions": [
+      {
+        "number": 64,
+        "title": "三字经",
+        "eo": "Tri-karaktera klasikaĵo",
+        "credits": "片头显示作曲、译配及视频制作者署名；依原片保留",
+        "url": "media/song-64.mp4",
+        "duration": 139.598005,
+        "cover": "歌曲封面/64.jpg"
+      }
+    ]
+  },
+  {
+    "title": "不妨长作岭南人",
+    "category": "民歌与风土",
+    "versions": [
+      {
+        "number": 65,
+        "title": "不妨长作岭南人",
+        "eo": "There Are Blessings in Being Lingnan Man",
+        "credits": "片尾英文说明：Amur 于2010年创作；其余依原片",
+        "url": "media/song-65.mp4",
+        "duration": 119.633333,
+        "cover": "歌曲封面/65.jpg"
+      },
+      {
+        "number": 68,
+        "title": "不妨长作岭南人",
+        "eo": "Ne malhonus longe resti kiel Lingnana homo",
+        "credits": "作词、作曲：龙铁城（Long Tiecheng，中国）；视频制作：陈胜利（Venko Chen，中国）",
+        "url": "media/song-68.mp4",
+        "duration": 171.242,
+        "cover": "歌曲封面/68.jpg"
+      }
+    ]
+  },
+  {
+    "title": "平壤之冬",
+    "category": "民歌与风土",
+    "versions": [
+      {
+        "number": 66,
+        "title": "平壤之冬",
+        "eo": "Vintro en Pjongjango",
+        "credits": "片头标注：金达莱少女",
+        "url": "media/song-66.mp4",
+        "duration": 293.583333,
+        "cover": "歌曲封面/66.jpg"
+      },
+      {
+        "number": 67,
+        "title": "平壤之冬",
+        "eo": "Vintro",
+        "credits": "作词、作曲：龙铁城（Long Tiecheng，中国）；视频制作：陈胜利（Venko Chen，中国）；2025年2月",
+        "url": "media/song-67.mp4",
+        "duration": 288.6,
+        "cover": "歌曲封面/67.jpg"
+      }
+    ]
+  },
+  {
+    "title": "越人歌",
+    "category": "古典意境",
+    "versions": [
+      {
+        "number": 69,
+        "title": "越人歌",
+        "eo": "Amkanto de Yue-Fraŭlino",
+        "credits": "作曲、译配：龙城；字幕：Batalanto",
+        "url": "media/song-69.mp4",
+        "duration": 191.700023,
+        "cover": "歌曲封面/69.jpg"
+      }
+    ]
+  },
+  {
+    "title": "降甘露",
+    "category": "古典意境",
+    "versions": [
+      {
+        "number": 70,
+        "title": "降甘露",
+        "eo": "Falu la pluvo",
+        "credits": "作词、作曲：龙铁城（Long Tiecheng，中国）；视频制作：陈胜利（Venko Chen，中国）；2025年2月",
+        "url": "media/song-70.mp4",
+        "duration": 440.1,
+        "cover": "歌曲封面/70.jpg"
+      }
+    ]
+  },
+  {
+    "title": "让我们荡起双桨",
+    "category": "原创与流行",
+    "versions": [
+      {
+        "number": 75,
+        "title": "让我们荡起双桨",
+        "eo": "Ni ekremu per du remiloj",
+        "credits": "世界语翻译：Batalanto",
+        "url": "media/song-75.mp4",
+        "duration": 134.466667,
+        "cover": "歌曲封面/75.jpg"
+      },
+      {
+        "number": 76,
+        "title": "让我们荡起双桨",
+        "eo": "Ni ekremu per du remiloj",
+        "credits": "作词、作曲：龙铁城（Long Tiecheng，中国）；视频制作：陈胜利（Venko Chen，中国）；2025年2月",
+        "url": "media/song-76.mp4",
+        "duration": 171.904,
+        "cover": "歌曲封面/76.jpg"
+      }
+    ]
+  },
+  {
+    "title": "枫叶红",
+    "category": "原创与流行",
+    "versions": [
+      {
+        "number": 78,
+        "title": "枫叶红",
+        "eo": "Ruĝa kiel acerfolio",
+        "credits": "作词、作曲：龙铁城（Long Tiecheng，中国）；视频制作：陈胜利（Venko Chen，中国）；2025年2月",
+        "url": "media/song-78.mp4",
+        "duration": 311.766667,
+        "cover": "歌曲封面/78.jpg"
+      }
+    ]
+  }
+]

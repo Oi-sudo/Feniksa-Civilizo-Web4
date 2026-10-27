@@ -443,3 +443,12 @@ li .eo {
     width: 100%;
   }
 }
+
+/* Bounded styles for the added voice-video page. */
+.voice-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.25rem}
+.voice-card{padding:1rem;border:1px solid var(--line);background:var(--panel)}
+.voice-card video{display:block;width:100%;aspect-ratio:16/9;object-fit:contain;background:#050403}
+.voice-card h2{font-size:1.5rem;margin:1rem 0 .5rem}
+.voice-card .actions{margin-top:1rem}
+#esperanto-songs,#voice-films{scroll-margin-top:7rem}
+@media(max-width:720px){.voice-grid{grid-template-columns:1fr}}

@@ -5,7 +5,9 @@ const navItems = [
   ["libro", "凤凰文明书", "Libro de Feniksa Civilizacio", "pages/libro.html"],
   ["manifesto", "宣言", "Manifesto", "pages/manifesto.html"],
   ["contact", "联系方式", "Kontakto", "pages/contact.html"],
-  ["museum", "数字博物馆", "Cifereca Muzeo", "museum/index.html"]
+  ["museum", "数字博物馆", "Cifereca Muzeo", "museum/index.html"],
+  ["songs", "世界语歌曲", "Esperantaj Kantoj", "songs/index.html"],
+  ["videos", "有声影像", "Filmetoj kun sono", "videos/index.html"]
 ];
 
 const cards = [
@@ -19,7 +21,9 @@ const cards = [
 
 function relativeHref(href) {
   const inPages = location.pathname.includes("/pages/");
-  if (inPages && href.startsWith("museum/")) return "../" + href;
+  const inNewSection = location.pathname.includes("/songs/") || location.pathname.includes("/videos/");
+  if (inNewSection) return "../" + href;
+  if (inPages && ["museum/", "songs/", "videos/"].some(prefix => href.startsWith(prefix))) return "../" + href;
   if (inPages && href === "index.html") return "../index.html";
   if (inPages && href.startsWith("pages/")) return href.replace("pages/", "");
   return href;
