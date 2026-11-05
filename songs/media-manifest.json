@@ -425,5 +425,12 @@
     "path": "songs/media/song-78.mp4",
     "bytes": 31242800,
     "sha256": "b3f35a2f43f7a0b815a364a7d4b96b7204836d1cec4624426c84c2659b34dbad"
+  },
+  {
+    "number": 79,
+    "title": "鹿鸣（双语歌词版，依歌词标注）",
+    "path": "songs/media/song-79.mp4",
+    "bytes": 9395208,
+    "sha256": "b6e2f9f0907894f7d8fb6387a0d92d9913e61fe83ecd9393e3795dd75e8c3f0a"
   }
 ]

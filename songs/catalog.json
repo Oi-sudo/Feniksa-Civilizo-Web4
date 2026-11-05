@@ -254,6 +254,15 @@
         "url": "media/song-15.mp4",
         "duration": 437.2,
         "cover": "歌曲封面/15.jpg"
+      },
+      {
+        "number": 79,
+        "title": "鹿鸣（双语歌词版，依歌词标注）",
+        "eo": "",
+        "credits": "编目说明：依画面中的《鹿鸣》汉语歌词标注题名，原片抽样未见独立题名。画面同时显示汉语和世界语歌词。\n作词、作曲、世界语翻译、演唱：原片抽样尚未核见完整署名，未借用其他版本署名。\nKataloga noto: La titolo estas atribuita laŭ la ĉinaj versoj de «鹿鸣». La bildoj montras ĉinajn kaj Esperantajn tekstojn. Kompletaj aŭtoraj kaj interpretaj kreditoj ankoraŭ ne estas trovitaj en la ekzamenitaj bildoj.",
+        "url": "media/song-79.mp4",
+        "duration": 148.3,
+        "cover": "歌曲封面/79.jpg"
       }
     ]
   },
